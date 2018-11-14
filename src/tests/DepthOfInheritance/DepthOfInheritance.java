@@ -15,12 +15,36 @@
 
 */
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+import java.io.IOException;
+
 public class DepthOfInheritance {
-    public static void main(String args[]){
+    public static void main(String args[]) throws IOException {
         // https://search.proquest.com/openview/788320e2eb5cf34b858a450075ef6511/1.pdf?pq-origsite=gscholar&cbl=18750&diss=y
         // A project that used ANTLR for various metrics. Plan on switching over
 
         // https://stackoverflow.com/questions/2206065/java-parse-java-source-code-extract-methods
         // JavaParser seems easy to work with, but can't work with C++. Maybe try ANTLR?
+
+        DepthOfInheritance doi = new DepthOfInheritance();
     }
+
+    public DepthOfInheritance() throws IOException {
+        CharStream input = CharStreams.fromFileName("DepthOfInheritance.java");
+        Java8Lexer lexer = new Java8Lexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        Java8Parser parser = new Java8Parser(tokens);
+        Java8Parser.CompilationUnitContext tree = parser.compilationUnit(); // parse a compilationUnit
+
+        FileListener extractor = new FileListener();
+        ParseTreeWalker.DEFAULT.walk(extractor, tree); // initiate walk of tree with listener in use of default walker
+    }
+}
+
+class test{
+
 }
