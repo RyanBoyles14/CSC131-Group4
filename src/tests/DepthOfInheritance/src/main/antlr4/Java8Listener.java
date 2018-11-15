@@ -1,4 +1,5 @@
-// Generated from Java8.g4 by ANTLR 4.7
+// Generated from C:/Users/xhhth/Group4/src/tests/DepthOfInheritance/src/main/antlr4\Java8.g4 by ANTLR 4.7
+package src.main.antlr4;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**

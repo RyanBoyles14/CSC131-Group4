@@ -19,6 +19,8 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import src.main.antlr4.Java8Lexer;
+import src.main.antlr4.Java8Parser;
 
 import java.io.IOException;
 
@@ -45,6 +47,13 @@ public class DepthOfInheritance {
     }
 }
 
-class test{
+class test extends DepthOfInheritance{
+
+    public test() throws IOException{
+
+    }
+}
+
+class Exception1 extends IOException{
 
 }
