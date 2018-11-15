@@ -9,9 +9,13 @@
 
     Steps:
     1) Grab the file(s). Determine if they are Java or C++
-    2) Create a ParseTree using ANTLR. Try to include imports and includes
+    2) Create a ParseTree using ANTLR.
     3) Go through each class and compute its depth of inheritance
-    4) Handle results to return
+       a) Grab a class and check for extensions or implementation
+       b) Create nodes showing the relationship between child and parent
+       c) Find each node's depth by recursively finding the parent
+       d) If a class does not extend anything, it's depth is 1, as each class inherits from Object
+    4) Gather results to return
 
 */
 
@@ -44,9 +48,12 @@ public class DepthOfInheritance {
 
         FileListener extractor = new FileListener();
         ParseTreeWalker.DEFAULT.walk(extractor, tree); // initiate walk of tree with listener in use of default walker
+
+        extractor.displayDepth();
     }
 }
 
+// ---------- Test classes --------------
 class test extends DepthOfInheritance{
 
     public test() throws IOException{
@@ -55,5 +62,9 @@ class test extends DepthOfInheritance{
 }
 
 class Exception1 extends IOException{
+
+}
+
+class Exception2 extends Exception1{
 
 }
