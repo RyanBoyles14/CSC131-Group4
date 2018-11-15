@@ -17,6 +17,7 @@ public class Repository {
 		this.dir = new File(localPath);
 		this.git = Git.cloneRepository().setURI(url).setDirectory(dir).call();
 		buildList(dir);
+		this.git.getRepository().close();
 	}
 
 	private void buildList(File directory) {
@@ -36,4 +37,21 @@ public class Repository {
 	public int getFileCount() {
 		return list.size();
 	}
+	
+	public void delete() {
+		delete(dir);
+	}
+	
+	private void delete(File directory) {
+		for (File f : directory.listFiles()) {
+			if (f.isDirectory()) {
+				delete(f);
+				f.delete();
+			} else {
+				f.delete();
+			}
+		}
+		dir.delete();
+	}
+	
 }
