@@ -10,6 +10,8 @@ public class Complex {
 		BufferedReader br = new BufferedReader(new FileReader(f));
 		Boolean isMethod = false;
 		String line;
+		
+
 		while (br.readLine() != null) {
 			line = br.readLine();
 			if(line.startsWith("public")) {
