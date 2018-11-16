@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.List;
 
 public class Complex {
 	File f;
@@ -10,12 +11,13 @@ public class Complex {
 		BufferedReader br = new BufferedReader(new FileReader(f));
 		Boolean isMethod = false;
 		String line;
-		
+		List<String> list = new ArrayList<String>; 
 
 		while (br.readLine() != null) {
 			line = br.readLine();
 			if(line.startsWith("public")) {
 				isMethod = true;
+				list.add(line);
 			}
 		}
 	}
