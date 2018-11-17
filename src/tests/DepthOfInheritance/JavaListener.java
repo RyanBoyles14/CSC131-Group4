@@ -1,9 +1,10 @@
+import src.main.antlr4.CPP14BaseListener;
 import src.main.antlr4.Java8BaseListener;
 import src.main.antlr4.Java8Parser;
 
 import java.util.ArrayList;
 
-public class FileListener extends Java8BaseListener {
+public class JavaListener extends Java8BaseListener {
     //https://stackoverflow.com/questions/15050137/once-grammar-is-complete-whats-the-best-way-to-walk-an-antlr-v4-tree
 
     private ArrayList<Class> classes = new ArrayList<>();
@@ -50,4 +51,3 @@ public class FileListener extends Java8BaseListener {
         }
     }
 }
-

@@ -23,6 +23,8 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import src.main.antlr4.CPP14Lexer;
+import src.main.antlr4.CPP14Parser;
 import src.main.antlr4.Java8Lexer;
 import src.main.antlr4.Java8Parser;
 
@@ -40,16 +42,28 @@ public class DepthOfInheritance {
     }
 
     public DepthOfInheritance() throws IOException {
+        // TODO grab all files and sort based on extension
         CharStream input = CharStreams.fromFileName("DepthOfInheritance.java");
-        Java8Lexer lexer = new Java8Lexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        Java8Parser parser = new Java8Parser(tokens);
-        Java8Parser.CompilationUnitContext tree = parser.compilationUnit(); // parse a compilationUnit
+        Java8Lexer jLexer = new Java8Lexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(jLexer);
+        Java8Parser jParser = new Java8Parser(tokens);
+        Java8Parser.CompilationUnitContext jTree = jParser.compilationUnit(); // parse a compilationUnit
 
-        FileListener extractor = new FileListener();
-        ParseTreeWalker.DEFAULT.walk(extractor, tree); // initiate walk of tree with listener in use of default walker
+        JavaListener jExtractor = new JavaListener();
+        ParseTreeWalker.DEFAULT.walk(jExtractor, jTree); // initiate walk of tree with listener in use of default walker
 
-        extractor.displayDepth();
+        jExtractor.displayDepth();
+
+        input = CharStreams.fromFileName("helloworld.cpp");
+        CPP14Lexer cLexer = new CPP14Lexer(input);
+        tokens = new CommonTokenStream(cLexer);
+        CPP14Parser cParser = new CPP14Parser(tokens);
+        CPP14Parser.TranslationunitContext cTree = cParser.translationunit();
+
+        CPPListener cExtractor = new CPPListener();
+        ParseTreeWalker.DEFAULT.walk(cExtractor, cTree); // initiate walk of tree with listener in use of default walker
+
+        cExtractor.displayDepth();
     }
 }
 
