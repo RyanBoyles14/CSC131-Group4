@@ -27,16 +27,19 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import src.main.antlr4.CPP14Lexer;
-import src.main.antlr4.CPP14Parser;
-import src.main.antlr4.Java8Lexer;
-import src.main.antlr4.Java8Parser;
+import parsetree.antlr4.CPP14Lexer;
+import parsetree.antlr4.CPP14Parser;
+import parsetree.antlr4.Java8Lexer;
+import parsetree.antlr4.Java8Parser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class DepthOfInheritance {
+
+    private ArrayList<Class> jClasses = new ArrayList<>();
+    private ArrayList<Class> cppClasses = new ArrayList<>();
 
     public DepthOfInheritance(ArrayList<File> files){
         for(File f: files){
@@ -56,6 +59,8 @@ public class DepthOfInheritance {
                 System.out.println("Error parsing " + f.toString());
             }
         }
+
+        displayDepth();
     }
 
     void javaParse(File f) throws IOException {
@@ -66,9 +71,12 @@ public class DepthOfInheritance {
         Java8Parser.CompilationUnitContext jTree = jParser.compilationUnit(); // parse a compilationUnit
 
         JavaListener jExtractor = new JavaListener();
+        //TODO: give the Class list to the listener to check for existing classes
+        //TODO: give the File to the listener to prevent classes with the same name from causing conflicts
+        //TODO: be able to add a defined parent class to the child.
         ParseTreeWalker.DEFAULT.walk(jExtractor, jTree); // initiate walk of tree with listener in use of default walker
 
-        jExtractor.displayDepth();
+        jClasses.addAll(jExtractor.getClasses());
     }
 
     void cppParse(File f) throws IOException {
@@ -78,9 +86,25 @@ public class DepthOfInheritance {
         CPP14Parser cParser = new CPP14Parser(tokens);
         CPP14Parser.TranslationunitContext cTree = cParser.translationunit();
 
-        CPPListener cExtractor = new CPPListener();
-        ParseTreeWalker.DEFAULT.walk(cExtractor, cTree); // initiate walk of tree with listener in use of default walker
+        CPPListener cppExtractor = new CPPListener();
+        ParseTreeWalker.DEFAULT.walk(cppExtractor, cTree); // initiate walk of tree with listener in use of default walker
 
-        cExtractor.displayDepth();
+        ArrayList<Class> classes = cppExtractor.getClasses();
+
+        cppClasses.addAll(classes);
+    }
+
+    // Run through all the classes, finding their depths and displaying them
+    void displayDepth(){
+        for (Class c : jClasses) {
+            c.setDepth();
+            System.out.println(c.getName() + ": " + c.getDepth());
+        }
+
+        for (Class c : cppClasses) {
+            c.setDepth();
+            System.out.println(c.getName() + ": " + c.getDepth());
+        }
+
     }
 }
