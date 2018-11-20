@@ -1,6 +1,6 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -11,12 +11,15 @@ public class Repository {
 	File dir;
 	Git git;
 	ArrayList<File> list = new ArrayList<>();
+	AuthorStats authors;
 
-	public Repository(String url, String localPath) throws InvalidRemoteException, TransportException, GitAPIException {
+	public Repository(String url, String localPath)
+			throws InvalidRemoteException, TransportException, GitAPIException, IOException {
 
 		this.dir = new File(localPath);
 		this.git = Git.cloneRepository().setURI(url).setDirectory(dir).call();
 		buildList(dir);
+		this.authors = new AuthorStats(git);
 		this.git.getRepository().close();
 	}
 
@@ -33,15 +36,15 @@ public class Repository {
 	public ArrayList<File> getList() {
 		return list;
 	}
-	
+
 	public int getFileCount() {
 		return list.size();
 	}
-	
+
 	public void delete() {
 		delete(dir);
 	}
-	
+
 	private void delete(File directory) {
 		for (File f : directory.listFiles()) {
 			if (f.isDirectory()) {
@@ -53,5 +56,5 @@ public class Repository {
 		}
 		dir.delete();
 	}
-	
+
 }
