@@ -70,10 +70,10 @@ public class DepthOfInheritance {
         Java8Parser jParser = new Java8Parser(tokens);
         Java8Parser.CompilationUnitContext jTree = jParser.compilationUnit(); // parse a compilationUnit
 
-        JavaListener jExtractor = new JavaListener();
+        Listener jExtractor = new JavaListener();
         //TODO: give the Class list to the listener to check for existing classes
         //TODO: give the File to the listener to prevent classes with the same name from causing conflicts
-        //TODO: be able to add a defined parent class to the child.
+        //TODO: gather list of interfaces
         ParseTreeWalker.DEFAULT.walk(jExtractor, jTree); // initiate walk of tree with listener in use of default walker
 
         jClasses.addAll(jExtractor.getClasses());
@@ -86,7 +86,7 @@ public class DepthOfInheritance {
         CPP14Parser cParser = new CPP14Parser(tokens);
         CPP14Parser.TranslationunitContext cTree = cParser.translationunit();
 
-        CPPListener cppExtractor = new CPPListener();
+        Listener cppExtractor = new CPPListener();
         ParseTreeWalker.DEFAULT.walk(cppExtractor, cTree); // initiate walk of tree with listener in use of default walker
 
         ArrayList<Class> classes = cppExtractor.getClasses();

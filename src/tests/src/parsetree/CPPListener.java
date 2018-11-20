@@ -6,7 +6,7 @@ import parsetree.antlr4.CPP14Parser;
 
 import java.util.ArrayList;
 
-public class CPPListener extends CPP14BaseListener implements ParseTreeListener {
+public class CPPListener extends CPP14BaseListener implements Listener{
 
     private ArrayList<Class> classes = new ArrayList<>();
 
@@ -20,7 +20,6 @@ public class CPPListener extends CPP14BaseListener implements ParseTreeListener 
 
         if(ctx.baseclause() != null) {
             CPP14Parser.BaseclauseContext parent = ctx.baseclause();
-            //TODO: implement separating derived classes
             parentClass = new Class(parent.basespecifierlist().getText());
         }
 
@@ -38,7 +37,12 @@ public class CPPListener extends CPP14BaseListener implements ParseTreeListener 
         childClass.setParent(parentClass);
     }
 
-    ArrayList<Class> getClasses(){
+    public void setInterfaces(String interfaces){
+
+    }
+
+    public ArrayList<Class> getClasses(){
         return classes;
     }
 }
+

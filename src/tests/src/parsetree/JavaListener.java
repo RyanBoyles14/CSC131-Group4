@@ -1,71 +1,85 @@
 package parsetree;
 
+import org.antlr.v4.runtime.RuleContext;
 import parsetree.antlr4.Java8BaseListener;
 import parsetree.antlr4.Java8Parser;
 
 import java.util.ArrayList;
 
-public class JavaListener extends Java8BaseListener {
+public class JavaListener extends Java8BaseListener implements Listener{
     //https://stackoverflow.com/questions/15050137/once-grammar-is-complete-whats-the-best-way-to-walk-an-antlr-v4-tree
 
     private ArrayList<Class> classes = new ArrayList<>();
+    private Class aClass;
 
     /*
-    Given a normal class declaration, find the class name and any superclasses
-    Add the child class to an ArrayList and set its parent to it superclass
-    After walking through all classes, return.
+    Given a either a noraml class or interface declaration, find the identifer and any superclasses or superinterfaces
+    Add the child class to an ArrayList and add any inherited classes/interfaces to its list of parents
+    After walking through all normal classes and interfaces, return.
     */
-    public void enterNormalClassDeclaration(Java8Parser.NormalClassDeclarationContext ctx) {
-        String child = ctx.Identifier().getText();
-        Class c = new Class(child);
-        Class superClass = null;
-        Class superInterface = null;
-        classes.add(c);
+    public void enterTypeDeclaration(Java8Parser.TypeDeclarationContext ctx) {
 
-        if(ctx.superclass() != null) {
-            Java8Parser.SuperclassContext parent = ctx.superclass();
-            superClass = new Class(parent.classType().getText());
-        }
-
-        if(ctx.superinterfaces() != null){
-            Java8Parser.SuperinterfacesContext parent = ctx.superinterfaces();
-            superInterface = new Class(parent.interfaceTypeList().getText());
-        }
-
-        boolean classInList = false, interfaceInList= false;
-        for(Class cl: classes){
-            if(superClass == null && superInterface == null)
-                break;
-
-            // If the superclass or superinterface is already in the ArrayList, add the parent to the class' parent list
-            // This ensures the child can find its parent's depth
-            if(superClass.getName().equals(cl.getName())){
-                c.setParent(cl);
-                classInList = true;
-            }
-
-            if(superInterface.getName().equals(cl.getName())){
-                c.setParent(cl);
-                interfaceInList = true;
-            }
-        }
-
-        if(!classInList)
-            c.setParent(superClass);
-
-        if(!classInList)
-            c.setParent(superInterface);
+        if(ctx.classDeclaration().normalClassDeclaration() != null)
+            enterNormalClassDeclaration(ctx.classDeclaration().normalClassDeclaration());
+        else if(ctx.interfaceDeclaration().normalInterfaceDeclaration() != null)
+            enterNormalInterfaceDeclaration(ctx.interfaceDeclaration().normalInterfaceDeclaration());
+        else
+            return;
     }
 
-    ArrayList<Class> getClasses(){
+    public void enterNormalClassDeclaration(Java8Parser.NormalClassDeclarationContext ctx){
+        Class superClass = null;
+        aClass = new Class(ctx.Identifier().getText());
+        classes.add(aClass);
+
+        if(ctx.superclass() != null) {
+            String superC = ctx.superclass().getText();
+            superClass = new Class(superC);
+        }
+
+        if(superClass != null)
+            setParent(superClass);
+
+        if(ctx.superinterfaces() != null) {
+            String interfaces = ctx.superinterfaces().interfaceTypeList().getText();
+            setInterfaces(interfaces);
+        }
+
+    }
+
+    public void enterNormalInterfaceDeclaration(Java8Parser.NormalInterfaceDeclarationContext ctx){
+        aClass = new Class(ctx.Identifier().getText());
+        classes.add(aClass);
+
+        if(ctx.extendsInterfaces() != null) {
+            String interfaces = ctx.extendsInterfaces().interfaceTypeList().getText();
+            setInterfaces(interfaces);
+        } else return;
+    }
+
+    public ArrayList<Class> getClasses(){
         return classes;
     }
 
-    // Run through all the classes, finding their depths and displaying them
-    void displayDepth(){
-        for(Class c: classes){
-            c.setDepth();
-            System.out.println(c.getName() + ": " + c.getDepth());
+    public void setInterfaces(String interfaces){
+        ArrayList<Class> superI = new ArrayList<>();
+        if(!superI.isEmpty()){
+            for(Class i: superI)
+                setParent(i);
         }
+    }
+
+    void setParent(Class parent){
+        boolean inList = false;
+
+        for(Class cl: classes){
+            if(parent.getName().equals(cl.getName())){
+                aClass.setParent(cl);
+                inList = true;
+            }
+        }
+
+        if(!inList)
+            aClass.setParent(parent);
     }
 }
