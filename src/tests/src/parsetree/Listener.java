@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface Listener extends ParseTreeListener {
 
-    public ArrayList<Class> getClasses();
+    ArrayList<Class> getClasses();
 
     void setClasses(ArrayList<Class> classes);
 }

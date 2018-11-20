@@ -20,26 +20,23 @@ public class CPPListener extends CPP14BaseListener implements Listener{
 
         if(ctx.baseclause() != null) {
             CPP14Parser.BasespecifierlistContext list = ctx.baseclause().basespecifierlist();
-            setParent(new Class(list.basespecifier().getText()));
+            aClass.setParent(list.basespecifier().getText());
             while(list.basespecifierlist() != null) {
-                setParent(new Class(list.basespecifier().getText()));
+                aClass.setParent(list.basespecifier().getText());
                 list = list.basespecifierlist();
             }
         }
     }
 
-    void setParent(Class parent){
-        boolean inList = false;
+    public void updateParent(Class child){
+        if(child.getParent().isEmpty())
+            return;
 
+        ArrayList<String> parent = child.getParent();
         for(Class cl: classes){
-            if(parent.getName().equals(cl.getName())){
-                aClass.setParent(cl);
-                inList = true;
-            }
+            if(parent.contains(cl.getName()))
+                child.setParent(cl);
         }
-
-        if(!inList)
-            aClass.setParent(parent);
     }
 
     public ArrayList<Class> getClasses(){

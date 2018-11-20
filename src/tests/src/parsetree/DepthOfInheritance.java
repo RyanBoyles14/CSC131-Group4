@@ -72,9 +72,7 @@ public class DepthOfInheritance {
 
         Listener jExtractor = new JavaListener();
         jExtractor.setClasses(jClasses);
-        //TODO: give the Class list to the listener to check for existing classes
         //TODO: give the File to the listener to prevent classes with the same name from causing conflicts
-        //TODO: gather list of interfaces
         ParseTreeWalker.DEFAULT.walk(jExtractor, jTree); // initiate walk of tree with listener in use of default walker
 
         jClasses = jExtractor.getClasses();
@@ -96,6 +94,8 @@ public class DepthOfInheritance {
 
     // Run through all the classes, finding their depths and displaying them
     void displayDepth(){
+        updateParent();
+
         for (Class c : jClasses) {
             c.findDepth();
             System.out.println(c.getName() + ": " + c.getDepth());
@@ -104,6 +104,40 @@ public class DepthOfInheritance {
         for (Class c : cppClasses) {
             c.findDepth();
             System.out.println(c.getName() + ": " + c.getDepth());
+        }
+    }
+
+    void updateParent(){
+        for(Class child: jClasses) {
+            if(child.getParent().isEmpty())
+                continue;
+
+            ArrayList<String> parent = child.getParent();
+            for (Class cl : jClasses) {
+                if (parent.contains(cl.getName())) {
+                    child.setParent(cl);
+                    parent.remove(cl.getName());
+                }
+            }
+
+            for (String p : parent)
+                child.setParent(new Class(p));
+        }
+
+        for (Class child : cppClasses) {
+            if(child.getParent().isEmpty())
+                continue;
+
+            ArrayList<String> parent = child.getParent();
+            for (Class cl : cppClasses) {
+                if (parent.contains(cl.getName())) {
+                    child.setParent(cl);
+                    parent.remove(cl.getName());
+                }
+            }
+
+            for (String p : parent)
+                child.setParent(new Class(p));
         }
     }
 }

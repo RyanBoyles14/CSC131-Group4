@@ -20,18 +20,13 @@ public class JavaListener extends Java8BaseListener implements Listener {
 
 
     public void enterNormalClassDeclaration(Java8Parser.NormalClassDeclarationContext ctx){
-        Class superClass = null;
         aClass = new Class(ctx.Identifier().getText());
         classes.add(aClass);
 
         if(ctx.superclass() != null) {
-            String superC = ctx.superclass().classType().getText();
-            superClass = new Class(superC);
+            String superClass = ctx.superclass().classType().getText();
+            aClass.setParent(superClass);
         }
-
-        if(superClass != null)
-            setParent(superClass);
-
     }
 
     public void enterNormalInterfaceDeclaration(Java8Parser.NormalInterfaceDeclarationContext ctx){
@@ -46,7 +41,7 @@ public class JavaListener extends Java8BaseListener implements Listener {
         int i = 0;
         while(ctx.interfaceType(i) != null){
             Java8Parser.InterfaceTypeContext iType = ctx.interfaceType(i);
-            setParent(new Class(iType.getText()));
+            aClass.setParent(iType.getText());
             i++;
         }
     }
@@ -57,19 +52,5 @@ public class JavaListener extends Java8BaseListener implements Listener {
 
     public void setClasses(ArrayList<Class> classes) {
         this.classes = classes;
-    }
-
-    void setParent(Class parent){
-        boolean inList = false;
-
-        for(Class cl: classes){
-            if(parent.getName().equals(cl.getName())){
-                aClass.setParent(cl);
-                inList = true;
-            }
-        }
-
-        if(!inList)
-            aClass.setParent(parent);
     }
 }

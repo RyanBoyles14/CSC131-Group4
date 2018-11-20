@@ -8,6 +8,7 @@ public class Class{
     private File file;
     private String name;
     private ArrayList<Class> parent = new ArrayList<>();
+    private ArrayList<String> parentNames = new ArrayList<>();
     private int depth = 1;
     private boolean foundDepth = false;
 
@@ -19,8 +20,10 @@ public class Class{
         this.file = file;
     }
 
-    public void setParent(Class parent){
-        this.parent.add(parent);
+    public void setParent(Class parent) {this.parent.add(parent);}
+
+    public void setParent(String parent){
+        this.parentNames.add(parent);
     }
 
     // Recursively run through a class' parents until you find the root
@@ -41,7 +44,6 @@ public class Class{
 
             // After finding the parent's depth, save it to the parent
             int depth = p.findDepth();
-            p.depth = depth;
 
             if(depth > max)
                 max = depth;
@@ -56,6 +58,10 @@ public class Class{
 
     public File getFile(){
         return file;
+    }
+
+    ArrayList<String> getParent(){
+        return parentNames;
     }
 
     String getName(){
