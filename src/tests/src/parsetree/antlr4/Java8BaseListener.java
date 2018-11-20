@@ -1,5 +1,5 @@
-// Generated from C:/Users/xhhth/Group4/src/tests/DepthOfInheritance/src/main/antlr4\Java8.g4 by ANTLR 4.7
-package src.main.antlr4;
+// Generated from C:/Users/xhhth/Group4/src/tests/DepthOfInheritance/src/main/parsetree.antlr4\Java8.g4 by ANTLR 4.7
+package parsetree.antlr4;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
