@@ -8,6 +8,5 @@ public interface Listener extends ParseTreeListener {
 
     public ArrayList<Class> getClasses();
 
-    public void setInterfaces(String interfaces);
-
+    void setClasses(ArrayList<Class> classes);
 }

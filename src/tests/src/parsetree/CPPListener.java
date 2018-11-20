@@ -9,40 +9,45 @@ import java.util.ArrayList;
 public class CPPListener extends CPP14BaseListener implements Listener{
 
     private ArrayList<Class> classes = new ArrayList<>();
+    private Class aClass;
 
     public void enterClasshead(CPP14Parser.ClassheadContext ctx) {
         CPP14Parser.ClassheadnameContext name = ctx.classheadname();
         String child = name.classname().getText();
 
-        Class childClass = new Class(child);
-        Class parentClass = null;
-        classes.add(childClass);
+        aClass = new Class(child);
+        classes.add(aClass);
 
         if(ctx.baseclause() != null) {
-            CPP14Parser.BaseclauseContext parent = ctx.baseclause();
-            parentClass = new Class(parent.basespecifierlist().getText());
+            CPP14Parser.BasespecifierlistContext list = ctx.baseclause().basespecifierlist();
+            setParent(new Class(list.basespecifier().getText()));
+            while(list.basespecifierlist() != null) {
+                setParent(new Class(list.basespecifier().getText()));
+                list = list.basespecifierlist();
+            }
         }
+    }
+
+    void setParent(Class parent){
+        boolean inList = false;
 
         for(Class cl: classes){
-            if(parentClass == null)
-                break;
-
-            // If the superclass is in the ArrayList, set the current parent to the superclass in the list
-            if(parentClass.getName().equals(cl.getName())){
-                parentClass = cl;
-                break;
+            if(parent.getName().equals(cl.getName())){
+                aClass.setParent(cl);
+                inList = true;
             }
         }
 
-        childClass.setParent(parentClass);
-    }
-
-    public void setInterfaces(String interfaces){
-
+        if(!inList)
+            aClass.setParent(parent);
     }
 
     public ArrayList<Class> getClasses(){
         return classes;
+    }
+
+    public void setClasses(ArrayList<Class> classes) {
+        this.classes = classes;
     }
 }
 
