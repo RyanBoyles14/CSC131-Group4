@@ -1,6 +1,5 @@
 package parsetree;
 
-import org.antlr.v4.runtime.tree.ParseTreeListener;
 import parsetree.antlr4.Java8BaseListener;
 import parsetree.antlr4.Java8Parser;
 

@@ -93,7 +93,7 @@ public class DepthOfInheritance {
     }
 
     // Run through all the classes, finding their depths and displaying them
-    void displayDepth(){
+    private void displayDepth(){
         updateParent();
 
         for (Class c : jClasses) {
@@ -107,7 +107,7 @@ public class DepthOfInheritance {
         }
     }
 
-    void updateParent(){
+    private void updateParent(){
         for(Class child: jClasses) {
             if(child.getParent().isEmpty())
                 continue;

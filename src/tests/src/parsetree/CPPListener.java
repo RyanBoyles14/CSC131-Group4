@@ -1,6 +1,5 @@
 package parsetree;
 
-import org.antlr.v4.runtime.tree.ParseTreeListener;
 import parsetree.antlr4.CPP14BaseListener;
 import parsetree.antlr4.CPP14Parser;
 
