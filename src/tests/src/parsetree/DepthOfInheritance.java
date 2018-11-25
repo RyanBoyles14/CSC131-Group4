@@ -70,13 +70,12 @@ public class DepthOfInheritance {
         Java8Parser jParser = new Java8Parser(tokens);
         Java8Parser.CompilationUnitContext jTree = jParser.compilationUnit(); // parse a compilationUnit
 
-        JavaListener jExtractor = new JavaListener();
-        //TODO: give the Class list to the listener to check for existing classes
+        Listener jExtractor = new JavaListener();
+        jExtractor.setClasses(jClasses);
         //TODO: give the File to the listener to prevent classes with the same name from causing conflicts
-        //TODO: be able to add a defined parent class to the child.
         ParseTreeWalker.DEFAULT.walk(jExtractor, jTree); // initiate walk of tree with listener in use of default walker
 
-        jClasses.addAll(jExtractor.getClasses());
+        jClasses = jExtractor.getClasses();
     }
 
     void cppParse(File f) throws IOException {
@@ -86,25 +85,59 @@ public class DepthOfInheritance {
         CPP14Parser cParser = new CPP14Parser(tokens);
         CPP14Parser.TranslationunitContext cTree = cParser.translationunit();
 
-        CPPListener cppExtractor = new CPPListener();
+        Listener cppExtractor = new CPPListener();
+        cppExtractor.setClasses(cppClasses);
         ParseTreeWalker.DEFAULT.walk(cppExtractor, cTree); // initiate walk of tree with listener in use of default walker
 
-        ArrayList<Class> classes = cppExtractor.getClasses();
-
-        cppClasses.addAll(classes);
+        cppClasses = cppExtractor.getClasses();
     }
 
     // Run through all the classes, finding their depths and displaying them
-    void displayDepth(){
+    private void displayDepth(){
+        updateParent();
+
         for (Class c : jClasses) {
-            c.setDepth();
+            c.findDepth();
             System.out.println(c.getName() + ": " + c.getDepth());
         }
 
         for (Class c : cppClasses) {
-            c.setDepth();
+            c.findDepth();
             System.out.println(c.getName() + ": " + c.getDepth());
         }
+    }
 
+    private void updateParent(){
+        for(Class child: jClasses) {
+            if(child.getParent().isEmpty())
+                continue;
+
+            ArrayList<String> parent = child.getParent();
+            for (Class cl : jClasses) {
+                if (parent.contains(cl.getName())) {
+                    child.setParent(cl);
+                    parent.remove(cl.getName());
+                }
+            }
+
+            for (String p : parent)
+                child.setParent(new Class(p));
+        }
+
+        for (Class child : cppClasses) {
+            if(child.getParent().isEmpty())
+                continue;
+
+            ArrayList<String> parent = child.getParent();
+            for (Class cl : cppClasses) {
+                if (parent.contains(cl.getName())) {
+                    child.setParent(cl);
+                    parent.remove(cl.getName());
+                }
+            }
+
+            for (String p : parent)
+                child.setParent(new Class(p));
+        }
     }
 }

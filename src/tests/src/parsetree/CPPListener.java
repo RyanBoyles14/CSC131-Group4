@@ -1,44 +1,49 @@
 package parsetree;
 
-import org.antlr.v4.runtime.tree.ParseTreeListener;
 import parsetree.antlr4.CPP14BaseListener;
 import parsetree.antlr4.CPP14Parser;
 
 import java.util.ArrayList;
 
-public class CPPListener extends CPP14BaseListener implements ParseTreeListener {
+public class CPPListener extends CPP14BaseListener implements Listener{
 
     private ArrayList<Class> classes = new ArrayList<>();
+    private Class aClass;
 
     public void enterClasshead(CPP14Parser.ClassheadContext ctx) {
         CPP14Parser.ClassheadnameContext name = ctx.classheadname();
         String child = name.classname().getText();
 
-        Class childClass = new Class(child);
-        Class parentClass = null;
-        classes.add(childClass);
+        aClass = new Class(child);
+        classes.add(aClass);
 
         if(ctx.baseclause() != null) {
-            CPP14Parser.BaseclauseContext parent = ctx.baseclause();
-            //TODO: implement separating derived classes
-            parentClass = new Class(parent.basespecifierlist().getText());
-        }
-
-        for(Class cl: classes){
-            if(parentClass == null)
-                break;
-
-            // If the superclass is in the ArrayList, set the current parent to the superclass in the list
-            if(parentClass.getName().equals(cl.getName())){
-                parentClass = cl;
-                break;
+            CPP14Parser.BasespecifierlistContext list = ctx.baseclause().basespecifierlist();
+            aClass.setParent(list.basespecifier().getText());
+            while(list.basespecifierlist() != null) {
+                aClass.setParent(list.basespecifier().getText());
+                list = list.basespecifierlist();
             }
         }
-
-        childClass.setParent(parentClass);
     }
 
-    ArrayList<Class> getClasses(){
+    public void updateParent(Class child){
+        if(child.getParent().isEmpty())
+            return;
+
+        ArrayList<String> parent = child.getParent();
+        for(Class cl: classes){
+            if(parent.contains(cl.getName()))
+                child.setParent(cl);
+        }
+    }
+
+    public ArrayList<Class> getClasses(){
         return classes;
     }
+
+    public void setClasses(ArrayList<Class> classes) {
+        this.classes = classes;
+    }
 }
+
