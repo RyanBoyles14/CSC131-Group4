@@ -56,11 +56,26 @@ public class AuthorStats {
 // class to store each authors name and commit history
 class Author {
 
-	String name;
+	String name, email;
 	int numCommits;
 	ArrayList<String> commitMessages;
 
-	public Author() {
+	public Author(String name, String email) {
+		this.name = name;
+		this.email = email;
+	}
+	
+	public void add(String msg) {
+		commitMessages.add(msg);
+		numCommits++;
+	}
+	
+	public String toString() {
+		String s = String.format("Name: %s\nEmail: %s\n Commits: %d\nHistory:\n", name, email, numCommits);
+		for (String m : commitMessages) {
+			s += m + "\n";
+		}
+		return s;
 	}
 
 }
