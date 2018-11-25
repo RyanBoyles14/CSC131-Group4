@@ -11,7 +11,7 @@ public class Repository {
 	File dir;
 	Git git;
 	ArrayList<File> list = new ArrayList<>();
-	AuthorStats authors;
+	AuthorStats authorStats;
 
 	public Repository(String url, String localPath)
 			throws InvalidRemoteException, TransportException, GitAPIException, IOException {
@@ -19,7 +19,7 @@ public class Repository {
 		this.dir = new File(localPath);
 		this.git = Git.cloneRepository().setURI(url).setDirectory(dir).call();
 		buildList(dir);
-		this.authors = new AuthorStats(git);
+		this.authorStats = new AuthorStats(git);
 		this.git.getRepository().close();
 	}
 

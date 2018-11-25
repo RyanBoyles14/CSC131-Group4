@@ -13,7 +13,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-// 
+// list of authors and their commit history, constructed during URL cloning
 public class AuthorStats {
 
 	Git git;
