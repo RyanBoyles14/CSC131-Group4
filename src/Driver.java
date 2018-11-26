@@ -12,6 +12,21 @@ public class Driver
     @Option(names = { "-h", "--help" }, description = "print help information")
     boolean printHelp = false;
 
+    @Option(names = { "-c", "--coupling" }, description = "print coupling metric")
+    boolean printCoupling = false;
+
+    @Option(names = { "-H", "--halstead" }, description = "print halstead metric")
+    boolean printHalstead = false;
+
+    @Option(names = { "-I", "--inheritanceDepth" }, description = "print depth of inheritance metric")
+    boolean printInheritanceDepth = false;
+
+    @Option(names = { "-C", "--commits" }, description = "print amount of commits")
+    boolean printCommitAmount = false;
+
+    @Option(names = { "-t", "--timeComplexity" }, description = "print time complexities")
+    boolean printTimeComplexity = false;
+
     public static void main(String[] args)
     {
         Driver app = new Driver();
