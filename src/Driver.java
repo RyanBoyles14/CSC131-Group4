@@ -6,8 +6,8 @@ import picocli.CommandLine.*;
 
 public class Driver
 {
-    @Parameters(arity = "1", description = "path to a Github project")
-    String githubProjectPath;
+    @Parameters(arity = "1", description = "URL to a git project")
+    String gitProjectUrl;
 
     @Option(names = { "-h", "--help" }, description = "print help information")
     boolean printHelp = false;
@@ -34,12 +34,12 @@ public class Driver
 
         try
         {
-            Repository repo = new Repository(app.githubProjectPath, Files.createTempDirectory(null).toString());
+            Repository repo = new Repository(app.gitProjectUrl, Files.createTempDirectory(null).toString());
             System.out.println("Repository contains " + repo.getFileCount() + " files.");
         }
         catch (Exception e)
         {
-            System.err.println("Could not open repository " + app.githubProjectPath + ": " + e.getMessage());
+            System.err.println("Could not open repository " + app.gitProjectUrl + ": " + e.getMessage());
         }
 
         return;
