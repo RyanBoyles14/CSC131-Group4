@@ -95,25 +95,31 @@ public class DepthOfInheritance {
     private void displayDepth(){
         updateParent();
 
-        for (Class c : jClasses) {
-            c.findDepth();
-            System.out.println(c.getName() + ": " + c.getDepth());
+        String file = "";
+        for (Class child : jClasses) {
+            if(!file.equals(child.getFile().toString())) {
+                file = child.getFile().toString();
+                System.out.println(file);
+            }
+            child.findDepth();
+            System.out.println("\t" + child.getName() + ": " + child.getDepth());
         }
 
-        for (Class c : cppClasses) {
-            c.findDepth();
-            System.out.println(c.getName() + ": " + c.getDepth());
+        for (Class child : cppClasses) {
+            child.findDepth();
+            System.out.println(child.getName() + ": " + child.getDepth());
         }
     }
 
     private void updateParent(){
         for(Class child: jClasses) {
+
             if(child.getParent().isEmpty())
                 continue;
 
             ArrayList<String> parent = child.getParent();
             for (Class cl : jClasses) {
-                if (parent.contains(cl.getName())) {
+                if (parent.contains(cl.getName()) && fileCheck(cl, child)) {
                     child.setParent(cl);
                     parent.remove(cl.getName());
                 }
@@ -138,5 +144,26 @@ public class DepthOfInheritance {
             for (String p : parent)
                 child.setParent(new Class(p));
         }
+    }
+
+    boolean fileCheck(Class parent, Class child){
+        String childFile = child.getFile().toString();
+        String parentFile = parent.getFile().toString();
+
+        if(childFile.equals(parentFile))
+            return false;
+
+        String[] childParts = childFile.split("\\\\");
+        String[] parentParts = parentFile.split("\\\\");
+
+        if(childParts.length > parentParts.length)
+            return false;
+
+        for(int i = 0; i < childParts.length - 1; i++){
+            if(!childParts[i].equals(parentParts[i]))
+                return false;
+        }
+
+        return true;
     }
 }

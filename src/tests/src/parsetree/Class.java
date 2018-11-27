@@ -20,6 +20,9 @@ public class Class{
     public void setParent(Class parent) {this.parent.add(parent);}
 
     public void setParent(String parent){
+        String[] parts = parent.split("\\.");
+        if(parts.length > 0)
+            parent = parts[parts.length - 1];
         this.parentNames.add(parent);
     }
 
