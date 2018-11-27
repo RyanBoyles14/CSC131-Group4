@@ -41,51 +41,47 @@ public class DepthOfInheritance {
     public DepthOfInheritance(ArrayList<File> files){
         for(File f: files){
             String[] parts = f.toString().split("\\.");
+            String extension = parts[parts.length - 1];
             try {
-                switch (parts[parts.length - 1]) {
-                    case "java":
-                        javaParse(f);
-                        continue;
-                    case "cpp":
-                    case "hpp":
-                        cppParse(f);
-                    default:
-                        continue;
+                if (extension.equals("java") || extension.equals("cpp") || extension.equals("hpp")) {
+                    CharStream input = CharStreams.fromFileName(f.toString());
+                    parse(f, extension, input);
                 }
             } catch(IOException e){
-                System.out.println("Error parsing " + f.toString());
+                System.out.println("Error parsing Depth of Inheritance for " + f.toString());
             }
         }
 
         displayDepth();
     }
 
-    void javaParse(File f) throws IOException {
-        CharStream input = CharStreams.fromFileName(f.toString());
-        Lexer jLexer = new Java8Lexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(jLexer);
-        Java8Parser jParser = new Java8Parser(tokens);
-        Java8Parser.CompilationUnitContext jTree = jParser.compilationUnit(); // parse a compilationUnit
+    void parse(File f, String extension, CharStream input) throws IOException{
+        Listener extractor;
 
-        Listener jExtractor = new JavaListener();
-        ParseTreeWalker.DEFAULT.walk(jExtractor, jTree); // initiate walk of tree with listener in use of default walker
+        switch (extension) {
+            case "java": {
+                Lexer lexer = new Java8Lexer(input);
+                CommonTokenStream tokens = new CommonTokenStream(lexer);
+                extractor = new JavaListener();
+                Java8Parser jParser = new Java8Parser(tokens);
+                ParseTreeWalker.DEFAULT.walk(extractor, jParser.compilationUnit());
+                break;
+            }
+            case "cpp":
+            case "hpp": {
+                Lexer lexer = new CPP14Lexer(input);
+                CommonTokenStream tokens = new CommonTokenStream(lexer);
+                extractor = new CPPListener();
+                CPP14Parser cppParser = new CPP14Parser(tokens);
+                ParseTreeWalker.DEFAULT.walk(extractor, cppParser.translationunit());
+                break;
+            }
+            default:
+                throw new IOException();
+        }
 
-        jExtractor.setFile(f);
-        classes.addAll(jExtractor.getClasses());
-    }
-
-    void cppParse(File f) throws IOException {
-        CharStream input = CharStreams.fromFileName(f.toString());
-        CPP14Lexer cLexer = new CPP14Lexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(cLexer);
-        CPP14Parser cParser = new CPP14Parser(tokens);
-        CPP14Parser.TranslationunitContext cTree = cParser.translationunit();
-
-        Listener cppExtractor = new CPPListener();
-        ParseTreeWalker.DEFAULT.walk(cppExtractor, cTree); // initiate walk of tree with listener in use of default walker
-
-        cppExtractor.setFile(f);
-        classes.addAll(cppExtractor.getClasses());
+        extractor.setFile(f);
+        classes.addAll(extractor.getClasses());
     }
 
     // Run through all the classes, finding their depths and displaying them
