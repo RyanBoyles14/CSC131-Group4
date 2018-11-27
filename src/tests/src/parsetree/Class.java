@@ -4,9 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class Class{
-
-    private File file;
     private String name;
+    private File file;
     private ArrayList<Class> parent = new ArrayList<>();
     private ArrayList<String> parentNames = new ArrayList<>();
     private int depth = 1;
@@ -16,9 +15,7 @@ public class Class{
         this.name = name;
     }
 
-    void setFile(File file){
-        this.file = file;
-    }
+    public void setFile(File file){this.file = file;}
 
     public void setParent(Class parent) {this.parent.add(parent);}
 
@@ -56,9 +53,7 @@ public class Class{
         return depth;
     }
 
-    public File getFile(){
-        return file;
-    }
+    File getFile(){return file;}
 
     ArrayList<String> getParent(){
         return parentNames;

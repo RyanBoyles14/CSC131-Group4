@@ -3,6 +3,7 @@ package parsetree;
 import parsetree.antlr4.CPP14BaseListener;
 import parsetree.antlr4.CPP14Parser;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class CPPListener extends CPP14BaseListener implements Listener{
@@ -42,8 +43,10 @@ public class CPPListener extends CPP14BaseListener implements Listener{
         return classes;
     }
 
-    public void setClasses(ArrayList<Class> classes) {
-        this.classes = classes;
+    public void setFile(File file){
+        for(Class c: classes){
+            c.setFile(file);
+        }
     }
 }
 

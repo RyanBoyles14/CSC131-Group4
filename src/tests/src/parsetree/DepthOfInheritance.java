@@ -71,11 +71,10 @@ public class DepthOfInheritance {
         Java8Parser.CompilationUnitContext jTree = jParser.compilationUnit(); // parse a compilationUnit
 
         Listener jExtractor = new JavaListener();
-        jExtractor.setClasses(jClasses);
-        //TODO: give the File to the listener to prevent classes with the same name from causing conflicts
         ParseTreeWalker.DEFAULT.walk(jExtractor, jTree); // initiate walk of tree with listener in use of default walker
 
-        jClasses = jExtractor.getClasses();
+        jExtractor.setFile(f);
+        jClasses.addAll(jExtractor.getClasses());
     }
 
     void cppParse(File f) throws IOException {
@@ -86,10 +85,10 @@ public class DepthOfInheritance {
         CPP14Parser.TranslationunitContext cTree = cParser.translationunit();
 
         Listener cppExtractor = new CPPListener();
-        cppExtractor.setClasses(cppClasses);
         ParseTreeWalker.DEFAULT.walk(cppExtractor, cTree); // initiate walk of tree with listener in use of default walker
 
-        cppClasses = cppExtractor.getClasses();
+        cppExtractor.setFile(f);
+        cppClasses.addAll(cppExtractor.getClasses());
     }
 
     // Run through all the classes, finding their depths and displaying them
