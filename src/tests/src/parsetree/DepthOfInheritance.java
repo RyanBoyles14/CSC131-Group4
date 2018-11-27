@@ -23,9 +23,7 @@
 
 package parsetree;
 
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import parsetree.antlr4.CPP14Lexer;
 import parsetree.antlr4.CPP14Parser;
@@ -38,8 +36,7 @@ import java.util.ArrayList;
 
 public class DepthOfInheritance {
 
-    private ArrayList<Class> jClasses = new ArrayList<>();
-    private ArrayList<Class> cppClasses = new ArrayList<>();
+    private ArrayList<Class> classes = new ArrayList<>();
 
     public DepthOfInheritance(ArrayList<File> files){
         for(File f: files){
@@ -65,7 +62,7 @@ public class DepthOfInheritance {
 
     void javaParse(File f) throws IOException {
         CharStream input = CharStreams.fromFileName(f.toString());
-        Java8Lexer jLexer = new Java8Lexer(input);
+        Lexer jLexer = new Java8Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(jLexer);
         Java8Parser jParser = new Java8Parser(tokens);
         Java8Parser.CompilationUnitContext jTree = jParser.compilationUnit(); // parse a compilationUnit
@@ -74,7 +71,7 @@ public class DepthOfInheritance {
         ParseTreeWalker.DEFAULT.walk(jExtractor, jTree); // initiate walk of tree with listener in use of default walker
 
         jExtractor.setFile(f);
-        jClasses.addAll(jExtractor.getClasses());
+        classes.addAll(jExtractor.getClasses());
     }
 
     void cppParse(File f) throws IOException {
@@ -88,7 +85,7 @@ public class DepthOfInheritance {
         ParseTreeWalker.DEFAULT.walk(cppExtractor, cTree); // initiate walk of tree with listener in use of default walker
 
         cppExtractor.setFile(f);
-        cppClasses.addAll(cppExtractor.getClasses());
+        classes.addAll(cppExtractor.getClasses());
     }
 
     // Run through all the classes, finding their depths and displaying them
@@ -96,7 +93,7 @@ public class DepthOfInheritance {
         updateParent();
 
         String file = "";
-        for (Class child : jClasses) {
+        for (Class child : classes) {
             if(!file.equals(child.getFile().toString())) {
                 file = child.getFile().toString();
                 System.out.println(file);
@@ -104,43 +101,25 @@ public class DepthOfInheritance {
             child.findDepth();
             System.out.println("\t" + child.getName() + ": " + child.getDepth());
         }
-
-        for (Class child : cppClasses) {
-            child.findDepth();
-            System.out.println(child.getName() + ": " + child.getDepth());
-        }
     }
 
     private void updateParent(){
-        for(Class child: jClasses) {
+        for(Class child: classes) {
 
             if(child.getParent().isEmpty())
                 continue;
 
             ArrayList<String> parent = child.getParent();
-            for (Class cl : jClasses) {
+            // Check if a child's parent already has a Class
+            // Used for linking depth among classes
+            for (Class cl : classes) {
                 if (parent.contains(cl.getName()) && fileCheck(cl, child)) {
                     child.setParent(cl);
                     parent.remove(cl.getName());
                 }
             }
 
-            for (String p : parent)
-                child.setParent(new Class(p));
-        }
-
-        for (Class child : cppClasses) {
-            if(child.getParent().isEmpty())
-                continue;
-
-            ArrayList<String> parent = child.getParent();
-            for (Class cl : cppClasses) {
-                if (parent.contains(cl.getName())) {
-                    child.setParent(cl);
-                    parent.remove(cl.getName());
-                }
-            }
-
+            // If a class still has parents in its ArrayList, create new parents to show inheritance
             for (String p : parent)
                 child.setParent(new Class(p));
         }
@@ -150,7 +129,7 @@ public class DepthOfInheritance {
         String childFile = child.getFile().toString();
         String parentFile = parent.getFile().toString();
 
-        if(childFile.equals(parentFile))
+        if(parent == child)
             return false;
 
         String[] childParts = childFile.split("\\\\");
@@ -159,6 +138,7 @@ public class DepthOfInheritance {
         if(childParts.length > parentParts.length)
             return false;
 
+        //check that the file path for child and parent match
         for(int i = 0; i < childParts.length - 1; i++){
             if(!childParts[i].equals(parentParts[i]))
                 return false;

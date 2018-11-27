@@ -1,6 +1,6 @@
 #include <iostream.h>
 
-class Test{
+class test{
 
 }
 
