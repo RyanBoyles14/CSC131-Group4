@@ -6,9 +6,19 @@
 A work in progress...
 
 ## Usage
-`Driver https://github.com/CSC131Fall2018/Group4.git`
+`mvn clean install`
 
-`Driver --help`
+`java -jar target/Group4-0.0.1-SNAPSHOT.jar (options) [url]`
+
+`Options:`
+
+    -h, --help
+    -c, --coupling
+    -H, --halstead
+    -I, --inheritanceDepth
+    -C, --commits
+    -t, --timeComplexity
+
 
 ## Authors
 - [Johnny Au](https://github.com/johnny-au)
