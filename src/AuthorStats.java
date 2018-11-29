@@ -23,8 +23,8 @@ public class AuthorStats {
 	RevCommit commit;
 	ArrayList<Author> authors = new ArrayList<>();
 	ArrayList<String> namesList = new ArrayList<>();
-	LinkedHashMap<String,String> idList = new LinkedHashMap<>();
-	String s, name, email;
+	LinkedHashMap<String, String> idList = new LinkedHashMap<>();
+	String s, name, email, message;
 
 	// builds a list of Author objects from the Git repository
 	public AuthorStats(Git gitObject) throws NoHeadException, GitAPIException, IOException {
@@ -34,14 +34,21 @@ public class AuthorStats {
 		parseID();
 		parseMsg();
 	}
-	// parse "messageLog.txt" to update commit history
-	private void parseMsg() {
-		
+
+	// parse "msgLog.txt" to update commit history
+	private void parseMsg() throws FileNotFoundException {
+		Scanner sc = new Scanner(new File("msgLog.txt"));
+		while (sc.hasNextLine()) {
+			s = sc.nextLine();
+			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
+			message = sc.nextLine();
+		}
+		sc.close();
 	}
+
 	// parse "idLog.txt" to create Author objects
 	private void parseID() throws FileNotFoundException {
 		Scanner sc = new Scanner(new File("idLog.txt"));
-		ArrayList<String> namesList = new ArrayList<>();
 		while (sc.hasNextLine()) {
 			s = sc.nextLine();
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
@@ -53,7 +60,7 @@ public class AuthorStats {
 			authors.add(new Author(e.getKey(), e.getValue()));
 		}
 		sc.close();
- 
+
 	}
 
 	// creates local files to parse
@@ -69,14 +76,22 @@ public class AuthorStats {
 			msgStack.push(commit.getShortMessage());
 		}
 		while (!idStack.empty()) {
-			idWriter.println(idStack.peek());
-			msgWriter.println(idStack.peek());
-			msgWriter.println(msgStack.pop());
-			idStack.pop();
+			if (idStack.size() == 1) {
+				idWriter.print(idStack.peek());
+				msgWriter.println(idStack.peek());
+				msgWriter.print(msgStack.pop());
+				idStack.pop();
+			} else {
+				idWriter.println(idStack.peek());
+				msgWriter.println(idStack.peek());
+				msgWriter.println(msgStack.pop());
+				idStack.pop();
+			}
 		}
 		idWriter.close();
 		msgWriter.close();
 	}
+
 	// return list of author objects
 	public ArrayList<Author> returnAuthors() {
 		return authors;
@@ -101,7 +116,7 @@ class Author {
 		commitMessages.add(msg);
 		numCommits++;
 	}
-	
+
 	// toString format: "name (email) : ? commits since ????-??-?? \n history: ..."
 	public String toString() {
 		String s = String.format("%s (%s) : %d commits since %s\nhistory:\n", name, email, numCommits, dates.get(0));
@@ -110,7 +125,7 @@ class Author {
 		}
 		return s;
 	}
-	
+
 	// convert text date to numerical
 	private String convertDate(String date) {
 		return null;
