@@ -42,6 +42,11 @@ public class AuthorStats {
 			s = sc.nextLine();
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
 			message = sc.nextLine();
+			for (Author a : authors) {
+				if (a.name.equals(name)) {
+					a.add(message);
+				}
+			}
 		}
 		sc.close();
 	}
@@ -110,6 +115,7 @@ class Author {
 		this.name = name;
 		this.email = email;
 		this.numCommits = 0;
+		this.commitMessages = new ArrayList<>();
 	}
 
 	public void add(String msg) {
