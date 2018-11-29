@@ -89,6 +89,7 @@ class Author {
 	String name, email;
 	int numCommits;
 	ArrayList<String> commitMessages;
+	ArrayList<String> dates;
 
 	public Author(String name, String email) {
 		this.name = name;
@@ -100,13 +101,19 @@ class Author {
 		commitMessages.add(msg);
 		numCommits++;
 	}
-
+	
+	// toString format: "name (email) : ? commits since ????-??-?? \n history: ..."
 	public String toString() {
-		String s = String.format("Name: %s\nEmail: %s\n Commits: %d\nHistory:\n", name, email, numCommits);
+		String s = String.format("%s (%s) : %d commits since %s\nhistory:\n", name, email, numCommits, dates.get(0));
 		for (String m : commitMessages) {
 			s += m + "\n";
 		}
 		return s;
+	}
+	
+	// convert text date to numerical
+	private String convertDate(String date) {
+		return null;
 	}
 
 }
