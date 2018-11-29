@@ -13,7 +13,6 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 // list of authors and their commit history, constructed during URL cloning
 public class AuthorStats {
@@ -23,10 +22,9 @@ public class AuthorStats {
 	Iterator<RevCommit> itr;
 	RevCommit commit;
 	ArrayList<Author> authors = new ArrayList<>();
+	ArrayList<String> namesList = new ArrayList<>();
 	LinkedHashMap<String,String> idList = new LinkedHashMap<>();
-	
 	String s, name, email;
-	RevWalk rev;
 
 	// builds a list of Author objects from the Git repository
 	public AuthorStats(Git gitObject) throws NoHeadException, GitAPIException, IOException {
@@ -34,14 +32,20 @@ public class AuthorStats {
 		log = git.log().call();
 		buildLogs();
 		parseID();
+		parseMsg();
 	}
-
+	// parse "messageLog.txt" to update commit history
+	private void parseMsg() {
+		
+	}
 	// parse "idLog.txt" to create Author objects
 	private void parseID() throws FileNotFoundException {
 		Scanner sc = new Scanner(new File("idLog.txt"));
+		ArrayList<String> namesList = new ArrayList<>();
 		while (sc.hasNextLine()) {
 			s = sc.nextLine();
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
+			namesList.add(name);
 			email = s.substring(s.indexOf(",") + 2, s.lastIndexOf(","));
 			idList.put(name, email);
 		}
@@ -89,6 +93,7 @@ class Author {
 	public Author(String name, String email) {
 		this.name = name;
 		this.email = email;
+		this.numCommits = 0;
 	}
 
 	public void add(String msg) {

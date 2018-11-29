@@ -12,7 +12,8 @@ public class Repository {
 	Git git;
 	ArrayList<File> list = new ArrayList<>();
 	AuthorStats authorStats;
-
+	
+	// constructor clones repository from GitHub URL to any local file path
 	public Repository(String url, String localPath)
 			throws InvalidRemoteException, TransportException, GitAPIException, IOException {
 
@@ -22,7 +23,8 @@ public class Repository {
 		this.authorStats = new AuthorStats(git);
 		this.git.getRepository().close();
 	}
-
+	
+	// builds ArrayList of files in the repository
 	private void buildList(File directory) {
 		for (File f : directory.listFiles()) {
 			if (f.isDirectory()) {
@@ -32,19 +34,23 @@ public class Repository {
 			}
 		}
 	}
-
+	
+	// return list of files
 	public ArrayList<File> getList() {
 		return list;
 	}
 
+	// return file count
 	public int getFileCount() {
 		return list.size();
 	}
-
+	
+	// deletes the cloned directory, should be used on exit since JGit will not overwrite
 	public void delete() {
 		delete(dir);
 	}
-
+	
+	// deletes a file directory
 	private void delete(File directory) {
 		for (File f : directory.listFiles()) {
 			if (f.isDirectory()) {
