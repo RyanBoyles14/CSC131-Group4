@@ -37,11 +37,25 @@ public class AuthorStats {
 		buildLogs();
 		parseID();
 		parseMsg();
-		for (Author a : authors) {
-			System.out.println(a.toString());
-		}
 	}
-
+	
+	// returns toString of all authors and commit history
+	public String toString() {
+		String s = "";
+		for (Author a : authors) {
+			s += a.toString() + "\n";
+		}
+		return s;
+	}
+	
+	// returns shorter toString of all authors without commit history
+	public String toStringShort() {
+		String s = "";
+		for (Author a : authors) {
+			s += a.toStringShort() + "\n";
+		}
+		return s;
+	}
 	// parse "msgLog.txt" to update commit history
 	private void parseMsg() throws FileNotFoundException {
 		Scanner sc = new Scanner(new File("msgLog.txt"));
@@ -143,13 +157,17 @@ class Author {
 		numCommits++;
 	}
 
-	// toString format: "name (email) : ? commits since ????-??-?? \n history: ..."
+	// toString format: "name (email) : ? commits since ????-??-?? @ ??:??AM/PM \n history: ..."
 	public String toString() {
 		String s = String.format("%s (%s) : %d commits since %s\nhistory:\n", name, email, numCommits, initDate);
 		for (Map.Entry<String, String> e : commitMessages.entrySet()) {
 			s += String.format("(%s) %s\n", e.getKey(), e.getValue()); 
 		}
 		return s;
+	}
+	// toString format: "name (email : ? commits since ????-??-?? @ ??:??AM/PM"
+	public String toStringShort() {
+		return String.format("%s (%s) : %d commits since %s", name, email, numCommits, initDate);
 	}
 
 }
