@@ -37,11 +37,9 @@ public class AuthorStats {
 		buildLogs();
 		parseID();
 		parseMsg();
-		/*
-		 * System.out.println(authors.get(0).initDate);
-		 * System.out.println(authors.get(0).commitMessages.get(authors.get(0).initDate)
-		 * );
-		 */
+		for (Author a : authors) {
+			System.out.println(a.toString());
+		}
 	}
 
 	// parse "msgLog.txt" to update commit history
@@ -148,9 +146,9 @@ class Author {
 	// toString format: "name (email) : ? commits since ????-??-?? \n history: ..."
 	public String toString() {
 		String s = String.format("%s (%s) : %d commits since %s\nhistory:\n", name, email, numCommits, initDate);
-		/*
-		 * for (String m : commitMessages) { s += m + "\n"; }
-		 */
+		for (Map.Entry<String, String> e : commitMessages.entrySet()) {
+			s += String.format("(%s) %s\n", e.getKey(), e.getValue()); 
+		}
 		return s;
 	}
 
