@@ -26,6 +26,11 @@ public class Repository {
 		this.git.getRepository().close();
 	}
 	
+	// returns AuthorStats object for the repo
+	public AuthorStats getAuthorStats() {
+		return authorStats;
+	}
+	
 	// builds ArrayList of files in the repository
 	private void buildList(File directory) {
 		for (File f : directory.listFiles()) {
