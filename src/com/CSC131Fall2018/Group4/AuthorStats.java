@@ -26,7 +26,7 @@ public class AuthorStats {
 	ArrayList<Author> authors = new ArrayList<>();
 	ArrayList<String> namesList = new ArrayList<>();
 	LinkedHashMap<String, String> idList = new LinkedHashMap<>();
-	String s, name, email, message;
+	String s, name, email, message, date;
 
 	// builds a list of Author objects from the Git repository
 	public AuthorStats(Git gitObject) throws NoHeadException, GitAPIException, IOException {
@@ -44,11 +44,11 @@ public class AuthorStats {
 			s = sc.nextLine();
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
 			message = sc.nextLine();
-			for (Author a : authors) {
+			/*for (Author a : authors) {
 				if (a.name.equals(name)) {
 					a.add(message);
 				}
-			}
+			}*/
 		}
 		sc.close();
 	}
@@ -110,27 +110,28 @@ class Author {
 
 	String name, email;
 	int numCommits;
-	ArrayList<String> commitMessages;
-	ArrayList<String> dates;
+	LinkedHashMap<String, String> commitMessages;
+	String initDate;
 
 	public Author(String name, String email) {
 		this.name = name;
 		this.email = email;
 		this.numCommits = 0;
-		this.commitMessages = new ArrayList<>();
+		this.commitMessages = new LinkedHashMap<>();
 	}
 
-	public void add(String msg) {
-		commitMessages.add(msg);
+	public void add(String date, String msg) {
+		commitMessages.put(date, msg);
 		numCommits++;
 	}
 
 	// toString format: "name (email) : ? commits since ????-??-?? \n history: ..."
 	public String toString() {
-		String s = String.format("%s (%s) : %d commits since %s\nhistory:\n", name, email, numCommits, dates.get(0));
-		for (String m : commitMessages) {
+		String s = String.format("%s (%s) : %d commits since %s\nhistory:\n", name, email, numCommits,
+				initDate);
+		/*for (String m : commitMessages) {
 			s += m + "\n";
-		}
+		}*/
 		return s;
 	}
 
