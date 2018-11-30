@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,6 +37,11 @@ public class AuthorStats {
 		buildLogs();
 		parseID();
 		parseMsg();
+		/*
+		 * System.out.println(authors.get(0).initDate);
+		 * System.out.println(authors.get(0).commitMessages.get(authors.get(0).initDate)
+		 * );
+		 */
 	}
 
 	// parse "msgLog.txt" to update commit history
@@ -44,6 +51,7 @@ public class AuthorStats {
 			s = sc.nextLine();
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
 			date = s.substring(s.lastIndexOf(",") + 2, s.lastIndexOf("-") - 1);
+			date = convert(date);
 			message = sc.nextLine();
 			for (Author a : authors) {
 				if (a.name.equals(name)) {
@@ -104,6 +112,14 @@ public class AuthorStats {
 	public ArrayList<Author> returnAuthors() {
 		return authors;
 	}
+
+	// convert text date to numerical
+	@SuppressWarnings("deprecation")
+	private String convert(String date) {
+		Date day = new Date(date);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd '@' K:mma");
+		return sdf.format(day);
+	}
 }
 
 // class to store each authors name and commit history
@@ -136,11 +152,6 @@ class Author {
 		 * for (String m : commitMessages) { s += m + "\n"; }
 		 */
 		return s;
-	}
-
-	// convert text date to numerical
-	private String convertDate(String date) {
-		return null;
 	}
 
 }
