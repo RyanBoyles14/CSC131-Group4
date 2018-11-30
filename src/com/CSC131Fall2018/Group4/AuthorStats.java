@@ -43,12 +43,13 @@ public class AuthorStats {
 		while (sc.hasNextLine()) {
 			s = sc.nextLine();
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
+			date = s.substring(s.lastIndexOf(",") + 2, s.lastIndexOf("-") - 1);
 			message = sc.nextLine();
-			/*for (Author a : authors) {
+			for (Author a : authors) {
 				if (a.name.equals(name)) {
-					a.add(message);
+					a.add(date, message);
 				}
-			}*/
+			}
 		}
 		sc.close();
 	}
@@ -121,17 +122,19 @@ class Author {
 	}
 
 	public void add(String date, String msg) {
+		if (commitMessages.size() == 0) {
+			initDate = date;
+		}
 		commitMessages.put(date, msg);
 		numCommits++;
 	}
 
 	// toString format: "name (email) : ? commits since ????-??-?? \n history: ..."
 	public String toString() {
-		String s = String.format("%s (%s) : %d commits since %s\nhistory:\n", name, email, numCommits,
-				initDate);
-		/*for (String m : commitMessages) {
-			s += m + "\n";
-		}*/
+		String s = String.format("%s (%s) : %d commits since %s\nhistory:\n", name, email, numCommits, initDate);
+		/*
+		 * for (String m : commitMessages) { s += m + "\n"; }
+		 */
 		return s;
 	}
 
