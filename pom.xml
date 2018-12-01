@@ -25,10 +25,16 @@
 		</dependency>
 
 		<dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4-runtime</artifactId>
-            <version>4.7</version>
-        </dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>info.picocli</groupId>
+			<artifactId>picocli</artifactId>
+			<version>3.8.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src/com</sourceDirectory>
@@ -108,22 +114,22 @@
 			</plugin>
 
 			<plugin>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr4-maven-plugin</artifactId>
-                <version>4.7</version>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr4-maven-plugin</artifactId>
+				<version>4.7</version>
 				<configuration>
 					<sourceDirectory>src/com/CSC131Fall2018/Group4/antlr4</sourceDirectory>
 					<outputDirectory>src/com/CSC131Fall2018/Group4/antlr4</outputDirectory>
 					<listener>true</listener>
 				</configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>antlr4</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr4</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
