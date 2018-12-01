@@ -8,17 +8,17 @@ A work in progress...
 ## Usage
 ```
 mvn clean install
-java -jar target/Group4-0.0.1-SNAPSHOT.jar [options] <url>
+java -jar target/Group4-0.0.1-SNAPSHOT.jar [options] <Git url>
 ```
 
 ### Options
 
-    -h, --help
-    -c, --coupling
-    -H, --halstead
-    -I, --inheritanceDepth
-    -C, --commits
-    -t, --timeComplexity
+    -c, --coupling          Finds coupling between classes
+    -C, --commits           Gathers Git contributions and authors
+    -h, --help              Displays instructions on running the software
+    -H, --halstead          Computes Halstead metrics
+    -I, --inheritanceDepth  Finds the depth of inheritance of classes
+    -t, --timeComplexity    Finds the time complexity of methods
 
 
 ## Authors
