@@ -10,7 +10,7 @@ A work in progress...
 
 `java -jar target/Group4-0.0.1-SNAPSHOT.jar (options) [url]`
 
-`Options:`
+### Options
 
     -h, --help
     -c, --coupling
