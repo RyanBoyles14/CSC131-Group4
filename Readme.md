@@ -57,34 +57,37 @@
 
 <a name="intro"></a>
 ### 1.0 Introduction:
+###### The introduction for this SRS document provides an overview on the entire document, including the purpose, scope, definitions, and references.
 ---
 <a name="purpose"></a>
 #### 1.1. Purpose
-###### This CLI application will allow the user to find metrics for a GitHub repository by providing a link. The metrics include counting lines, words, and characters, Halstead Metrics, Depth of Inheritance, Coupling Between Classes, Method Time Complexity, and Git Commits. The user can select which metrics to display when running the application.
+###### The purpose of this document is to cover all of the ideas and definitions that define our system, the requirements in respect to the user, and the intended use.
+###### Its purpose is to provide an overview of the software, its parameters, uses, and goals. It describes the target audience, user interface, hardware and software requirements, and functionality.
     
 <a name="scope"></a>
 #### 1.2. Scope
-###### The user can only submit GitHub repository links and can only request the specified metric options. Only C, C++, and Java files will be processed from the given repository.
+###### This software is developed as a group project for a Computer Science 131 - Computer Software Engineering at California State University - Sacramento.
+###### The scope of this project is to provide software metrics of a Git repository. Through providing a GitHub url, the user can obtain informative software metrics about Java, C, and C++ projects.
     
 <a name="def"></a>
 #### 1.3. Definitions
-###### - Lines:                    Count all lines in a given file
-###### - Words:                    Count all words in a given file
-###### - Characters:               Count all characters a given file
-###### - Halstead Metrics:         Find...
-###### - Depth of Inheritance:     Find the local depth of inheritance for Java and C++ classes.
-###### - Coupling Between Classes: Find...
-###### - Method Time Complexity:   Find...
-###### - Git Commits:              Find...
+###### - Metrics                   Methods for measuring some statistics or properties
+###### - Halstead Metrics:         Measurable properties of software, including length, difficulty, and bugs
+###### - Depth of Inheritance:     The maximum length of a class to its root of inheritance
+###### - Coupling Between Classes: The connection between classes
+###### - Method Time Complexity:   Time taken for a method to compute
+###### - Git Commits:              Git contributors and their changes to a Git repository
     
 <a name="ref"></a>
 #### 1.4. References
-###### JGit: <www.eclipse.org/jgit/> Used to clone a repository from Git. This allows us to clone all files using a Git url and calculate metrics on the files in the repository.
-###### ANTLR: <https://antlr.org>: Used generate Java files to parse through Java, C, and C++ files.
+###### Maven: <https://maven.apache.org>:       Used to create the .jar file to run the software in CLI. It compiles the require external libraries and packages them with our developed classes.
+###### JGit: <https://www.eclipse.org/jgit>:    Used to clone a repository from Git. This allows us to clone all files using a Git url and calculate metrics on the files in the repository.
+###### ANTLR: <https://antlr.org>:              Used to generate Java files based on Java and C++ grammar. Used to build a parse tree for interpreting Java and C++ files.
    
 <a name="overview"></a>
 #### 1.5. Overview
-###### To be completed
+###### The rest of this document provides a general description of the software in Section 2, including product functionality, characteristics of the user, and the assumptions, dependencies, and constraints of the hardware and software.
+###### Section 3 gives the requirements of the system, including functional and external interface requirements.
 
 <a name="desc"></a>
 ### 2.0 Overall Description
