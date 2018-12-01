@@ -36,6 +36,11 @@ public class Driver
         try
         {
             cmd.parse(args);
+            if (app.printHelp)
+            {
+                cmd.usage(System.out);
+                return;
+            }
         }
         catch (MissingParameterException e)
         {
@@ -43,11 +48,7 @@ public class Driver
             return;
         }
 
-        if (app.printHelp)
-        {
-            cmd.usage(System.out);
-            return;
-        }
+
 
         try
         {
