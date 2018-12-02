@@ -81,8 +81,8 @@
                 <artifactId>antlr4-maven-plugin</artifactId>
                 <version>4.7</version>
                 <configuration>
-                    <sourceDirectory>src/parsetree/antlr4</sourceDirectory>
-                    <outputDirectory>src/parsetree/antlr4</outputDirectory>
+                    <sourceDirectory>src/test/resources/antlr4</sourceDirectory>
+                    <outputDirectory>src/test/java/parsetree/antlr4</outputDirectory>
                     <listener>true</listener>
                 </configuration>
                 <executions>
