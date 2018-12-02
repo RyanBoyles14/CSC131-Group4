@@ -11,7 +11,7 @@ public class Driver
     @Parameters(arity = "1", description = "URL to a git project")
     String gitProjectUrl;
 
-    @Option(names = { "-h", "--help" }, description = "print help information")
+    @Option(names = { "-h", "--help" }, usageHelp = true, description = "print help information")
     boolean printHelp = false;
 
     @Option(names = { "-c", "--coupling" }, description = "print coupling metric")
