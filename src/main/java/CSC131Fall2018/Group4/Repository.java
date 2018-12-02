@@ -8,7 +8,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 
-public class Repository {
+public class Repository implements AutoCloseable {
 
 	private File dir;
 	private Git git;
@@ -52,10 +52,12 @@ public class Repository {
 	public int getFileCount() {
 		return list.size();
 	}
-	
-	// deletes the cloned directory, should be used on exit since JGit will not overwrite
-	public void delete() {
-		delete(dir);
+
+	// deletes the directory of the cloned repository
+	@Override
+	public void close() throws Exception
+	{
+		this.delete(this.dir);
 	}
 	
 	// deletes a file directory
