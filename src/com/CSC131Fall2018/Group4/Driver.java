@@ -2,11 +2,12 @@ package com.CSC131Fall2018.Group4;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.concurrent.Callable;
 
 import picocli.CommandLine;
 import picocli.CommandLine.*;
 
-public class Driver
+public class Driver implements Callable<Void>
 {
     @Parameters(arity = "1", description = "URL to a git project")
     String gitProjectUrl;
@@ -31,25 +32,14 @@ public class Driver
 
     public static void main(String[] args)
     {
-        Driver app = new Driver();
-        CommandLine cmd = new CommandLine(app);
-        try
-        {
-            cmd.parse(args);
-            if (app.printHelp)
-            {
-                cmd.usage(System.out);
-                return;
-            }
-        }
-        catch (MissingParameterException e)
-        {
-            System.err.println("Missing url to repository.");
-            return;
-        }
+        CommandLine.call(new Driver(), args);
 
+        return;
+    }
 
-
+    @Override
+    public Void call() throws Exception
+    {
         try
         {
             Repository repo = new Repository(app.gitProjectUrl, Files.createTempDirectory(null).toString());
@@ -60,7 +50,7 @@ public class Driver
             System.err.println("Could not open repository " + app.gitProjectUrl + ": " + e.getMessage());
         }
 
-        return;
+        return null;
     }
 
 }
