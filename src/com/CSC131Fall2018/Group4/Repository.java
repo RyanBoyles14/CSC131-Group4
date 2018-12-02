@@ -35,6 +35,7 @@ public class Repository {
 	private void buildList(File directory) {
 		for (File f : directory.listFiles()) {
 			if (f.isDirectory()) {
+				if (!f.getName().equals(".git"))
 				buildList(f);
 			} else {
 				list.add(f);
