@@ -41,12 +41,12 @@ public class Driver implements Callable<Void>
     {
         try
         {
-            Repository repo = new Repository(app.gitProjectUrl, Files.createTempDirectory(null).toString());
+            Repository repo = new Repository(this.gitProjectUrl, Files.createTempDirectory(null).toString());
             System.out.println("Repository contains " + repo.getFileCount() + " files.");
         }
         catch (Exception e)
         {
-            System.err.println("Could not open repository " + app.gitProjectUrl + ": " + e.getMessage());
+            System.err.println("Could not open repository " + this.gitProjectUrl + ": " + e.getMessage());
         }
 
         return null;
