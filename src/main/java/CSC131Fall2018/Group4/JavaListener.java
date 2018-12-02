@@ -12,7 +12,7 @@
 
 */
 
-package com.CSC131Fall2018.Group4;
+package CSC131Fall2018.Group4;
 
 import com.CSC131Fall2018.Group4.antlr4.Java8BaseListener;
 import com.CSC131Fall2018.Group4.antlr4.Java8Parser;

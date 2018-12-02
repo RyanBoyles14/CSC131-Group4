@@ -11,7 +11,7 @@
 
 */
 
-package com.CSC131Fall2018.Group4;
+package CSC131Fall2018.Group4;
 
 import java.io.File;
 import java.util.ArrayList;

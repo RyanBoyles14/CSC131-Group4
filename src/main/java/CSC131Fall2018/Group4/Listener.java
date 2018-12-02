@@ -8,7 +8,7 @@
 
 */
 
-package com.CSC131Fall2018.Group4;
+package CSC131Fall2018.Group4;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

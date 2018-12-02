@@ -11,7 +11,7 @@
 
 */
 
-package com.CSC131Fall2018.Group4;
+package CSC131Fall2018.Group4;
 
 import com.CSC131Fall2018.Group4.antlr4.CPP14BaseListener;
 import com.CSC131Fall2018.Group4.antlr4.CPP14Parser;
