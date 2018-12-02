@@ -10,10 +10,10 @@ import org.eclipse.jgit.api.errors.TransportException;
 
 public class Repository {
 
-	File dir;
-	Git git;
-	ArrayList<File> list = new ArrayList<>();
-	AuthorStats authorStats;
+	private File dir;
+	private Git git;
+	private ArrayList<File> list = new ArrayList<>();
+	private AuthorStats authorStats;
 	
 	// constructor clones repository from GitHub URL to any local file path
 	public Repository(String url, String localPath)
