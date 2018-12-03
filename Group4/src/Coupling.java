@@ -1,8 +1,11 @@
+import java.io.StreamTokenizer;
 import java.util.*;
+
+import javax.tools.FileObject;
 
 public class Coupling {
 	ArrayList<FileObject> fileList;
-	ArrayList<String> classNames;
+	ArrayList<ClassStats> classes;
 	//data structure to hold all of the coupling
 	//information for a class
 	class ClassStats{
@@ -53,5 +56,55 @@ public class Coupling {
 		tokenizer.quoteChar(34);
 	}
 	//get the interaction coupling for a class
-	
+	public void getInteractionCoupling(ClassStats A) {
+		BufferedReader buffRead;
+		buffRead = new BufferedReader(new FileReader(fileList.get(A.index)));
+		StreamTokenizer st = new StreamTokenizer(buffRead);
+		setTokenizerSyntaxTable(st);
+		boolean classParsed = false;
+		boolean inClass = false;
+		boolean inSubClass = false;
+		int bracketNumber = 0;
+		int subClassBracketNumber = 0;
+		String tempString;
+		//evaluates whether the class has finished parsing
+		//or the end of file has been reached
+		while (!classParsed && !st.nextToken() == TT_EOF) {
+			//determines whether the class is the one we are
+			//looking for
+			if(st.sval.equals("class")){
+				st.nextToken();
+				if(st.sval.equals(A.classname)) {
+					inClass = true;
+					//parses until it finds an open bracket
+					while(!st.nextToken() == TT_EOF && !st.sval.equals("{")) {
+						
+					}
+				}
+				else if(st.sval.contentEquals("class") && inclass) {
+					inSubClass = true;
+					while(!st.nextToken() == TT_EOF && !st.sval.contentEquals("{")) {
+						
+					}
+				}
+			}
+			if(inClass && !inSubClass && st.sval.equals("{")) bracketNumber++;
+			if(inClass && !inSubClass && st.sval.equals("}")) bracketNumber--;
+			if(inSubClass && st.sval.equals("{")) subClassBracketNumber++;
+			if(inSubClass && st.sval.contentEquals("}")) subClassBracketNumber--;
+			tempString = st.sval;
+			st.nextToken();
+			//if we parse a scope operator,
+			//meaning we are at a method
+			if(st.sval.equals(".") && !tempString.equals("this")) {
+				
+			}
+			
+			if(bracketNumber == 0 && inClass) {
+				classParsed = true;
+			}
+			if(subClassBracketNumber == 0 && inSubClass) inSubClass = false;
+		}
+		
+	}
 }
