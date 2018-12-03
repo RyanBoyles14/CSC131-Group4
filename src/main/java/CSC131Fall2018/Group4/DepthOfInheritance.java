@@ -24,11 +24,23 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class DepthOfInheritance {
+public class DepthOfInheritance extends AbstractMetricsCalculator{
 
     private ArrayList<Class> classes = new ArrayList<>();
 
-    public DepthOfInheritance(ArrayList<File> files){
+    public DepthOfInheritance(Repository r) {
+        super(r);
+    }
+
+    @Override
+    protected void newCalculation(File f) {
+
+    }
+
+    @Override
+    protected void newCalculation(Repository r) {
+        ArrayList<File> files = r.getList();
+
         for(File f: files){
             String[] parts = f.toString().split("\\.");
             String extension = parts[parts.length - 1];

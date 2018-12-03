@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Group4</groupId>
-	<artifactId>Group4</artifactId>
+	<artifactId>Group4-test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
     <properties>
@@ -23,15 +23,15 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
-	<resources>
-		<resource>
-			<directory>src</directory>
-			<excludes>
-				<exclude>**/*.java</exclude>
-			</excludes>
-		</resource>
-	</resources>
+        <sourceDirectory>java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

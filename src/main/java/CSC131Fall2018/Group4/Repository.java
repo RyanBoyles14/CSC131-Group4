@@ -13,6 +13,7 @@ public class Repository implements AutoCloseable {
 	private File dir;
 	private Git git;
 	private ArrayList<File> list = new ArrayList<>();
+	private ArrayList<Class> classes = new ArrayList<>();
 	private AuthorStats authorStats;
 	
 	// constructor clones repository from GitHub URL to any local file path
