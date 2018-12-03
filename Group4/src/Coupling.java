@@ -3,6 +3,17 @@ import java.util.*;
 public class Coupling {
 	ArrayList<FileObject> fileList;
 	ArrayList<String> classNames;
+	//data structure to hold all of the coupling
+	//information for a class
+	class ClassStats{
+		String classname;
+		int index;
+		ArrayList<InteractionEntry> interactionCoupling;
+	}
+	//data type to represent an Interaction Coupling entry
+	class InteractionEntry{
+		
+	}
 	//constructor sets the files to be used for the metric
 	public Coupling(/*filearray*/) {
 		this.fileList = filearray;
@@ -35,4 +46,6 @@ public class Coupling {
 		//set quote delimiter
 		tokenizer.quoteChar(34);
 	}
+	//get the interaction coupling for a class
+	
 }
