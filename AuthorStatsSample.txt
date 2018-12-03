@@ -1,0 +1,113 @@
+natewhitfield (30535655+natewhitfield@users.noreply.github.com) : 1 commits since 2018-11-02 @ 8:36AM
+history:
+(2018-11-02 @ 8:36AM) Create Readme.md
+
+Ryan (ryanboyles@csus.edu) : 32 commits since 2018-11-02 @ 8:46AM
+history:
+(2018-11-02 @ 8:46AM) initial commit - Ryan
+(2018-11-04 @ 4:12PM) Including a Sprints folder for the previous Individual Project, as well as reformatted our Readme.md to be more like a design document
+(2018-11-04 @ 4:14PM) Including a Sprints folder for the previous Individual Project, as well as created a design document
+(2018-11-04 @ 4:15PM) Added Design document
+(2018-11-11 @ 4:52PM) Began testing for parsing java files for depth of inheritance through JavaParser. Considering switching to another parser like ANTLR to handle both Java and C++
+(2018-11-13 @ 2:54PM) Began learning and experimenting with ANTLR. Included grammar for Java8 and C++.
+(2018-11-14 @ 0:37PM) Initialized ANTLR testing by getting class declarations. Currently only allows for one Java file. Need to expand to include all project files of the same extension and C++ files.
+(2018-11-14 @ 0:39PM) Create listener to handle ANTLR traversal. Currently prints out the different classes separately. Need to implement inheritance
+(2018-11-15 @ 1:09PM) Relocated Parser/Lexer files into antlr4 package. Successfully implemented displaying inheritance of classes and interfaces.
+(2018-11-15 @ 3:27PM) Initialized Class object creation, including displaying depths of classes and creating pointers to a class' parent. Need to work on working with multiple files and implementing C++ extension files
+(2018-11-17 @ 3:16PM) Implemented finding C++ class inheritance. Need to incorporate picking the class with the most depth out of multiple inherited classes
+(2018-11-18 @ 3:56PM) Packaged test classes and added extension testing. Need to allow for running multiple files and fixing C++ inheritance tests
+(2018-11-18 @ 3:58PM) Packaged test classes and added extension testing. Need to allow for running multiple files and fixing C++ inheritance tests
+(2018-11-18 @ 6:48PM) Enabled finding inheritance of multiple files, refactored imports. Need to implement more accurate relationship between parent and child classes and incorporate better file checks
+(2018-11-19 @ 9:01PM) Merge branch 'master' of https://github.com/CSC131Fall2018/Group4
+(2018-11-20 @ 0:23PM) Created interface for parse tree listeners to use. Developing interface parsing within JavaListener
+(2018-11-20 @ 2:37PM) Refactored Class depth recursion and Listener methods.
+(2018-11-20 @ 3:36PM) Successfully enabled multiple file parsing and inheritance checks
+(2018-11-20 @ 3:47PM) Merge branch 'master' of https://github.com/CSC131Fall2018/Group4
+(2018-11-24 @ 2:55PM) Revising Designdocument to be more like an SRS document
+(2018-11-24 @ 3:20PM) Expanded on the SRS Introduction
+(2018-11-24 @ 3:30PM) Merge branch 'master' of https://github.com/CSC131Fall2018/Group4
+(2018-11-24 @ 3:51PM) Added table of contents, added to Overall Description
+(2018-11-26 @ 5:14PM) Refactored class storage and added file attribute for Class. Created test cases for name discrepencies
+(2018-11-26 @ 6:14PM) Implemented Java file checking when updating child-parent relationships. Need to add for C++ files.
+(2018-11-27 @ 2:35PM) Refactored to use one ArrayList instead of two.
+(2018-11-27 @ 3:18PM) Refactored walking the parse tree
+(2018-11-27 @ 6:53PM) Added links to Designdocument
+(2018-11-27 @ 8:10PM) Revised Designdocument styling
+(2018-11-29 @ 2:28PM) Changed file location for project java files and added packaging for running the jar far in cli. Added mainClass to pom file to make running the processed jar file easier. Added revised cli command and options to Readme1
+(2018-11-29 @ 2:33PM) Moved picocli to same directory as main files
+(2018-11-29 @ 4:35PM) Fixed merging conflict with picocli
+
+Johnny Au (johnnyau@csus.edu) : 26 commits since 2018-11-02 @ 8:46AM
+history:
+(2018-11-02 @ 8:46AM) test
+(2018-11-02 @ 8:49AM) test
+(2018-11-05 @ 0:22AM) egit test
+(2018-11-05 @ 1:15AM) file count metric counts all files in directory and subdirectories
+(2018-11-14 @ 9:20PM) clones github URL repository to a local directory, builds arraylist of files; currently can return the list, file count
+(2018-11-14 @ 10:05PM) update to pom.xml
+(2018-11-14 @ 10:36PM) Closes repo after building list in case of accidental changes; added function to delete local files since JGit will not overwrite a repository
+(2018-11-17 @ 10:34PM) Metric to gather list of authors and their contributions/commits; currently outputs "git log" to local file, need to parse
+(2018-11-19 @ 8:22PM) reversed output of .txt for easier parsing; field issues
+(2018-11-19 @ 8:23PM) Merge branch 'master' of https://github.com/CSC131Fall2018/Group4.git
+(2018-11-19 @ 9:14PM) Merge branch 'master' of https://github.com/CSC131Fall2018/Group4.git
+(2018-11-24 @ 8:15PM) Merge branch 'master' of https://github.com/CSC131Fall2018/Group4.git
+(2018-11-24 @ 8:28PM) comments, separate 'Author' class to store data
+(2018-11-24 @ 9:16PM) builds local .txt of commit messages to parse
+(2018-11-24 @ 9:38PM) added functions for Author class
+(2018-11-24 @ 10:27PM) builds list of Author objects
+(2018-11-24 @ 10:32PM) comments and field update
+(2018-11-28 @ 11:10PM) fixed issue with building author objects
+(2018-11-28 @ 11:15PM) removed test code, unused imports
+(2018-11-28 @ 11:34PM) comments/field update, new fields to help parse
+(2018-11-29 @ 0:02AM) reformatting toString in Author
+(2018-11-29 @ 0:22AM) fixed bug with building local .txt
+(2018-11-29 @ 0:52AM) commit history added to each Author object
+(2018-11-30 @ 2:11AM) field update to map date to message
+(2018-11-30 @ 2:16AM) <date, message> pair added to each author object
+(2018-11-30 @ 2:25AM) dates converted to numerical form, military time to AM/PM
+
+nathan (nathanwhitfield2014@gmail.com) : 2 commits since 2018-11-02 @ 8:50AM
+history:
+(2018-11-02 @ 8:50AM) Nathan Whitfield Readme.md commit
+(2018-11-02 @ 8:52AM) nathan whitfield commit
+
+kyleYzn (44690432+kyleYzn@users.noreply.github.com) : 11 commits since 2018-11-04 @ 10:37AM
+ history:
+ (2018-11-04 @ 10:37AM) Update Readme.md
+ (2018-11-04 @ 11:00AM) Update Readme.md
+ (2018-11-15 @ 4:16PM) test on determine time complexity of the methods(unfinished)
+ (2018-11-15 @ 4:47PM) Delete Complex.java
+ (2018-11-20 @ 3:25PM) for testing the code
+ (2018-11-21 @ 5:21PM) Delete timecomplextest.iml
+ (2018-11-21 @ 7:49PM) add test
+ (2018-11-21 @ 9:24PM) Delete timecomplextest.iml
+
+kyle (kyle1218yang@gmail.com) : 8 commits since 2018-11-04 @ 11:50AM
+history:
+(2018-11-04 @ 11:50AM) edit readme
+(2018-11-04 @ 11:52AM) edit readme
+(2018-11-15 @ 4:29PM) create list to store thr method lines
+(2018-11-15 @ 4:37PM) store all the method header into the list
+(2018-11-21 @ 9:41PM) maven&antlr test
+(2018-11-21 @ 11:12PM) using maven generate anltr
+(2018-11-21 @ 11:25PM) moved listen files into src java
+(2018-11-21 @ 11:31PM) delete test because the project isn't set up right
+
+johnny-au (42844528+johnny-au@users.noreply.github.com) : 3 commits since 2018-11-14 @ 10:41PM
+history:
+(2018-11-14 @ 10:41PM) Delete FileCount.java
+(2018-11-29 @ 9:17AM) Rename Readme.md to Readme1.md
+(2018-11-29 @ 9:18AM) Rename Designdocument.md to Readme.md
+
+--global (hangrytommytran@gmail.com) : 1 commits since 2018-11-25 @ 2:58PM
+history:
+(2018-11-25 @ 2:58PM) Add Picocli 3.8.0
+
+hangrytommy (hangrytommytran@gmail.com) : 5 commits since 2018-11-25 @ 3:14PM
+history:
+(2018-11-25 @ 3:14PM) Add Driver class and implement help option
+(2018-11-25 @ 4:16PM) Add parameter to receive the url to a repository and attempt to open the repository
+(2018-11-25 @ 4:34PM) Add project usage and author information to readme
+(2018-11-25 @ 9:46PM) Rename `githubProjectPath` variable to `gitProjectUrl`
+(2018-11-25 @ 9:52PM) Add Picocli options for various types of metrics
+
