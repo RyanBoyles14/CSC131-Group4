@@ -12,7 +12,13 @@ public class Coupling {
 	}
 	//data type to represent an Interaction Coupling entry
 	class InteractionEntry{
-		
+		String targetClassname;
+		String value;
+		//Constructor to assign values to data type fields
+		public Interaction Entry(String name, String value) {
+			this.targetClassname = name;
+			this.value = value;
+		}
 	}
 	//constructor sets the files to be used for the metric
 	public Coupling(/*filearray*/) {
