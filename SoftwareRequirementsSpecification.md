@@ -80,6 +80,7 @@
 
 <a name="ref"></a>
 #### 1.4. References
+###### Picocli: <https://picocli.info>:         Used to parse cli arguments
 ###### Maven: <https://maven.apache.org>:       Used to create the .jar file to run the software in CLI. It compiles the require external libraries and packages them with our developed classes.
 ###### JGit: <https://www.eclipse.org/jgit>:    Used to clone a repository from Git. This allows us to clone all files using a Git url and calculate metrics on the files in the repository.
 ###### ANTLR: <https://antlr.org>:              Used to generate Java files based on Java and C++ grammar. Used to build a parse tree for interpreting Java and C++ files.
@@ -113,7 +114,7 @@
 
 <a name="userChar"></a>
 #### 2.3. User Characteristics
-###### To be completed
+###### The users expected to use the software are those knowledgeable of GitHub. As such, they are required to provide a valid GitHub URL for the software to run.
 
 <a name="genConstr"></a>
 #### 2.4. General Constraints

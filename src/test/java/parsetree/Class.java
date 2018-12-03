@@ -21,6 +21,7 @@ public class Class{
 
     public void setParent(String parent){
         String[] parts = parent.split("\\.");
+        // In the case where the parent name contains its package directory, get just the parent name
         if(parts.length > 0)
             parent = parts[parts.length - 1];
         this.parentNames.add(parent);

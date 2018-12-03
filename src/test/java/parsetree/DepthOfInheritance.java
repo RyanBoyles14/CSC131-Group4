@@ -106,6 +106,7 @@ public class DepthOfInheritance {
                 continue;
 
             ArrayList<String> parent = child.getParent();
+
             // Check if a child's parent already has a Class
             // Used for linking depth among classes
             for (Class cl : classes) {
@@ -121,6 +122,7 @@ public class DepthOfInheritance {
         }
     }
 
+    //Ensure the child can access the potential parent by making sure they're within the same directory
     boolean fileCheck(Class parent, Class child){
         String childFile = child.getFile().toString();
         String parentFile = parent.getFile().toString();

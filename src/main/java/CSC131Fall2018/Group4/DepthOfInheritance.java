@@ -126,7 +126,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator{
         }
     }
 
-    // Avoid conflicts from classes with similar names
+    //Ensure the child can access the potential parent by making sure they're within the same directory
     boolean fileCheck(Class parent, Class child){
         String childFile = child.getFile().toString();
         String parentFile = parent.getFile().toString();
