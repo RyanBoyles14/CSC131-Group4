@@ -67,6 +67,7 @@ public class Coupling {
 		int bracketNumber = 0;
 		int subClassBracketNumber = 0;
 		String tempString;
+		String methodName;
 		//evaluates whether the class has finished parsing
 		//or the end of file has been reached
 		while (!classParsed && !st.nextToken() == TT_EOF) {
@@ -81,9 +82,9 @@ public class Coupling {
 						
 					}
 				}
-				else if(st.sval.contentEquals("class") && inclass) {
+				else if(inclass) {
 					inSubClass = true;
-					while(!st.nextToken() == TT_EOF && !st.sval.contentEquals("{")) {
+					while(!st.nextToken() == TT_EOF && !st.sval.equals("{")) {
 						
 					}
 				}
@@ -95,13 +96,17 @@ public class Coupling {
 			tempString = st.sval;
 			st.nextToken();
 			//if we parse a scope operator,
-			//meaning we are at a method
-			if(st.sval.equals(".") && !tempString.equals("this")) {
-				
+			//meaning we are at a method in our target class
+			if(!inSubClass && inClass && st.sval.equals(".") && !tempString.equals("this")) {
+				st.nextToken();
+				methodName = st.sval;
+				st.nextToken();
+				if(st.sval.contains('(')) A.interactionCoupling.add(new InteractionEntry(tempString, methodName + "()")); 
 			}
 			
 			if(bracketNumber == 0 && inClass) {
 				classParsed = true;
+				inClass = false;
 			}
 			if(subClassBracketNumber == 0 && inSubClass) inSubClass = false;
 		}
