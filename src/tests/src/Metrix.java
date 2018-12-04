@@ -22,20 +22,20 @@ public class Metrix {
         //st.whitespaceChars(97,99);
 
         st.parseNumbers();
-        st.whitespaceChars(32,96);
-        st.whitespaceChars(124,124);
-        st.whitespaceChars(126,126);
-        st.whitespaceChars(127,127);
+        st.whitespaceChars(32, 96);
+        st.whitespaceChars(124, 124);
+        st.whitespaceChars(126, 126);
+        st.whitespaceChars(127, 127);
         //st.wordChars(33,62);
         st.wordChars(123, 123);
-        st.wordChars(125,125);
-        st.whitespaceChars(97,100);
-        st.whitespaceChars(103,103);
-        st.whitespaceChars(106,107);
-        st.whitespaceChars(109,110);
-        st.whitespaceChars(112,113);
-        st.whitespaceChars(115,118);
-        st.whitespaceChars(120,122);
+        st.wordChars(125, 125);
+        st.whitespaceChars(97, 100);
+        st.whitespaceChars(103, 103);
+        st.whitespaceChars(106, 107);
+        st.whitespaceChars(109, 110);
+        st.whitespaceChars(112, 113);
+        st.whitespaceChars(115, 118);
+        st.whitespaceChars(120, 122);
         //st.wordChars(40,43);
 
         //st.wordChars(34,34);
@@ -55,15 +55,15 @@ public class Metrix {
             }
 
         }
-        for(int i = 0; i < ls.size(); i++){
+        for (int i = 0; i < ls.size(); i++) {
             s = ls.get(i);
-            if(s.equals("while")) {
+            if (s.equals("while")) {
                 ls2.add(s);
-            } else if(s.equals("for")) {
+            } else if (s.equals("for")) {
                 ls2.add(s);
-            } else if(s.equals("{")) {
+            } else if (s.equals("{")) {
                 ls2.add(s);
-            } else if(s.equals("}")) {
+            } else if (s.equals("}")) {
                 ls2.add(s);
             }
 
@@ -71,27 +71,24 @@ public class Metrix {
         System.out.println(ls2);
         ListIterator<String> it = ls2.listIterator();
         int ind = ls2.indexOf("while") - ls2.indexOf("for");
-        if(ind < 0) {
-            while(it.hasNext()) {
-                if(it.next().equals("while")) {
-                    System.out.println(it.nextIndex());
-
-                }
+        int firIndex = 0;
+        if (ind < 0) {
+            firIndex = ls2.indexOf("for");
+        } else {
+            firIndex = ls2.indexOf("while");
+        }
+        String g;
+        while (it.hasNext()) {
+            g = it.next();
+            if (g.equals("while") || g.equals("for")) {
+                System.out.println(it.previousIndex());
             }
+
         }
 
 
-
-
-
-
-
-
-
-
-
-
         //System.out.println(ls);
+
     }
 }
 
