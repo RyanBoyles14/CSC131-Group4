@@ -39,7 +39,7 @@ public class Driver implements Callable<Void>
     @Override
     public Void call() throws Exception
     {
-        try (Repository repo = new Repository(this.gitProjectUrl, Files.createTempDirectory(null).toString()))
+        try (Repository repo = new Repository(this.gitProjectUrl))
         {
             System.out.println("Repository contains " + repo.getFileCount() + " files.");
         }

@@ -2,6 +2,7 @@ package CSC131Fall2018.Group4;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -10,21 +11,18 @@ import org.eclipse.jgit.api.errors.TransportException;
 
 public class Repository implements AutoCloseable {
 
-	private File dir;
 	private Git git;
 	private ArrayList<File> list = new ArrayList<>();
 	private ArrayList<Class> classes = new ArrayList<>();
 	private AuthorStats authorStats;
 	
-	// constructor clones repository from GitHub URL to any local file path
-	public Repository(String url, String localPath)
-			throws InvalidRemoteException, TransportException, GitAPIException, IOException {
-
-		this.dir = new File(localPath);
-		this.git = Git.cloneRepository().setURI(url).setDirectory(dir).call();
-		buildList(dir);
+	// constructor clones repository from GitHub URL to a temporary directory
+	public Repository(String url)
+			throws InvalidRemoteException, TransportException, GitAPIException, IOException
+	{
+		this.git = Git.cloneRepository().setURI(url).setDirectory(Files.createTempDirectory(null).toFile()).call();
+		this.buildList();
 		this.authorStats = new AuthorStats(git);
-		this.git.getRepository().close();
 	}
 	
 	// returns AuthorStats object for the repo
@@ -33,8 +31,9 @@ public class Repository implements AutoCloseable {
 	}
 	
 	// builds ArrayList of files in the repository
-	private void buildList(File directory) {
-		for (File f : directory.listFiles()) {
+	private void buildList()
+	{
+		for (File f : this.git.getRepository().getWorkTree().listFiles()) {
 			if (f.isDirectory()) {
 				if (!f.getName().equals(".git"))
 				buildList(f);
@@ -43,7 +42,20 @@ public class Repository implements AutoCloseable {
 			}
 		}
 	}
-	
+
+	// builds ArrayList of files in given directory
+	private void buildList(File directory)
+	{
+		for (File f : directory.listFiles()) {
+			if (f.isDirectory()) {
+				if (!f.getName().equals(".git"))
+					buildList(f);
+			} else {
+				list.add(f);
+			}
+		}
+	}
+
 	// return list of files
 	public ArrayList<File> getList() {
 		return list;
@@ -58,20 +70,23 @@ public class Repository implements AutoCloseable {
 	@Override
 	public void close() throws Exception
 	{
-		this.delete(this.dir);
+		File repositoryDirectory = this.git.getRepository().getWorkTree();
+		this.git.getRepository().close();
+		this.deleteDirectory(repositoryDirectory);
 	}
 	
 	// deletes a file directory
-	private void delete(File directory) {
+	private void deleteDirectory(File directory)
+	{
 		for (File f : directory.listFiles()) {
 			if (f.isDirectory()) {
-				delete(f);
+				deleteDirectory(f);
 				f.delete();
 			} else {
 				f.delete();
 			}
 		}
-		dir.delete();
+		directory.delete();
 	}
 
 }
