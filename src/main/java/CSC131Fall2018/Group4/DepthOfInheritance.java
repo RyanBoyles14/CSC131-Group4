@@ -34,7 +34,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator{
 
     @Override
     protected void newCalculation(File f) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
