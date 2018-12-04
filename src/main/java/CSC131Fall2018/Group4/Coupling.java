@@ -74,7 +74,7 @@ public class Coupling {
 		String methodName;
 		//evaluates whether the class has finished parsing
 		//or the end of file has been reached
-		while (!classParsed && !st.nextToken() == TT_EOF) {
+		while (!classParsed && !st.nextToken() == st.TT_EOF) {
 			//determines whether the class is the one we are
 			//looking for
 			if(st.sval.equals("class")){
@@ -82,13 +82,13 @@ public class Coupling {
 				if(st.sval.equals(A.classname)) {
 					inClass = true;
 					//parses until it finds an open bracket
-					while(!st.nextToken() == TT_EOF && !st.sval.equals("{")) {
+					while(!st.nextToken() == st.TT_EOF && !st.sval.equals("{")) {
 						
 					}
 				}
 				else if(inclass) {
 					inSubClass = true;
-					while(!st.nextToken() == TT_EOF && !st.sval.equals("{")) {
+					while(!st.nextToken() == st.TT_EOF && !st.sval.equals("{")) {
 						
 					}
 				}
