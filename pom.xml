@@ -121,7 +121,7 @@
 			<plugin>
 				<groupId>org.antlr</groupId>
 				<artifactId>antlr4-maven-plugin</artifactId>
-				<version>4.7</version>
+				<version>4.7.1</version>
 				<configuration>
 					<sourceDirectory>src/main/resources/antlr4</sourceDirectory>
 					<outputDirectory>src/main/java/CSC131Fall2018/Group4/antlr4</outputDirectory>
