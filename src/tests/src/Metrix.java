@@ -1,11 +1,13 @@
 import java.io.StreamTokenizer;
 import java.io.*;
-import java.util.ArrayList;
-
-import java.util.List;
+import java.util.*;
 
 public class Metrix {
     public static void main(String[] args) throws IOException {
+
+        String s;
+
+
         List<String> ls = new ArrayList<>();
         List<String> ls1 = new ArrayList<>();
         List<String> ls2 = new ArrayList<>();
@@ -53,13 +55,18 @@ public class Metrix {
             }
 
         }
-        for(int i = 0; i < ls1.size(); i++) {
-            for(int j = 0; j < ls.size(); j++) {
-                if(ls1.get(i).equals(ls.get(j))){
-                    ls2.add(ls.get(j));
-                }
-
+        for(int i = 0; i < ls.size(); i++){
+            s = ls.get(i);
+            if(s.equals("while")) {
+                ls2.add(s);
+            } else if(s.equals("for")) {
+                ls2.add(s);
+            } else if(s.equals("{")) {
+                ls2.add(s);
+            } else if(s.equals("}")) {
+                ls2.add(s);
             }
+
         }
         System.out.println(ls2);
 
