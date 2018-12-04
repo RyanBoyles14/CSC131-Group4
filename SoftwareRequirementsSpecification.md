@@ -17,42 +17,30 @@
 
 ##### Table Of Contents
 
-1.0     [Introduction](#intro)
-
-1.1.    [Purpose](#purpose)
-
-1.2.    [Scope](#scope)
-
-1.3.    [Definitions](#def)
-
-1.4.    [References](#ref)
-
+1.0     [Introduction](#intro)<br>
+1.1.    [Purpose](#purpose)<br>
+1.2.    [Scope](#scope)<br>
+1.3.    [Definitions](#def)<br>
+1.4.    [References](#ref)<br>
 1.5.    [Overview](#overview)
 
-2.0     [Overall Description](#desc)
-
-2.1.    [Product Perspective](#perspective)
-
-2.2.    [Product Functions](#functions)
-
-2.3.    [User Characteristics](#userChar)
-
-2.4.    [General Constraints](#genConstr)
-
+2.0     [Overall Description](#desc)<br>
+2.1.    [Product Perspective](#perspective)<br>
+2.2.    [Product Functions](#functions)<br>
+2.3.    [User Characteristics](#userChar)<br>
+2.4.    [General Constraints](#genConstr)<br>
 2.5.    [Assumptions and Dependencies](#assumptions)
 
-3.0     [Detailed Requirements](#detailedReq)
-
-3.1.    [External Interface Requirements](#intReq)
-
-3.2.    [Functional Requirements](#funcReq)
-
-3.3.    [Performance Requirements](#perfReq)
-
-3.4.    [Design Constraints](#designConstr)
-
-3.5.    [Attributes](#attributes)
-
+3.0     [Detailed Requirements](#detailedReq)<br>
+3.1   [External Interface Requirements](#intReq)<br>
+ 3.1.1   [User Interface](#userInt)<br>
+ 3.1.2   [Hardware Interface](#hardwarInt)<br>
+ 3.1.3   [Software Interface](#softwareInt)<br>
+ 3.1.4   [Communication Interface](#commInt)<br>
+3.2.    [Functional Requirements](#funcReq)<br>
+3.3.    [Performance Requirements](#perfReq)<br>
+3.4.    [Design Constraints](#designConstr)<br>
+3.5.    [Attributes](#attributes)<br>
 3.6.    [Other Requirements](#otherReq)
 
 <a name="intro"></a>
@@ -134,11 +122,29 @@
 
 <a name="detailedReq"></a>
 ### 3.0 Detailed  Requirements
+###### To be completed
 ---
 
 <a name="intReq"></a>
 #### 3.1 External Interface Requirements
 ###### To be completed
+
+<a name="userInt"></a>
+#### 3.1.1 User Interface
+###### The user interacts with this software through running a .jar file on a command line. When running the command, the user has the option of choosing specific metrics to return.
+
+<a name="hardwareInt"></a>
+#### 3.1.2 Hardware Interface
+###### The software will save metrics results to .txt files within the Group4 repository for the user to view. The software also temporarily clones and stores Git repository files locally to run metrics on.
+
+<a name="softwareInt"></a>
+#### 3.1.3 Software Interface
+###### The software works with Picocli, JGit, Maven, and ANTLR
+(add version numbers)
+
+<a name="commInt"></a>
+#### 3.1.4 Communication Interface
+###### The software communicates with Maven to package external libraries with our developed code into a .jar file. The software also requires a GitHub URL to clone Git repositories.
 
 <a name="funcReq"></a>
 #### 3.2. Functional Requirements
