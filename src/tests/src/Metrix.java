@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Metrix {
     public static void main(String[] args) throws IOException {
+        int index = 0;
 
         String s;
 
@@ -82,6 +83,9 @@ public class Metrix {
             g = it.next();
             if (g.equals("while") || g.equals("for")) {
                 System.out.println(it.previousIndex());
+                index = it.previousIndex();
+
+                System.out.println(ls2.get(index + 1));
             }
 
         }
