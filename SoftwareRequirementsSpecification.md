@@ -45,6 +45,14 @@
 
 3.1.    [External Interface Requirements](#intReq)
 
+3.1.1   [User Interface](#userInt)
+
+3.1.2   [Hardware Interface](#hardwarInt)
+
+3.1.3   [Software Interface](#softwareInt)
+
+3.1.4   [Communication Interface](#commInt)
+
 3.2.    [Functional Requirements](#funcReq)
 
 3.3.    [Performance Requirements](#perfReq)
@@ -134,10 +142,27 @@
 
 <a name="detailedReq"></a>
 ### 3.0 Detailed  Requirements
+###### To be completed
 ---
 
 <a name="intReq"></a>
 #### 3.1 External Interface Requirements
+###### To be completed
+
+<a name="userInt"></a>
+#### 3.1.1 User Interface
+###### To be completed
+
+<a name="hardwareInt"></a>
+#### 3.1.2 Hardware Interface
+###### To be completed
+
+<a name="softwareInt"></a>
+#### 3.1.3 Software Interface
+###### To be completed
+
+<a name="commInt"></a>
+#### 3.1.4 Communication Interface
 ###### To be completed
 
 <a name="funcReq"></a>
