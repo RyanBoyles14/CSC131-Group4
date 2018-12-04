@@ -69,6 +69,18 @@ public class Metrix {
 
         }
         System.out.println(ls2);
+        ListIterator<String> it = ls2.listIterator();
+        int ind = ls2.indexOf("while") - ls2.indexOf("for");
+        if(ind < 0) {
+            while(it.hasNext()) {
+                if(it.next().equals("while")) {
+                    System.out.println(it.nextIndex());
+
+                }
+            }
+        }
+
+
 
 
 
