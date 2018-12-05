@@ -157,22 +157,22 @@
 | -----------------     | --------------                            |
 | Primary Actor         | User                                      |
 | Actor's Goal          | Receive metrics on a Git repository       |
-| Brief Discription     | Return metrics based on the User's input  |
+| Brief Description     | Return metrics based on the User's input  |
 | Scope                 | Driver                                    |
 | Precondition          | User installed the software files         |
 | Main Success Condition| Receives txt files of metrics             |
 | Trigger               | User runs the software on cli             |
 
-`Driver pulls files using a GitHub URL
+`Driver pulls files using a GitHub URL`
 
 | Use Case 2 (UC-2)     | User Interface                            |
 | -----------------     | --------------                            |
-| Primary Actor         |                                           |
-| Actor's Goal          |                                           |
-| Brief Discription     |                                           |
-| Scope                 |                                           |
-| Precondition          |                                           |
-| Main Success Condition|                                           |
+| Primary Actor         | Driver                                    |
+| Actor's Goal          | Clone files from Git repository           |
+| Brief Description     | Use a User's GitHub Url to clone a Git repository |
+| Scope                 | Driver, JGit                              |
+| Precondition          | User passed in URL                        |
+| Main Success Condition| Driver finds a repository on GitHub and successfully clones it |
 | Trigger               |                                           |
 
 `Driver requests author stats for a repository`
@@ -181,7 +181,7 @@
 | -----------------     | --------------                            |
 | Primary Actor         |                                           |
 | Actor's Goal          |                                           |
-| Brief Discription     |                                           |
+| Brief Description     |                                           |
 | Scope                 |                                           |
 | Precondition          |                                           |
 | Main Success Condition|                                           |
@@ -193,7 +193,7 @@
 | -----------------     | --------------                            |
 | Primary Actor         |                                           |
 | Actor's Goal          |                                           |
-| Brief Discription     |                                           |
+| Brief Description     |                                           |
 | Scope                 |                                           |
 | Precondition          |                                           |
 | Main Success Condition|                                           |
@@ -205,7 +205,7 @@
 | -----------------     | --------------                            |
 | Primary Actor         |                                           |
 | Actor's Goal          |                                           |
-| Brief Discription     |                                           |
+| Brief Description     |                                           |
 | Scope                 |                                           |
 | Precondition          |                                           |
 | Main Success Condition|                                           |
@@ -217,7 +217,7 @@
 | -----------------     | --------------                            |
 | Primary Actor         |                                           |
 | Actor's Goal          |                                           |
-| Brief Discription     |                                           |
+| Brief Description     |                                           |
 | Scope                 |                                           |
 | Precondition          |                                           |
 | Main Success Condition|                                           |
