@@ -39,7 +39,8 @@ public class AuthorStats {
 		parseID();
 		parseMsg();
 	}
-
+	
+	// returns total commits in the repository
 	public int getTotalCommits() {
 		return totalCommits;
 	}
@@ -148,16 +149,25 @@ class Author {
 	private int numCommits, total;
 	private double percentage;
 	LinkedHashMap<String, String> commitMessages;
-	String initDate;
+	String initDate, endDate;
 
 	public Author(String name, String email, int totalCommits) {
 		this.name = name;
 		this.email = email;
+		this.initDate = "null";
+		this.endDate = "null";
 		this.numCommits = 0;
 		this.total = totalCommits;
 		this.commitMessages = new LinkedHashMap<>();
 	}
-	
+	// returns date of last commit
+	public String getEndDate() {
+		return endDate;
+	}
+	// returns date of first commit
+	public String getInitialDate() {
+		return initDate;
+	}
 	// returns author name
 	public String getName() {
 		return name;
@@ -188,6 +198,7 @@ class Author {
 			initDate = date;
 		}
 		commitMessages.put(date, msg);
+		endDate = date;
 		numCommits++;
 	}
 
