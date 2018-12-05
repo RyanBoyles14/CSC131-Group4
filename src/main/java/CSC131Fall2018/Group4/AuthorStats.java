@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -146,9 +149,10 @@ public class AuthorStats {
 // class to store each authors name and commit history
 class Author {
 
-	private String name, email, frequency;
-	private int numCommits, total;
+	private String name, email;
+	private int numCommits, total, frequency;
 	private double percentage, days;
+	Period diff;
 	LinkedHashMap<String, String> commitMessages;
 	String initDate, endDate, initText, endText;
 
@@ -167,9 +171,17 @@ class Author {
 		Date initial = new Date(initText);
 		Date end = new Date(endText);
 		days = TimeUnit.DAYS.convert(end.getTime() - initial.getTime(), TimeUnit.MILLISECONDS);
+		LocalDate i = initial.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate e = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		diff = Period.between(i, e);
+		if (diff.getMonths() == 0) {
+			frequency = numCommits;
+		} else {
+			frequency = numCommits / diff.getMonths();
+		}
 	}
 	
-	// returns days between first and last commit, or "age" of the author in the repository
+	// returns days between first and last commit
 	public String getAge() {
 		int temp = (int) days;
 		if (days < 1)
@@ -195,9 +207,12 @@ class Author {
 	public String getEmail() {
 		return email;
 	}
-	// returns frequency of commits
+	// returns frequency of commits per month
 	public String getFrequency() {
-		return frequency;
+		if (frequency == 1)
+			return frequency + " commit per month";
+			
+		return frequency + " commits per month";
 	}
 	// returns number of commits for the author
 	public int getNumCommits() {
@@ -243,7 +258,7 @@ class Author {
 	@SuppressWarnings("deprecation")
 	private String convert(String date) {
 		Date day = new Date(date);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd '@' K:mma");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(day);
 	}
 
