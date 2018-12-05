@@ -153,22 +153,75 @@
 
 `User requests metrics and options to the software`
 
-| Use Case 1 (UC-1)     | User Interface |
-| -----------------     |:--------------:|
-| Requirements          |                |
-| Primary Actor         |                |
-| Actor's Goal          |                |
-| Scope                 |                |
-| Precondition          |                |
-| Main Success Condition|                |
+| Use Case 1 (UC-1)     | User Interface                            |
+| -----------------     | --------------                            |
+| Primary Actor         | User                                      |
+| Actor's Goal          | Receive metrics on a Git repository       |
+| Brief Discription     | Return metrics based on the User's input  |
+| Scope                 | Driver                                    |
+| Precondition          | User installed the software files         |
+| Main Success Condition| Receives txt files of metrics             |
+| Trigger               | User runs the software on cli             |
 
+`Driver pulls files using a GitHub URL
 
-Clone repository from GitHub
-Get Author stats
-Get DepthOfInheritance
-Get Class Cohesion
-Get Time Complexity
+| Use Case 2 (UC-2)     | User Interface                            |
+| -----------------     | --------------                            |
+| Primary Actor         |                                           |
+| Actor's Goal          |                                           |
+| Brief Discription     |                                           |
+| Scope                 |                                           |
+| Precondition          |                                           |
+| Main Success Condition|                                           |
+| Trigger               |                                           |
 
+`Driver requests author stats for a repository`
+
+| Use Case 3 (UC-3)     | User Interface                            |
+| -----------------     | --------------                            |
+| Primary Actor         |                                           |
+| Actor's Goal          |                                           |
+| Brief Discription     |                                           |
+| Scope                 |                                           |
+| Precondition          |                                           |
+| Main Success Condition|                                           |
+| Trigger               |                                           |
+
+`Driver requests the inheritance depth of a list of files`
+
+| Use Case 4 (UC-4)     | User Interface                            |
+| -----------------     | --------------                            |
+| Primary Actor         |                                           |
+| Actor's Goal          |                                           |
+| Brief Discription     |                                           |
+| Scope                 |                                           |
+| Precondition          |                                           |
+| Main Success Condition|                                           |
+| Trigger               |                                           |
+
+`Driver requests the class couping of a list of files`
+
+| Use Case 5 (UC-5)     | User Interface                            |
+| -----------------     | --------------                            |
+| Primary Actor         |                                           |
+| Actor's Goal          |                                           |
+| Brief Discription     |                                           |
+| Scope                 |                                           |
+| Precondition          |                                           |
+| Main Success Condition|                                           |
+| Trigger               |                                           |
+
+`Driver requests the time complexity of a list of files`
+
+| Use Case 2 (UC-6)     | User Interface                            |
+| -----------------     | --------------                            |
+| Primary Actor         |                                           |
+| Actor's Goal          |                                           |
+| Brief Discription     |                                           |
+| Scope                 |                                           |
+| Precondition          |                                           |
+| Main Success Condition|                                           |
+| Trigger               |                                           |
 
 <a name="perfReq"></a>
 #### 3.3. Performance Requirements
