@@ -1,4 +1,4 @@
-package CSC131Fall2018.Group4;
+package main.java.CSC131Fall2018.Group4;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,6 +29,7 @@ public class AuthorStats {
 	ArrayList<String> namesList = new ArrayList<>();
 	LinkedHashMap<String, String> idList = new LinkedHashMap<>();
 	String s, name, email, message, date;
+	int totalCommits = 0;
 
 	// builds a list of Author objects from the Git repository
 	public AuthorStats(Git gitObject) throws NoHeadException, GitAPIException, IOException {
@@ -37,6 +38,10 @@ public class AuthorStats {
 		buildLogs();
 		parseID();
 		parseMsg();
+	}
+	
+	public int getTotalCommits() {
+		return totalCommits;
 	}
 	
 	// returns toString of all authors and commit history
@@ -74,10 +79,11 @@ public class AuthorStats {
 		sc.close();
 	}
 
-	// parse "idLog.txt" to create Author objects
+	// parse "idLog.txt" to create Author objects, calculates total commits
 	private void parseID() throws FileNotFoundException {
 		Scanner sc = new Scanner(new File("idLog.txt"));
 		while (sc.hasNextLine()) {
+			totalCommits++;
 			s = sc.nextLine();
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
 			namesList.add(name);
