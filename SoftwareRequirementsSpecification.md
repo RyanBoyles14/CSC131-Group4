@@ -122,12 +122,12 @@
 
 <a name="detailedReq"></a>
 ### 3.0 Detailed  Requirements
-###### To be completed
+###### This section of the SRS details the requirements necessary for the software to function and what is expected of the different use cases
 ---
 
 <a name="intReq"></a>
 #### 3.1 External Interface Requirements
-###### To be completed
+###### The external interfact requirements in this section specify the interface of the software in regards to users, other software, and hardware.
 
 <a name="userInt"></a>
 #### 3.1.1 User Interface
@@ -148,11 +148,19 @@
 
 <a name="funcReq"></a>
 #### 3.2. Functional Requirements
-###### To be completed
+###### This section of the SRS specifies the functional requirements of the software in terms of use cases and their behavior with the software.
+Use cases require: request from actor to system, reply to request. Actor's point of view. Focus on interaction, not internal activities.
+User requests metrics and options to the software
+Clone repository from GitHub
+Get Author stats
+Get DepthOfInheritance
+Get Class Cohesion
+Get Time Complexity
+
 
 <a name="perfReq"></a>
 #### 3.3. Performance Requirements
-###### To be completed
+###### This section specifies the performance requirements of the system. These requirements can be either static or dynamic. Any factor that constrains or limits the system design is listed.
 
 <a name="designConstr"></a>
 #### 3.4. Design Constraints
