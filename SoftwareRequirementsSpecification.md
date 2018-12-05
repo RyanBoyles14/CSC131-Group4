@@ -149,8 +149,20 @@
 <a name="funcReq"></a>
 #### 3.2. Functional Requirements
 ###### This section of the SRS specifies the functional requirements of the software in terms of use cases and their behavior with the software.
-Use cases require: request from actor to system, reply to request. Actor's point of view. Focus on interaction, not internal activities.
-User requests metrics and options to the software
+(Use cases require: request from actor to system, reply to request. Actor's point of view. Focus on interaction, not internal activities.)
+
+`User requests metrics and options to the software`
+
+| Use Case 1 (UC-1)     | User Interface |
+| -----------------     |:--------------:|
+| Requirements          |                |
+| Primary Actor         |                |
+| Actor's Goal          |                |
+| Scope                 |                |
+| Precondition          |                |
+| Main Success Condition|                |
+
+
 Clone repository from GitHub
 Get Author stats
 Get DepthOfInheritance
@@ -164,12 +176,12 @@ Get Time Complexity
 
 <a name="designConstr"></a>
 #### 3.4. Design Constraints
-###### To be completed
+###### This section specifies all the constraints affecting the design, including security, fault tolerance, and standard compliance.
 
 <a name="attributes"></a>
 #### 3.5. Attributes
-###### To be completed
+###### This section specifies the overall attributes the system should have.
 
 <a name="otherReq"></a>
 #### 3.6. Other Requirements
-###### To be completed
+###### This sections specifies all requirements not listed in the previous sections.
