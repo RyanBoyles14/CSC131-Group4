@@ -72,7 +72,7 @@ public class AuthorStats {
 			date = convert(date);
 			message = sc.nextLine();
 			for (Author a : authors) {
-				if (a.name.equals(name)) {
+				if (a.getName().equals(name)) {
 					a.add(date, message);
 				}
 			}
@@ -144,7 +144,7 @@ public class AuthorStats {
 // class to store each authors name and commit history
 class Author {
 
-	String name, email;
+	private String name, email, frequency;
 	private int numCommits, total;
 	private double percentage;
 	LinkedHashMap<String, String> commitMessages;
@@ -158,6 +158,19 @@ class Author {
 		this.commitMessages = new LinkedHashMap<>();
 	}
 	
+	// returns author name
+	public String getName() {
+		return name;
+	}
+	
+	// returns author email
+	public String getEmail() {
+		return email;
+	}
+	// returns frequency of commits
+	public String getFrequency() {
+		return frequency;
+	}
 	// returns number of commits for the author
 	public int getNumCommits() {
 		return numCommits;
@@ -167,7 +180,6 @@ class Author {
 	public String getPercentage() {
 		this.percentage = (double) numCommits / (double) total * 100;
 		return String.format("%.2f%%", percentage);
-		
 	}
 	
 	// updates commit history for author
