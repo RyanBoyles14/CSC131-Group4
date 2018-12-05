@@ -11,7 +11,7 @@ public class Metrix {
 
         List<String> ls = new ArrayList<>();
         List<String> ls1 = new ArrayList<>();
-        List<String> ls2 = new ArrayList<>();
+
         ls1.add("while");
         ls1.add("{");
         ls1.add("for");
@@ -45,7 +45,9 @@ public class Metrix {
         while (st.nextToken() != st.TT_EOF) {
 
             if (st.sval != null) {
+
                 if (st.sval.equals("while") || st.sval.equals("for") || st.sval.equals("{") || st.sval.equals("}")) {
+
 
                     ls.add(st.sval);
                 }
@@ -57,46 +59,50 @@ public class Metrix {
 
                 //System.out.println(st.nval);
             }
-
         }
-        //System.out.println(ls);
-
-        //System.out.println(ls2);
+        System.out.println(ls);
         ListIterator<String> it = ls.listIterator();
         int firIndex = 0;
-        if(ls.indexOf("while") - ls.indexOf("for") > 0 ) {
+        if (ls.indexOf("while") - ls.indexOf("for") > 0) {
             firIndex = ls.indexOf("for");
         } else {
             firIndex = ls.indexOf("while");
         }
 
-
-
-
-
-        int count = 0;
         int nested = 0;
         String g;
         while (it.hasNext()) {
             g = it.next();
+            nested = 1;
+            if(!(ls.contains("While") || ls.contains("for"))){
+                nested = 0;
+            }
             if (g.equals("while") || g.equals("for")) {
-                System.out.println(it.nextIndex());
+                //System.out.println(it.nextIndex());
                 index = it.nextIndex();
-                System.out.println(ls.get(index) + ls.get(index+1));
+                //System.out.println(ls.get(index) + ls.get(index + 1));
+                if (ls.get(index).equals("{") && ls.get(index + 1).equals("}")) {
+                    nested = 1;
+                } else if (ls.get(index).equals("}") && ls.get(index+1).equals("}")) {
+                    nested = 2;
 
 
+                      //  System.out.println("The estimate worst time complexity of this method is O(n^2)");
 
-
-
+                } else if(ls.get(index).equals("}") && ls.get(index+1).equals("{")) {
+                    nested = 1;
+                    //System.out.println("The estimate worst time complexity of this method is O(n)");
+                } else if(ls.get(index).equals("{") && ls.get(index+1).equals("{") && ls.get(index+2).equals("}")) {
+                    nested = 2;
+                    //System.out.println("the estimate worst time complexity of this method is O(n)");
+                }
 
             }
 
+
+
         }
-
-
-        //System.out.println(ls);
-
+        System.out.println("The estimate worst case time complexity of this file is O(n^" + nested + ")");
     }
-
 }
 
