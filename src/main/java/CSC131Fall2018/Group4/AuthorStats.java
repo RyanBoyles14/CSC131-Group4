@@ -13,6 +13,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoHeadException;
@@ -146,9 +148,9 @@ class Author {
 
 	private String name, email, frequency;
 	private int numCommits, total;
-	private double percentage;
+	private double percentage, days;
 	LinkedHashMap<String, String> commitMessages;
-	String initDate, endDate;
+	String initDate, endDate, initText, endText;
 
 	public Author(String name, String email, int totalCommits) {
 		this.name = name;
@@ -159,7 +161,23 @@ class Author {
 		this.total = totalCommits;
 		this.commitMessages = new LinkedHashMap<>();
 	}
+	// calculates commit frequency for author
+	@SuppressWarnings("deprecation")
+	private void computeFreq() {
+		Date initial = new Date(initText);
+		Date end = new Date(endText);
+		days = TimeUnit.DAYS.convert(end.getTime() - initial.getTime(), TimeUnit.MILLISECONDS);
+	}
 	
+	// returns days between first and last commit, or "age" of the author in the repository
+	public String getAge() {
+		int temp = (int) days;
+		if (days < 1)
+			return "0 days";
+		if (days == 1)
+			return "1 day";
+		return temp + " days";
+	}
 	// returns date of last commit
 	public String getEndDate() {
 		return endDate;
@@ -196,11 +214,14 @@ class Author {
 	public void add(String date, String msg) {
 		String d = convert(date);
 		if (commitMessages.size() == 0) {
+			initText = date;
 			initDate = d;
 		}
 		commitMessages.put(d, msg);
 		endDate = d;
+		endText = date;
 		numCommits++;
+		computeFreq();
 	}
 
 	// toString format: "name (email) : ? commits since ????-??-?? @ ??:??AM/PM \n
