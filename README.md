@@ -5,10 +5,16 @@
 
 A work in progress...
 
+## Building and Installing
+```
+git clone https://github.com/CSC131Fall2018/Group4.git
+cd Group4
+mvn clean install
+```
+
 ## Usage
 ```
-mvn clean install
-java -jar target/Group4-0.0.1-SNAPSHOT.jar [options] <Git url>
+java -jar Group4-0.0.1-SNAPSHOT.jar [options] <Git url>
 ```
 
 ### Options
