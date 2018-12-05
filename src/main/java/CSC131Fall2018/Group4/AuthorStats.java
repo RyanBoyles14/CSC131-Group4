@@ -92,7 +92,7 @@ public class AuthorStats {
 			idList.put(name, email);
 		}
 		for (Map.Entry<String, String> e : idList.entrySet()) {
-			authors.add(new Author(e.getKey(), e.getValue()));
+			authors.add(new Author(e.getKey(), e.getValue(), totalCommits));
 		}
 		sc.close();
 
@@ -145,14 +145,16 @@ public class AuthorStats {
 class Author {
 
 	String name, email;
-	private int numCommits, percentage;
+	private int numCommits, total;
+	private double percentage;
 	LinkedHashMap<String, String> commitMessages;
 	String initDate;
 
-	public Author(String name, String email) {
+	public Author(String name, String email, int totalCommits) {
 		this.name = name;
 		this.email = email;
 		this.numCommits = 0;
+		this.total = totalCommits;
 		this.commitMessages = new LinkedHashMap<>();
 	}
 	
@@ -160,7 +162,8 @@ class Author {
 		return numCommits;
 	}
 	
-	public int getPercentage() {
+	public double getPercentage() {
+		this.percentage = (double) numCommits / (double) total * 100;
 		return percentage;
 	}
 	
