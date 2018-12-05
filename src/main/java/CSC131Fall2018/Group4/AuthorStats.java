@@ -29,7 +29,7 @@ public class AuthorStats {
 	ArrayList<String> namesList = new ArrayList<>();
 	LinkedHashMap<String, String> idList = new LinkedHashMap<>();
 	String s, name, email, message, date;
-	int totalCommits = 0;
+	private int totalCommits = 0;
 
 	// builds a list of Author objects from the Git repository
 	public AuthorStats(Git gitObject) throws NoHeadException, GitAPIException, IOException {
@@ -39,11 +39,11 @@ public class AuthorStats {
 		parseID();
 		parseMsg();
 	}
-	
+
 	public int getTotalCommits() {
 		return totalCommits;
 	}
-	
+
 	// returns toString of all authors and commit history
 	public String toString() {
 		String s = "";
@@ -52,7 +52,7 @@ public class AuthorStats {
 		}
 		return s;
 	}
-	
+
 	// returns shorter toString of all authors without commit history
 	public String toStringShort() {
 		String s = "";
@@ -61,6 +61,7 @@ public class AuthorStats {
 		}
 		return s;
 	}
+
 	// parse "msgLog.txt" to update commit history
 	private void parseMsg() throws FileNotFoundException {
 		Scanner sc = new Scanner(new File("msgLog.txt"));
@@ -144,7 +145,7 @@ public class AuthorStats {
 class Author {
 
 	String name, email;
-	int numCommits;
+	private int numCommits, percentage;
 	LinkedHashMap<String, String> commitMessages;
 	String initDate;
 
@@ -154,7 +155,15 @@ class Author {
 		this.numCommits = 0;
 		this.commitMessages = new LinkedHashMap<>();
 	}
-
+	
+	public int getNumCommits() {
+		return numCommits;
+	}
+	
+	public int getPercentage() {
+		return percentage;
+	}
+	
 	public void add(String date, String msg) {
 		if (commitMessages.size() == 0) {
 			initDate = date;
@@ -163,14 +172,16 @@ class Author {
 		numCommits++;
 	}
 
-	// toString format: "name (email) : ? commits since ????-??-?? @ ??:??AM/PM \n history: ..."
+	// toString format: "name (email) : ? commits since ????-??-?? @ ??:??AM/PM \n
+	// history: ..."
 	public String toString() {
 		String s = String.format("%s (%s) : %d commits since %s\nhistory:\n", name, email, numCommits, initDate);
 		for (Map.Entry<String, String> e : commitMessages.entrySet()) {
-			s += String.format("(%s) %s\n", e.getKey(), e.getValue()); 
+			s += String.format("(%s) %s\n", e.getKey(), e.getValue());
 		}
 		return s;
 	}
+
 	// toString format: "name (email : ? commits since ????-??-?? @ ??:??AM/PM"
 	public String toStringShort() {
 		return String.format("%s (%s) : %d commits since %s", name, email, numCommits, initDate);
