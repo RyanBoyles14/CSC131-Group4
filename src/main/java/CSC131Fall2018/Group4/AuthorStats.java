@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoHeadException;
@@ -44,7 +43,7 @@ public class AuthorStats {
 		parseID();
 		parseMsg();
 	}
-	
+
 	// returns total commits in the repository
 	public int getTotalCommits() {
 		return totalCommits;
@@ -136,14 +135,6 @@ public class AuthorStats {
 	public ArrayList<Author> returnAuthors() {
 		return authors;
 	}
-
-	// convert text date to numerical
-	/*@SuppressWarnings("deprecation")
-	private String convert(String date) {
-		Date day = new Date(date);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd '@' K:mma");
-		return sdf.format(day);
-	}*/
 }
 
 // class to store each authors name and commit history
@@ -165,6 +156,7 @@ class Author {
 		this.total = totalCommits;
 		this.commitMessages = new LinkedHashMap<>();
 	}
+
 	// calculates commit frequency for author
 	@SuppressWarnings("deprecation")
 	private void computeFreq() {
@@ -180,7 +172,7 @@ class Author {
 			frequency = numCommits / diff.getMonths();
 		}
 	}
-	
+
 	// returns days between first and last commit
 	public String getAge() {
 		int temp = (int) days;
@@ -190,41 +182,46 @@ class Author {
 			return "1 day";
 		return temp + " days";
 	}
+
 	// returns date of last commit
 	public String getEndDate() {
 		return endDate;
 	}
+
 	// returns date of first commit
 	public String getInitialDate() {
 		return initDate;
 	}
+
 	// returns author name
 	public String getName() {
 		return name;
 	}
-	
+
 	// returns author email
 	public String getEmail() {
 		return email;
 	}
+
 	// returns frequency of commits per month
 	public String getFrequency() {
 		if (frequency == 1)
 			return frequency + " commit per month";
-			
+
 		return frequency + " commits per month";
 	}
+
 	// returns number of commits for the author
 	public int getNumCommits() {
 		return numCommits;
 	}
-	
+
 	// returns percentage of commits in string form
 	public String getPercentage() {
 		this.percentage = (double) numCommits / (double) total * 100;
 		return String.format("%.2f%%", percentage);
 	}
-	
+
 	// updates commit history, initial and final commit dates for author
 	public void add(String date, String msg) {
 		String d = convert(date);
@@ -253,7 +250,7 @@ class Author {
 	public String toStringShort() {
 		return String.format("%s (%s) : %d commits since %s", name, email, numCommits, initDate);
 	}
-	
+
 	// converts text date to numerical
 	@SuppressWarnings("deprecation")
 	private String convert(String date) {
