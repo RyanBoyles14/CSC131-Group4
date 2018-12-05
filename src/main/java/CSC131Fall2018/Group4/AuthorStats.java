@@ -192,13 +192,14 @@ class Author {
 		return String.format("%.2f%%", percentage);
 	}
 	
-	// updates commit history for author
+	// updates commit history, initial and final commit dates for author
 	public void add(String date, String msg) {
+		String d = convert(date);
 		if (commitMessages.size() == 0) {
-			initDate = date;
+			initDate = d;
 		}
-		commitMessages.put(date, msg);
-		endDate = date;
+		commitMessages.put(d, msg);
+		endDate = d;
 		numCommits++;
 	}
 
@@ -217,6 +218,7 @@ class Author {
 		return String.format("%s (%s) : %d commits since %s", name, email, numCommits, initDate);
 	}
 	
+	// converts text date to numerical
 	@SuppressWarnings("deprecation")
 	private String convert(String date) {
 		Date day = new Date(date);
