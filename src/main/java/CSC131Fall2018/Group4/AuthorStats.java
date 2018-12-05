@@ -70,7 +70,6 @@ public class AuthorStats {
 			s = sc.nextLine();
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
 			date = s.substring(s.lastIndexOf(",") + 2, s.lastIndexOf("-") - 1);
-			date = convert(date);
 			message = sc.nextLine();
 			for (Author a : authors) {
 				if (a.getName().equals(name)) {
@@ -134,12 +133,12 @@ public class AuthorStats {
 	}
 
 	// convert text date to numerical
-	@SuppressWarnings("deprecation")
+	/*@SuppressWarnings("deprecation")
 	private String convert(String date) {
 		Date day = new Date(date);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd '@' K:mma");
 		return sdf.format(day);
-	}
+	}*/
 }
 
 // class to store each authors name and commit history
@@ -160,6 +159,7 @@ class Author {
 		this.total = totalCommits;
 		this.commitMessages = new LinkedHashMap<>();
 	}
+	
 	// returns date of last commit
 	public String getEndDate() {
 		return endDate;
@@ -215,6 +215,13 @@ class Author {
 	// toString format: "name (email : ? commits since ????-??-?? @ ??:??AM/PM"
 	public String toStringShort() {
 		return String.format("%s (%s) : %d commits since %s", name, email, numCommits, initDate);
+	}
+	
+	@SuppressWarnings("deprecation")
+	private String convert(String date) {
+		Date day = new Date(date);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd '@' K:mma");
+		return sdf.format(day);
 	}
 
 }
