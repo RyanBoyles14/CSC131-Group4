@@ -158,15 +158,19 @@ class Author {
 		this.commitMessages = new LinkedHashMap<>();
 	}
 	
+	// returns number of commits for the author
 	public int getNumCommits() {
 		return numCommits;
 	}
 	
-	public double getPercentage() {
+	// returns percentage of commits in string form
+	public String getPercentage() {
 		this.percentage = (double) numCommits / (double) total * 100;
-		return percentage;
+		return String.format("%.2f%%", percentage);
+		
 	}
 	
+	// updates commit history for author
 	public void add(String date, String msg) {
 		if (commitMessages.size() == 0) {
 			initDate = date;
