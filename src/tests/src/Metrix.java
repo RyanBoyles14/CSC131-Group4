@@ -43,9 +43,12 @@ public class Metrix {
         //st.wordChars(58,62);
         st.eolIsSignificant(true);
         while (st.nextToken() != st.TT_EOF) {
-            if (st.sval != null) {
 
-                ls.add(st.sval);
+            if (st.sval != null) {
+                if (st.sval.equals("while") || st.sval.equals("for") || st.sval.equals("{") || st.sval.equals("}")) {
+
+                    ls.add(st.sval);
+                }
             }
             if (st.ttype == StreamTokenizer.TT_WORD) {
 
@@ -56,36 +59,36 @@ public class Metrix {
             }
 
         }
-        for (int i = 0; i < ls.size(); i++) {
-            s = ls.get(i);
-            if (s.equals("while")) {
-                ls2.add(s);
-            } else if (s.equals("for")) {
-                ls2.add(s);
-            } else if (s.equals("{")) {
-                ls2.add(s);
-            } else if (s.equals("}")) {
-                ls2.add(s);
-            }
+        //System.out.println(ls);
 
-        }
-        System.out.println(ls2);
-        ListIterator<String> it = ls2.listIterator();
-        int ind = ls2.indexOf("while") - ls2.indexOf("for");
+        //System.out.println(ls2);
+        ListIterator<String> it = ls.listIterator();
         int firIndex = 0;
-        if (ind < 0) {
-            firIndex = ls2.indexOf("for");
+        if(ls.indexOf("while") - ls.indexOf("for") > 0 ) {
+            firIndex = ls.indexOf("for");
         } else {
-            firIndex = ls2.indexOf("while");
+            firIndex = ls.indexOf("while");
         }
+
+
+
+
+
+        int count = 0;
+        int nested = 0;
         String g;
         while (it.hasNext()) {
             g = it.next();
             if (g.equals("while") || g.equals("for")) {
-                System.out.println(it.previousIndex());
-                index = it.previousIndex();
+                System.out.println(it.nextIndex());
+                index = it.nextIndex();
+                System.out.println(ls.get(index) + ls.get(index+1));
 
-                System.out.println(ls2.get(index + 1));
+
+
+
+
+
             }
 
         }
@@ -94,5 +97,6 @@ public class Metrix {
         //System.out.println(ls);
 
     }
+
 }
 
