@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 //halstead metrics class
-public class Halstead
+public class Halstead extends AbstractMetricsCalculator
 {
 	public class Metrics implements IMetrics
 	{
@@ -39,7 +39,15 @@ public class Halstead
 	File f;
 	Scanner s;
 
-	public Halstead(File f) throws FileNotFoundException {
+	@Override
+	protected void newCalculation(Repository f)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected void newCalculation(File f)
+	{
 		this.f = f;
 		StringTokenizer tk;
 		String token;
@@ -85,5 +93,10 @@ public class Halstead
 				+ this.distinctOperands.size() * (Math.log(this.distinctOperators.size()) / Math.log(2.0))));
 		this.metrics.time = this.metrics.effort / 18;
 		this.metrics.bugs = (int)(this.metrics.volume / 3000);
+	}
+
+	public Halstead(File f) throws FileNotFoundException
+	{
+		super(f);
 	}
 }
