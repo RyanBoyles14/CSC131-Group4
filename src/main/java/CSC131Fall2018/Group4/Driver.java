@@ -41,7 +41,7 @@ public class Driver implements Callable<Void>
     {
         try (Repository repo = new Repository(this.gitProjectUrl))
         {
-            System.out.println("Repository contains " + repo.getFileCount() + " files.");
+            System.out.println("Repository contains " + repo.metrics.fileCount + " files.");
         }
         catch (Exception e)
         {
