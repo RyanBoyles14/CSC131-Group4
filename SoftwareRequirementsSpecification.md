@@ -179,12 +179,12 @@
 
 | Use Case 3 (UC-3)     | User Interface                            |
 | -----------------     | --------------                            |
-| Primary Actor         |                                           |
-| Actor's Goal          |                                           |
-| Brief Description     |                                           |
-| Scope                 |                                           |
-| Precondition          |                                           |
-| Main Success Condition|                                           |
+| Primary Actor         | Driver                                    |
+| Actor's Goal          | Retrieve that stats of repository contributors from AuthorStats |
+| Brief Description     | Communicate with AuthorStats to get information commits|
+| Scope                 | Driver, AuthorStats, IMetrics             |
+| Precondition          | JGit cloned a GitHub repository           |
+| Main Success Condition| AuthorStats computes and returns statistics on each contributor of the given repository|
 | Trigger               |                                           |
 
 `Driver requests the inheritance depth of a list of files`
