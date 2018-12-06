@@ -11,11 +11,26 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 //halstead metrics class
-public class Halstead {
+public class Halstead
+{
+	public class Metrics implements IMetrics
+	{
+		int totalOperators;
+		int totalOperands;
+		int vocab;
+		int length;
+		int time;
+		int bugs;
+		int effort;
+		int difficulty;
+		double calcLength;
+		double volume;
+	}
+
+	public Halstead.Metrics metrics = this.new Metrics();
+
 	Set<String> distinctOperators = new HashSet<String>();
 	Set<String> distinctOperands = new HashSet<String>();
-	int totalOperators, totalOperands, vocab, length, time, bugs, effort, difficulty;
-	double calcLength, volume;
 	// defined as operators
 	String[] operatorArray = { "=", ">", "<", "!", "~", "?", "->", "==", ">=", "<=", "!=", "&&", "||", "++", "--", "+",
 			"-", "*", "/", "&", "|", "^", "%", "<<", ">>", ">>>", "+=", "-=", "*=", "/=", "&=", "|=", "^=", "%=", "<<=",
@@ -38,14 +53,14 @@ public class Halstead {
 				token = tk.nextToken();
 				if (operators.contains(token)) {
 					distinctOperators.add(token);
-					totalOperators++;
+					this.metrics.totalOperators++;
 					count++;
 				}
 				tokenList.add(token);
 			}
 			if (count > 0) {
 				count++;
-				totalOperands += count;
+				this.metrics.totalOperands += count;
 			}
 		}
 		boolean firstOperand = true;
@@ -60,54 +75,15 @@ public class Halstead {
 				}
 			}
 		}
-	}
 
-	public int getTotalOperators() {
-		return totalOperators;
-	}
-
-	public int getTotalOperands() {
-		return totalOperands;
-	}
-
-	public int getProgramVocabulary() {
-		vocab = distinctOperators.size() + distinctOperands.size();
-		return vocab;
-	}
-
-	public int getProgramLength() {
-		length = totalOperators + totalOperands;
-		return length;
-	}
-
-	public int getDifficulty() {
-		difficulty = (distinctOperators.size() / 2) * (totalOperands / distinctOperands.size());
-		return difficulty;
-	}
-
-	public int getVolume() {
-		volume = (getProgramLength() * (Math.log(getProgramVocabulary()) / Math.log(2.0)));
-		return (int) volume;
-	}
-
-	public int getEffort() {
-		effort = getDifficulty() * getVolume();
-		return effort;
-	}
-
-	public int getCalculatedLength() {
-		calcLength = (distinctOperators.size() * (Math.log((distinctOperators.size()) / Math.log(2.0))
-				+ distinctOperands.size() * (Math.log(distinctOperators.size()) / Math.log(2.0))));
-		return (int) calcLength;
-	}
-
-	public int getTime() {
-		time = getEffort() / 18;
-		return time;
-	}
-
-	public int getBugs() {
-		bugs = getVolume() / 3000;
-		return bugs;
+		this.metrics.vocab = this.distinctOperators.size() + this.distinctOperands.size();
+		this.metrics.length = this.metrics.totalOperators + this.metrics.totalOperands;
+		this.metrics.difficulty = (this.distinctOperators.size() / 2) * (this.metrics.totalOperands / distinctOperands.size());
+		this.metrics.volume = (int)(this.metrics.length * (Math.log(this.metrics.vocab) / Math.log(2.0)));
+		this.metrics.effort = (int)(this.metrics.difficulty * this.metrics.volume);
+		this.metrics.calcLength = (this.distinctOperators.size() * (Math.log((this.distinctOperators.size()) / Math.log(2.0))
+				+ this.distinctOperands.size() * (Math.log(this.distinctOperators.size()) / Math.log(2.0))));
+		this.metrics.time = this.metrics.effort / 18;
+		this.metrics.bugs = (int)(this.metrics.volume / 3000);
 	}
 }
