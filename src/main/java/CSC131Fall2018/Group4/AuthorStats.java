@@ -23,7 +23,14 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 // list of authors and their commit history, constructed during URL cloning
-public class AuthorStats {
+public class AuthorStats
+{
+    public class Metrics implements IMetrics
+    {
+        int totalCommits = 0;
+    }
+
+    public AuthorStats.Metrics metrics = this.new Metrics();
 
 	Git git;
 	Iterable<RevCommit> log;
@@ -33,7 +40,6 @@ public class AuthorStats {
 	ArrayList<String> namesList = new ArrayList<>();
 	LinkedHashMap<String, String> idList = new LinkedHashMap<>();
 	String s, name, email, message, date;
-	private int totalCommits = 0;
 
 	// builds a list of Author objects from the Git repository
 	public AuthorStats(Git gitObject) throws NoHeadException, GitAPIException, IOException {
@@ -42,11 +48,6 @@ public class AuthorStats {
 		buildLogs();
 		parseID();
 		parseMsg();
-	}
-
-	// returns total commits in the repository
-	public int getTotalCommits() {
-		return totalCommits;
 	}
 
 	// returns toString of all authors and commit history
@@ -88,7 +89,7 @@ public class AuthorStats {
 	private void parseID() throws FileNotFoundException {
 		Scanner sc = new Scanner(new File("idLog.txt"));
 		while (sc.hasNextLine()) {
-			totalCommits++;
+			this.metrics.totalCommits++;
 			s = sc.nextLine();
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
 			namesList.add(name);
@@ -96,7 +97,7 @@ public class AuthorStats {
 			idList.put(name, email);
 		}
 		for (Map.Entry<String, String> e : idList.entrySet()) {
-			authors.add(new Author(e.getKey(), e.getValue(), totalCommits));
+			authors.add(new Author(e.getKey(), e.getValue(), this.metrics.totalCommits));
 		}
 		sc.close();
 
