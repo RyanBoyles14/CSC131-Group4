@@ -182,7 +182,7 @@
 | Primary Actor         | Driver                                    |
 | Actor's Goal          | Retrieve that stats of repository contributors from AuthorStats |
 | Brief Description     | Communicate with AuthorStats to get information commits|
-| Scope                 | Driver, AuthorStats, IMetrics             |
+| Scope                 | Driver, AuthorStats, Author, IMetrics     |
 | Precondition          | JGit cloned a GitHub repository           |
 | Main Success Condition| AuthorStats computes and returns statistics on each contributor of the given repository|
 | Trigger               |                                           |
@@ -191,12 +191,12 @@
 
 | Use Case 4 (UC-4)     | User Interface                            |
 | -----------------     | --------------                            |
-| Primary Actor         |                                           |
-| Actor's Goal          |                                           |
-| Brief Description     |                                           |
-| Scope                 |                                           |
-| Precondition          |                                           |
-| Main Success Condition|                                           |
+| Primary Actor         | Driver                                    |
+| Actor's Goal          | Retrieve the inheritance depth of classes from DepthOfInheritance|
+| Brief Description     | Communicate with DepthOfInheritance to return the inheritance depth of Java/C++ files|
+| Scope                 | Driver, DepthOfInheritance, ANTLR, Class  |
+| Precondition          | An ArrayList of Git repository files is compiled|
+| Main Success Condition| DepthOfInheritance computes each class' inheritance and returns a list of Class objects|
 | Trigger               |                                           |
 
 `Driver requests the class couping of a list of files`
