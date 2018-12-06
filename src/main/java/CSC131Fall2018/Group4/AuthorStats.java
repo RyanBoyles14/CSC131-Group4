@@ -151,7 +151,7 @@ class Author {
 		if (diff.getMonths() == 0) {
 			frequency = numCommits;
 		} else {
-			frequency = numCommits / diff.getMonths();
+			frequency = numCommits / (diff.getMonths() + 1);
 		}
 	}
 
