@@ -47,38 +47,20 @@ public class AuthorStats
 		log = git.log().call();
 		buildLogs();
 		parseID();
-		parseMsg();
+		update();
 	}
 
-	// returns toString of all authors and commit history
-	public String toString() {
-		String s = "";
-		for (Author a : authors) {
-			s += a.toString() + "\n";
-		}
-		return s;
-	}
-
-	// returns shorter toString of all authors without commit history
-	public String toStringShort() {
-		String s = "";
-		for (Author a : authors) {
-			s += a.toStringShort() + "\n";
-		}
-		return s;
-	}
-
-	// parse "msgLog.txt" to update commit history
-	private void parseMsg() throws FileNotFoundException {
-		Scanner sc = new Scanner(new File("msgLog.txt"));
+	// parse "idLog.txt" to update commit history for each author
+	private void update() throws FileNotFoundException {
+		Scanner sc = new Scanner(new File("idLog.txt"));
 		while (sc.hasNextLine()) {
 			s = sc.nextLine();
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
 			date = s.substring(s.lastIndexOf(",") + 2, s.lastIndexOf("-") - 1);
-			message = sc.nextLine();
+
 			for (Author a : authors) {
 				if (a.getName().equals(name)) {
-					a.add(date, message);
+					a.add(date);
 				}
 			}
 		}
@@ -106,30 +88,28 @@ public class AuthorStats
 	// creates local files to parse
 	private void buildLogs() throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter idWriter = new PrintWriter("idLog.txt", "UTF-8");
-		PrintWriter msgWriter = new PrintWriter("msgLog.txt", "UTF-8");
+
 		Stack<String> idStack = new Stack<>();
-		Stack<String> msgStack = new Stack<>();
+
 		itr = log.iterator();
 		while (itr.hasNext()) {
 			commit = itr.next();
 			idStack.push(commit.getAuthorIdent().toString());
-			msgStack.push(commit.getShortMessage());
+
 		}
 		while (!idStack.empty()) {
 			if (idStack.size() == 1) {
 				idWriter.print(idStack.peek());
-				msgWriter.println(idStack.peek());
-				msgWriter.print(msgStack.pop());
+
 				idStack.pop();
 			} else {
 				idWriter.println(idStack.peek());
-				msgWriter.println(idStack.peek());
-				msgWriter.println(msgStack.pop());
+
 				idStack.pop();
 			}
 		}
 		idWriter.close();
-		msgWriter.close();
+
 	}
 
 	// return list of author objects
@@ -146,6 +126,7 @@ class Author {
 	private double percentage, days;
 	Period diff;
 	LinkedHashMap<String, String> commitMessages;
+	ArrayList<String> commits;
 	String initDate, endDate, initText, endText;
 
 	public Author(String name, String email, int totalCommits) {
@@ -156,6 +137,7 @@ class Author {
 		this.numCommits = 0;
 		this.total = totalCommits;
 		this.commitMessages = new LinkedHashMap<>();
+		this.commits = new ArrayList<>();
 	}
 
 	// calculates commit frequency for author
@@ -170,7 +152,7 @@ class Author {
 		if (diff.getMonths() == 0) {
 			frequency = numCommits;
 		} else {
-			frequency = numCommits / diff.getMonths();
+			frequency = numCommits / (diff.getMonths() + 1);
 		}
 	}
 
@@ -224,32 +206,17 @@ class Author {
 	}
 
 	// updates commit history, initial and final commit dates for author
-	public void add(String date, String msg) {
+	public void add(String date) {
 		String d = convert(date);
-		if (commitMessages.size() == 0) {
+		if (commits.size() == 0) {
 			initText = date;
 			initDate = d;
 		}
-		commitMessages.put(d, msg);
+		commits.add(d);
 		endDate = d;
 		endText = date;
 		numCommits++;
 		computeFreq();
-	}
-
-	// toString format: "name (email) : ? commits since ????-??-?? @ ??:??AM/PM \n
-	// history: ..."
-	public String toString() {
-		String s = String.format("%s (%s) : %d commits since %s\nhistory:\n", name, email, numCommits, initDate);
-		for (Map.Entry<String, String> e : commitMessages.entrySet()) {
-			s += String.format("(%s) %s\n", e.getKey(), e.getValue());
-		}
-		return s;
-	}
-
-	// toString format: "name (email : ? commits since ????-??-?? @ ??:??AM/PM"
-	public String toStringShort() {
-		return String.format("%s (%s) : %d commits since %s", name, email, numCommits, initDate);
 	}
 
 	// converts text date to numerical
