@@ -9,12 +9,18 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 
-public class Repository implements AutoCloseable {
+public class Repository implements AutoCloseable
+{
+	public class Metrics implements IMetrics
+	{
+		int fileCount;
+	}
 
 	private Git git;
 	private ArrayList<File> list = new ArrayList<>();
 	private ArrayList<Class> classes = new ArrayList<>();
 	private AuthorStats authorStats;
+	public Repository.Metrics metrics = this.new Metrics();
 	
 	// constructor clones repository from GitHub URL to a temporary directory
 	public Repository(String url)
@@ -22,6 +28,7 @@ public class Repository implements AutoCloseable {
 	{
 		this.git = Git.cloneRepository().setURI(url).setDirectory(Files.createTempDirectory(null).toFile()).call();
 		this.buildList();
+		this.calculateMetrics();
 		this.authorStats = new AuthorStats(git);
 	}
 	
@@ -61,11 +68,6 @@ public class Repository implements AutoCloseable {
 		return list;
 	}
 
-	// return file count
-	public int getFileCount() {
-		return list.size();
-	}
-
 	// deletes the directory of the cloned repository
 	@Override
 	public void close() throws Exception
@@ -89,4 +91,8 @@ public class Repository implements AutoCloseable {
 		directory.delete();
 	}
 
+	private void calculateMetrics()
+	{
+		this.metrics.fileCount = this.list.size();
+	}
 }
