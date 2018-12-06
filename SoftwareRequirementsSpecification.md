@@ -199,16 +199,16 @@
 | Main Success Condition| DepthOfInheritance computes each class' inheritance and returns a list of Class objects|
 | Trigger               |                                           |
 
-`Driver requests the class couping of a list of files`
+`Driver requests the class coupling of a list of files`
 
 | Use Case 5 (UC-5)     | User Interface                            |
 | -----------------     | --------------                            |
-| Primary Actor         |                                           |
-| Actor's Goal          |                                           |
-| Brief Description     |                                           |
-| Scope                 |                                           |
-| Precondition          |                                           |
-| Main Success Condition|                                           |
+| Primary Actor         | Driver                                    |
+| Actor's Goal          | Retrieve the coupling of classes from Coupling|
+| Brief Description     | Communicate with Coupling to return the coupling of classes|
+| Scope                 | Driver, Coupling                          |
+| Precondition          | An ArrayList of Git repository files is compiled|
+| Main Success Condition| Coupling computes the coupling between classes and returns a list of ClassStats|
 | Trigger               |                                           |
 
 `Driver requests the time complexity of a list of files`
