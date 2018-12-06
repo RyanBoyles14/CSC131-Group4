@@ -32,14 +32,14 @@ public class AuthorStats
 
     public AuthorStats.Metrics metrics = this.new Metrics();
 
-	Git git;
-	Iterable<RevCommit> log;
-	Iterator<RevCommit> itr;
-	RevCommit commit;
-	ArrayList<Author> authors = new ArrayList<>();
-	ArrayList<String> namesList = new ArrayList<>();
-	LinkedHashMap<String, String> idList = new LinkedHashMap<>();
-	String s, name, email, message, date;
+    Git git;
+    Iterable<RevCommit> log;
+    Iterator<RevCommit> itr;
+    RevCommit commit;
+    ArrayList<Author> authors = new ArrayList<>();
+    ArrayList<String> namesList = new ArrayList<>();
+    LinkedHashMap<String, String> idList = new LinkedHashMap<>();
+    String s, name, email, message, date;
 
 	// builds a list of Author objects from the Git repository
 	public AuthorStats(Git gitObject) throws NoHeadException, GitAPIException, IOException {
@@ -67,23 +67,23 @@ public class AuthorStats
 		sc.close();
 	}
 
-	// parse "idLog.txt" to create Author objects, calculates total commits
-	private void parseID() throws FileNotFoundException {
-		Scanner sc = new Scanner(new File("idLog.txt"));
-		while (sc.hasNextLine()) {
-			this.metrics.totalCommits++;
-			s = sc.nextLine();
-			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
-			namesList.add(name);
-			email = s.substring(s.indexOf(",") + 2, s.lastIndexOf(","));
-			idList.put(name, email);
-		}
-		for (Map.Entry<String, String> e : idList.entrySet()) {
-			authors.add(new Author(e.getKey(), e.getValue(), this.metrics.totalCommits));
-		}
-		sc.close();
+    // parse "idLog.txt" to create Author objects, calculates total commits
+    private void parseID() throws FileNotFoundException {
+        Scanner sc = new Scanner(new File("idLog.txt"));
+        while (sc.hasNextLine()) {
+            this.metrics.totalCommits++;
+            s = sc.nextLine();
+            name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
+            namesList.add(name);
+            email = s.substring(s.indexOf(",") + 2, s.lastIndexOf(","));
+            idList.put(name, email);
+        }
+        for (Map.Entry<String, String> e : idList.entrySet()) {
+            authors.add(new Author(e.getKey(), e.getValue(), this.metrics.totalCommits));
+        }
+        sc.close();
 
-	}
+    }
 
 	// creates local files to parse
 	private void buildLogs() throws FileNotFoundException, UnsupportedEncodingException {
@@ -112,10 +112,10 @@ public class AuthorStats
 
 	}
 
-	// return list of author objects
-	public ArrayList<Author> returnAuthors() {
-		return authors;
-	}
+    // return list of author objects
+    public ArrayList<Author> returnAuthors() {
+        return authors;
+    }
 }
 
 // class to store each authors name and commit history
@@ -156,54 +156,54 @@ class Author {
 		}
 	}
 
-	// returns days between first and last commit
-	public String getAge() {
-		int temp = (int) days;
-		if (days < 1)
-			return "0 days";
-		if (days == 1)
-			return "1 day";
-		return temp + " days";
-	}
+    // returns days between first and last commit
+    public String getAge() {
+        int temp = (int) days;
+        if (days < 1)
+            return "0 days";
+        if (days == 1)
+            return "1 day";
+        return temp + " days";
+    }
 
-	// returns date of last commit
-	public String getEndDate() {
-		return endDate;
-	}
+    // returns date of last commit
+    public String getEndDate() {
+        return endDate;
+    }
 
-	// returns date of first commit
-	public String getInitialDate() {
-		return initDate;
-	}
+    // returns date of first commit
+    public String getInitialDate() {
+        return initDate;
+    }
 
-	// returns author name
-	public String getName() {
-		return name;
-	}
+    // returns author name
+    public String getName() {
+        return name;
+    }
 
-	// returns author email
-	public String getEmail() {
-		return email;
-	}
+    // returns author email
+    public String getEmail() {
+        return email;
+    }
 
-	// returns frequency of commits per month
-	public String getFrequency() {
-		if (frequency == 1)
-			return frequency + " commit per month";
+    // returns frequency of commits per month
+    public String getFrequency() {
+        if (frequency == 1)
+            return frequency + " commit per month";
 
-		return frequency + " commits per month";
-	}
+        return frequency + " commits per month";
+    }
 
-	// returns number of commits for the author
-	public int getNumCommits() {
-		return numCommits;
-	}
+    // returns number of commits for the author
+    public int getNumCommits() {
+        return numCommits;
+    }
 
-	// returns percentage of commits in string form
-	public String getPercentage() {
-		this.percentage = (double) numCommits / (double) total * 100;
-		return String.format("%.2f%%", percentage);
-	}
+    // returns percentage of commits in string form
+    public String getPercentage() {
+        this.percentage = (double) numCommits / (double) total * 100;
+        return String.format("%.2f%%", percentage);
+    }
 
 	// updates commit history, initial and final commit dates for author
 	public void add(String date) {
