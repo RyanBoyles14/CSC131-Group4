@@ -6,16 +6,16 @@ import java.io.File;
 // for a single file and for an entire repository
 abstract public class AbstractMetricsCalculator
 {
-    public AbstractMetricsCalculator(File f)
+    public AbstractMetricsCalculator(File f) throws Exception
     {
         this.newCalculation(f);
     }
 
-    public AbstractMetricsCalculator(Repository r)
+    public AbstractMetricsCalculator(Repository r) throws Exception
     {
         this.newCalculation(r);
     }
 
-    protected abstract void newCalculation(File f);
-    protected abstract void newCalculation(Repository r);
+    protected abstract void newCalculation(File f) throws Exception;
+    protected abstract void newCalculation(Repository r) throws Exception;
 }

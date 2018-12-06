@@ -33,17 +33,20 @@ public class DepthOfInheritance extends AbstractMetricsCalculator
 
     public DepthOfInheritance.Metrics metrics = this.new Metrics();
 
-    public DepthOfInheritance(Repository r) {
+    public DepthOfInheritance(Repository r) throws Exception
+    {
         super(r);
     }
 
     @Override
-    protected void newCalculation(File f) {
+    protected void newCalculation(File f) throws Exception
+    {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    protected void newCalculation(Repository r) {
+    protected void newCalculation(Repository r) throws Exception
+    {
         ArrayList<File> files = r.getList();
 
         for(File f: files){

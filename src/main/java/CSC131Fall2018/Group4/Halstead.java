@@ -39,14 +39,19 @@ public class Halstead extends AbstractMetricsCalculator
 	File f;
 	Scanner s;
 
+	public Halstead(File f) throws Exception
+	{
+		super(f);
+	}
+
 	@Override
-	protected void newCalculation(Repository f)
+	protected void newCalculation(Repository f) throws Exception
 	{
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	protected void newCalculation(File f)
+	protected void newCalculation(File f) throws Exception
 	{
 		this.f = f;
 		StringTokenizer tk;
@@ -93,10 +98,5 @@ public class Halstead extends AbstractMetricsCalculator
 				+ this.distinctOperands.size() * (Math.log(this.distinctOperators.size()) / Math.log(2.0))));
 		this.metrics.time = this.metrics.effort / 18;
 		this.metrics.bugs = (int)(this.metrics.volume / 3000);
-	}
-
-	public Halstead(File f) throws FileNotFoundException
-	{
-		super(f);
 	}
 }
