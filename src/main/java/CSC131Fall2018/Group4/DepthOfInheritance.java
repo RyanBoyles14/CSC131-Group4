@@ -24,9 +24,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class DepthOfInheritance extends AbstractMetricsCalculator{
+public class DepthOfInheritance extends AbstractMetricsCalculator
+{
+    public class Metrics implements IMetrics
+    {
+        ArrayList<Class> classes = new ArrayList<>();
+    }
 
-    private ArrayList<Class> classes = new ArrayList<>();
+    public DepthOfInheritance.Metrics metrics = this.new Metrics();
 
     public DepthOfInheritance(Repository r) {
         super(r);
@@ -83,7 +88,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator{
         }
 
         extractor.setFile(f);
-        classes.addAll(extractor.getClasses());
+        this.metrics.classes.addAll(extractor.getClasses());
     }
 
     // Run through all the classes, finding their depths and displaying them
@@ -91,7 +96,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator{
         updateParent();
 
         String file = "";
-        for (Class child : classes) {
+        for (Class child : this.metrics.classes) {
             if(!file.equals(child.getFile().toString())) {
                 file = child.getFile().toString();
                 System.out.println(file);
@@ -105,7 +110,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator{
         Connect Class objects with any other Class object it inherits from
      */
     private void updateParent(){
-        for(Class child: classes) {
+        for(Class child: this.metrics.classes) {
 
             if(child.getParent().isEmpty())
                 continue;
@@ -113,7 +118,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator{
             ArrayList<String> parent = child.getParent();
             // Check if a child's parent already has a Class
             // Used for linking depth among classes
-            for (Class cl : classes) {
+            for (Class cl : this.metrics.classes) {
                 if (parent.contains(cl.getName()) && fileCheck(cl, child)) {
                     child.setParent(cl);
                     parent.remove(cl.getName());
@@ -147,9 +152,5 @@ public class DepthOfInheritance extends AbstractMetricsCalculator{
         }
 
         return true;
-    }
-
-    ArrayList<Class> getClasses(){
-        return classes;
     }
 }
