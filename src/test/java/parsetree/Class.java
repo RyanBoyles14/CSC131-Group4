@@ -6,8 +6,9 @@ import java.util.ArrayList;
 public class Class{
     private String name;
     private File file;
-    private ArrayList<Class> parent = new ArrayList<>();
-    private ArrayList<String> parentNames = new ArrayList<>();
+    private ArrayList<Class> inheritance = new ArrayList<>(); //the beginning of the list represents the lowest point of inheritance
+    private ArrayList<Class> parent = new ArrayList<>(); //holds all parents as Class
+    private ArrayList<String> parentNames = new ArrayList<>(); //holds all parents as Strings, which will update to Class later on
     private int depth = 1;
     private boolean foundDepth = false;
 
@@ -34,25 +35,29 @@ public class Class{
             return depth;
 
         int max = 0;
+        Class deepestInheritance = null;
 
         // If a class has multiple parents, find the parent with the largest depth
         // Happens when classes have either multiple derived classes or both extends and implements a super class)
         while(!parent.isEmpty()){
             Class p = parent.remove(0);
 
-            if(p == null)
-                return 1;
-
             // After finding the parent's depth, save it to the parent
             int depth = p.findDepth();
 
-            if(depth > max)
+            if(depth > max) {
+                deepestInheritance = p;
                 max = depth;
-
+            }
         }
 
         foundDepth = true;
-        depth = 1 + max;
+
+        if(deepestInheritance != null) {
+            inheritance.add(deepestInheritance);
+            inheritance.addAll(deepestInheritance.inheritance);
+        }
+        depth = max + 1;
 
         return depth;
     }
@@ -70,4 +75,6 @@ public class Class{
     int getDepth(){
         return depth;
     }
+
+    ArrayList<Class> getInheritance(){ return inheritance;}
 }
