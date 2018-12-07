@@ -57,6 +57,7 @@ public class Coupling extends AbstractMetricsCalculator {
 			StreamTokenizer st = new StreamTokenizer(buffRead);
 			setTokenizerSyntaxTable(st);
 			String previousToken = null;
+			int type;
 			do {
 				type = st.nextToken();
 				switch(type) {
