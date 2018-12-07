@@ -61,9 +61,9 @@ public class Coupling extends AbstractMetricsCalculator {
 		tokenizer.quoteChar(34);
 	}
 	//get the interaction coupling for a class
-	public void getInteractionCoupling(ClassStats A) {
+	public void getInteractionCoupling() {
 		BufferedReader buffRead;
-		buffRead = new BufferedReader(new FileReader(fileList.get(A.index)));
+		buffRead = new BufferedReader(new FileReader(fileList.get(classes.index)));
 		StreamTokenizer st = new StreamTokenizer(buffRead);
 		setTokenizerSyntaxTable(st);
 		boolean classParsed = false;
@@ -83,10 +83,10 @@ public class Coupling extends AbstractMetricsCalculator {
 			switch(type) {
 			
 				case st.TT_WORD:
-					if(previousToken.equals("class") && st.sval.equals(A.classname)) {
+					if(previousToken.equals("class") && st.sval.equals(classes.classname)) {
 						inClass = true;
 					}
-					else if(previousToken.equals("class") && !st.sval.equals(A.classname) && inClass) {
+					else if(previousToken.equals("class") && !st.sval.equals(classes.classname) && inClass) {
 						inOtherClass = true;
 					}
 					//more to add in
@@ -137,7 +137,7 @@ public class Coupling extends AbstractMetricsCalculator {
 							methodName = st.sval;
 							type = st.nextToken();
 							if(type == '(') {
-								A.interactionCoupling.add(new InteractionEntry(previousToken, methodName + "()"));
+								classes.interactionCoupling.add(new InteractionEntry(previousToken, methodName + "()"));
 							}
 						}
 					}
