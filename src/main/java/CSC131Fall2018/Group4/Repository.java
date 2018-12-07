@@ -31,7 +31,21 @@ public class Repository implements AutoCloseable
 		this.calculateMetrics();
 		this.authorStats = new AuthorStats(git);
 	}
-	
+
+	// deletes the directory of the cloned repository
+	@Override
+	public void close() throws Exception
+	{
+		File repositoryDirectory = this.git.getRepository().getWorkTree();
+		this.git.getRepository().close();
+		this.deleteDirectory(repositoryDirectory);
+	}
+
+	// return list of files
+	public ArrayList<File> getList() {
+		return list;
+	}
+
 	// returns AuthorStats object for the repo
 	public AuthorStats getAuthorStats() {
 		return authorStats;
@@ -61,20 +75,6 @@ public class Repository implements AutoCloseable
 				list.add(f);
 			}
 		}
-	}
-
-	// return list of files
-	public ArrayList<File> getList() {
-		return list;
-	}
-
-	// deletes the directory of the cloned repository
-	@Override
-	public void close() throws Exception
-	{
-		File repositoryDirectory = this.git.getRepository().getWorkTree();
-		this.git.getRepository().close();
-		this.deleteDirectory(repositoryDirectory);
 	}
 	
 	// deletes a file directory
