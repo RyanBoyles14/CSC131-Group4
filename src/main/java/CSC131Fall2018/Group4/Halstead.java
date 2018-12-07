@@ -15,16 +15,16 @@ public class Halstead extends AbstractMetricsCalculator
 {
 	public class Metrics implements IMetrics
 	{
-		int totalOperators;
-		int totalOperands;
-		int vocab;
-		int length;
-		int time;
-		int bugs;
-		int effort;
-		int difficulty;
-		double calcLength;
-		double volume;
+		public int totalOperators;
+		public int totalOperands;
+		public int vocab;
+		public int length;
+		public int time;
+		public int bugs;
+		public int effort;
+		public int difficulty;
+		public double calcLength;
+		public double volume;
 	}
 
 	public Halstead.Metrics metrics = this.new Metrics();

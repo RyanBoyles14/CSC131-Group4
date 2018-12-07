@@ -27,7 +27,7 @@ public class AuthorStats
 {
     public class Metrics implements IMetrics
     {
-        int totalCommits = 0;
+        public int totalCommits = 0;
     }
 
     public AuthorStats.Metrics metrics = this.new Metrics();

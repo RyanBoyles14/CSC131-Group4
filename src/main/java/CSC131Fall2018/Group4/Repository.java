@@ -13,7 +13,7 @@ public class Repository implements AutoCloseable
 {
 	public class Metrics implements IMetrics
 	{
-		int fileCount;
+		public int fileCount;
 	}
 
 	private Git git;

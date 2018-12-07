@@ -28,7 +28,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator
 {
     public class Metrics implements IMetrics
     {
-        ArrayList<Class> classes = new ArrayList<>();
+        public ArrayList<Class> classes = new ArrayList<>();
     }
 
     public DepthOfInheritance.Metrics metrics = this.new Metrics();
