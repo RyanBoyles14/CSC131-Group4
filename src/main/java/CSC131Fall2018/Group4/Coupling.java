@@ -33,9 +33,21 @@ public class Coupling extends AbstractMetricsCalculator {
 		}
 	}
 	//constructor sets the files to be used for the metric
-	public Coupling(Repository r) {
+	public Coupling(Repository r) throws Exception
+	{
+		super(r);
+	}
+
+	protected void newCalculation(Repository r) throws Exception
+	{
 		this.fileList = r.getList();
 	}
+
+	protected void newCalculation(File f) throws Exception
+	{
+		this.fileList.add(f);
+	}
+
 	//This method creates the list of ClassStats Objects for the project
 	public void setClassStats(){
 		//iterate across all of the files
