@@ -22,7 +22,7 @@ public class Coupling {
 		String targetClassname;
 		String value;
 		//Constructor to assign values to data type fields
-		public Interaction Entry(String name, String value) {
+		public InteractionEntry(String name, String value) {
 			this.targetClassname = name;
 			this.value = value;
 		}
@@ -67,53 +67,82 @@ public class Coupling {
 		setTokenizerSyntaxTable(st);
 		boolean classParsed = false;
 		boolean inClass = false;
-		boolean inSubClass = false;
-		int bracketNumber = 0;
-		int subClassBracketNumber = 0;
-		String tempString;
-		String methodName;
+		boolean inOtherClass = false;
+		//-1 denotes that we have not yet increased the bracket
+		//number
+		int bracketNumber = -1;
+		int otherClassBracketNumber = -1;
+		String previousToken = null;
+		String methodName = null;
+		int type;
 		//evaluates whether the class has finished parsing
 		//or the end of file has been reached
-		while (!classParsed && !st.nextToken() == st.TT_EOF) {
-			//determines whether the class is the one we are
-			//looking for
-			if(st.sval.equals("class")){
-				st.nextToken();
-				if(st.sval.equals(A.classname)) {
-					inClass = true;
-					//parses until it finds an open bracket
-					while(!st.nextToken() == st.TT_EOF && !st.sval.equals("{")) {
-						
-					}
-				}
-				else if(inclass) {
-					inSubClass = true;
-					while(!st.nextToken() == st.TT_EOF && !st.sval.equals("{")) {
-						
-					}
-				}
-			}
-			if(inClass && !inSubClass && st.sval.equals("{")) bracketNumber++;
-			if(inClass && !inSubClass && st.sval.equals("}")) bracketNumber--;
-			if(inSubClass && st.sval.equals("{")) subClassBracketNumber++;
-			if(inSubClass && st.sval.contentEquals("}")) subClassBracketNumber--;
-			tempString = st.sval;
-			st.nextToken();
-			//if we parse a scope operator,
-			//meaning we are at a method in our target class
-			if(!inSubClass && inClass && st.sval.equals(".") && !tempString.equals("this")) {
-				st.nextToken();
-				methodName = st.sval;
-				st.nextToken();
-				if(st.sval.contains('(')) A.interactionCoupling.add(new InteractionEntry(tempString, methodName + "()")); 
-			}
+		do {
+			type = st.nextToken();
+			switch(type) {
 			
-			if(bracketNumber == 0 && inClass) {
-				classParsed = true;
-				inClass = false;
+				case st.TT_WORD:
+					if(previousToken.equals("class") && st.sval.equals(A.classname)) {
+						inClass = true;
+					}
+					else if(previousToken.equals("class") && !st.sval.equals(A.classname) && inClass) {
+						inOtherClass = true;
+					}
+					//more to add in
+					previousToken = st.sval;
+					break;
+				//handles whitespace character case
+				//we also use '.' and '(' as whitespaces to evaluate
+				case default:
+					//case handling opening brackets as a way to determine
+					//beginning of scope of class
+					if(type == '{') {
+						if(!inOtherClass && inClass) {
+							if(bracketNumber == -1) bracketNumber = 1;
+							else bracketNumber++;
+						}
+						else if(inOtherClass && inClass) {
+							if(bracketNumber == -1) otherClassBracketNumber = 1;
+							else otherClassBracketNumber++;
+						}
+					}
+					//case handling closing brackets as a way to determine
+					//end of scope of a class
+					else if(type == '}') {
+						if(!inOtherClass && inClass) {
+							bracketNumber--;
+							if(bracketNumber == 0) {
+								parsedClass = true;
+								bracketNumber = -1;
+								inClass = false;
+								//once the end of class is reached there's no
+								//more need for parsing
+								return;
+							}
+						}
+						if(inOtherClass && inClass) {
+							otherClassBracketNumber--;
+							if(otherClassBracketNumber == 0) {
+								otherClassBracketNumber = -1;
+								inOtherClass = false;
+							}
+						}
+					}
+					//case to evaluate whether there is interaction coupling
+					//and creates an interactionEntry if there is
+					else if (type == '.' && inClass && !inOtherClass) {
+						type = st.nextToken();
+						if(type == st.TT_WORD) {
+							methodName = st.sval;
+							type = st.nextToken();
+							if(type == '(') {
+								A.interactionCoupling.add(new InteractionEntry(previousToken, methodName + "()"));
+							}
+						}
+					}
+					
 			}
-			if(subClassBracketNumber == 0 && inSubClass) inSubClass = false;
-		}
+		}while(!classParsed && st.ttype != st.TT_EOF);
 		
 	}
 }
