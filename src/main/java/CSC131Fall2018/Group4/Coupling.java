@@ -16,6 +16,10 @@ public class Coupling extends AbstractMetricsCalculator {
 		String classname;
 		int index;
 		ArrayList<InteractionEntry> interactionCoupling;
+		public ClassStats(String classname, int index) {
+			this.classname = classname;
+			this.index = index;
+		}
 	}
 	//data type to represent an Interaction Coupling entry
 	class InteractionEntry{
@@ -33,11 +37,31 @@ public class Coupling extends AbstractMetricsCalculator {
 	}
 	//This method creates the list of ClassStats Objects for the project
 	public void setClassStats(){
+		//iterate across all of the files
 		for(int i = 0; i < this.fileList.size(); i++) {
 			BufferedReader buffRead;
-			buffRead = new BufferedReader(new FileReader(/*file variable*/));
+			buffRead = new BufferedReader(new FileReader(fileList.get(i)));
 			StreamTokenizer st = new StreamTokenizer(buffRead);
 			setTokenizerSyntaxTable(st);
+			String previousToken = null;
+			do {
+				type = st.nextToken();
+				switch(type) {
+				
+					case st.TT_WORD:
+						//gets the classname. class will be in previousToken
+						//and st.sval will contain the class name
+						if(previousToken.equals("class")) {
+							//creates a ClassStats entry with the name
+							//of the class and index of the ArrayList<File>
+							//where the class is found
+							classes.add(new ClassStats(st.sval, i));
+						}
+						previousToken = st.sval;
+						break;
+					case default:	
+				}
+			}while(st.ttype != st.TT_EOF);
 		}
 	}
 	//sets the options for the stream tokenizer
