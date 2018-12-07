@@ -7,8 +7,8 @@ import java.util.*;
 
 import javax.tools.FileObject;
 
-public class Coupling {
-	ArrayList<FileObject> fileList;
+public class Coupling extends AbstractMetricsCalculator {
+	ArrayList<File> fileList;
 	ArrayList<ClassStats> classes;
 	//data structure to hold all of the coupling
 	//information for a class
@@ -28,16 +28,17 @@ public class Coupling {
 		}
 	}
 	//constructor sets the files to be used for the metric
-	public Coupling(/*filearray*/) {
-		this.fileList = filearray;
+	public Coupling(Repository r) {
+		this.fileList = r.getList();
 	}
-	//This method sets all of the classnames for the project
-	public ArrayList<String> setClasses(){
-		BufferedReader buffRead;
-		buffRead = new BufferedReader(new FileReader(/*file variable*/));
-		StreamTokenizer st = new StreamTokenizer(buffRead);
-		setTokenizerSyntaxTable(st);
-		
+	//This method creates the list of ClassStats Objects for the project
+	public void setClassStats(){
+		for(int i = 0; i < this.fileList.size(); i++) {
+			BufferedReader buffRead;
+			buffRead = new BufferedReader(new FileReader(/*file variable*/));
+			StreamTokenizer st = new StreamTokenizer(buffRead);
+			setTokenizerSyntaxTable(st);
+		}
 	}
 	//sets the options for the stream tokenizer
 	public void setTokenizerSyntaxTable(StreamTokenizer tokenizer) {
