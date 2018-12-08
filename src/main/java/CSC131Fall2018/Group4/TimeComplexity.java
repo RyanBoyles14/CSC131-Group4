@@ -57,8 +57,9 @@ public class TimeComplexity extends AbstractMetricsCalculator {
             } else if(nest) {
                 for(String loops: loops) {
                     nested++;
-                    System.out.println("The estimate worst case time complexity of this file is O(n^" + nested + ")");
+
                 }
+                System.out.println("The estimate worst case time complexity of this file is O(n^" + nested + ")");
             }
 
 
