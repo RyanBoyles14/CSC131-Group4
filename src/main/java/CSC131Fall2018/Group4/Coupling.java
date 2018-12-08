@@ -1,10 +1,10 @@
 package CSC131Fall2018.Group4;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.StreamTokenizer;
 import java.util.*;
+import java.io.*;
 
 import javax.tools.FileObject;
 
@@ -33,36 +33,24 @@ public class Coupling extends AbstractMetricsCalculator {
 		}
 	}
 	//constructor sets the files to be used for the metric
-	public Coupling(Repository r) throws Exception
-	{
-		super(r);
-	}
-
-	protected void newCalculation(Repository r) throws Exception
-	{
+	public Coupling(Repository r) {
 		this.fileList = r.getList();
 	}
-
-	protected void newCalculation(File f) throws Exception
-	{
-		this.fileList.add(f);
-	}
-
 	//This method creates the list of ClassStats Objects for the project
-	public void setClassStats(){
+	public void setClassStats() throws IOException{
 		//iterate across all of the files
 		for(int i = 0; i < this.fileList.size(); i++) {
+			int type;
 			BufferedReader buffRead;
 			buffRead = new BufferedReader(new FileReader(fileList.get(i)));
 			StreamTokenizer st = new StreamTokenizer(buffRead);
 			setTokenizerSyntaxTable(st);
 			String previousToken = null;
-			int type;
 			do {
 				type = st.nextToken();
 				switch(type) {
 				
-					case st.TT_WORD:
+					case StreamTokenizer.TT_WORD:
 						//gets the classname. class will be in previousToken
 						//and st.sval will contain the class name
 						if(previousToken.equals("class")) {
@@ -73,9 +61,9 @@ public class Coupling extends AbstractMetricsCalculator {
 						}
 						previousToken = st.sval;
 						break;
-					case default:	
+					default:	
 				}
-			}while(st.ttype != st.TT_EOF);
+			}while(st.ttype != StreamTokenizer.TT_EOF);
 		}
 	}
 	//sets the options for the stream tokenizer
@@ -99,9 +87,11 @@ public class Coupling extends AbstractMetricsCalculator {
 		tokenizer.quoteChar(34);
 	}
 	//get the interaction coupling for a class
-	public void getInteractionCoupling() {
+	public void getInteractionCoupling() throws IOException{
+		int type;
+		for(int i = 0; i < classes.size(); i++) {
 		BufferedReader buffRead;
-		buffRead = new BufferedReader(new FileReader(fileList.get(classes.index)));
+		buffRead = new BufferedReader(new FileReader(fileList.get(classes.get(i).index)));
 		StreamTokenizer st = new StreamTokenizer(buffRead);
 		setTokenizerSyntaxTable(st);
 		boolean classParsed = false;
@@ -120,11 +110,11 @@ public class Coupling extends AbstractMetricsCalculator {
 			type = st.nextToken();
 			switch(type) {
 			
-				case st.TT_WORD:
-					if(previousToken.equals("class") && st.sval.equals(classes.classname)) {
+				case StreamTokenizer.TT_WORD:
+					if(previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
 						inClass = true;
 					}
-					else if(previousToken.equals("class") && !st.sval.equals(classes.classname) && inClass) {
+					else if(previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
 						inOtherClass = true;
 					}
 					//more to add in
@@ -132,7 +122,7 @@ public class Coupling extends AbstractMetricsCalculator {
 					break;
 				//handles whitespace character case
 				//we also use '.' and '(' as whitespaces to evaluate
-				case default:
+				default:
 					//case handling opening brackets as a way to determine
 					//beginning of scope of class
 					if(type == '{') {
@@ -151,7 +141,7 @@ public class Coupling extends AbstractMetricsCalculator {
 						if(!inOtherClass && inClass) {
 							bracketNumber--;
 							if(bracketNumber == 0) {
-								parsedClass = true;
+								classParsed = true;
 								bracketNumber = -1;
 								inClass = false;
 								//once the end of class is reached there's no
@@ -171,17 +161,18 @@ public class Coupling extends AbstractMetricsCalculator {
 					//and creates an interactionEntry if there is
 					else if (type == '.' && inClass && !inOtherClass) {
 						type = st.nextToken();
-						if(type == st.TT_WORD) {
+						if(type == StreamTokenizer.TT_WORD) {
 							methodName = st.sval;
 							type = st.nextToken();
 							if(type == '(') {
-								classes.interactionCoupling.add(new InteractionEntry(previousToken, methodName + "()"));
+								classes.get(i).interactionCoupling.add(new InteractionEntry(previousToken, methodName + "()"));
 							}
 						}
 					}
 					
 			}
-		}while(!classParsed && st.ttype != st.TT_EOF);
+		}while(!classParsed && st.ttype != StreamTokenizer.TT_EOF);
 		
+	}
 	}
 }
