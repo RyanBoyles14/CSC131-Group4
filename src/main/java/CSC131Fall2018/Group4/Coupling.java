@@ -71,13 +71,20 @@ public class Coupling extends AbstractMetricsCalculator {
 		//set the whitespace/delimiters
 		tokenizer.whitespaceChars(33, 33);
 		tokenizer.whitespaceChars(35, 47);
-		tokenizer.whitespaceChars(58, 63);
-		tokenizer.whitespaceChars(91, 94);
+		tokenizer.whitespaceChars(58, 59);
+		tokenizer.whitespaceChars(61, 61);
+		tokenizer.whitespaceChars(63, 64);
+		tokenizer.whitespaceChars(92, 92);
+		tokenizer.whitespaceChars(94, 94);
 		tokenizer.whitespaceChars(123, 126);
 		
 		//set word values
 		tokenizer.wordChars(48, 57);//sets 0-9 ascii as word characters
 		tokenizer.wordChars(95, 95);//sets '_' ascii as word character
+		tokenizer.wordChars(60, 60);// sets <
+		tokenizer.wordChars(62, 62);// sets >
+		tokenizer.wordChars(91, 91);// sets [
+		tokenizer.wordChars(93, 93);// sets ]
 		
 		//set comment values
 		tokenizer.slashStarComments(true);
