@@ -56,6 +56,12 @@
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</testResource>
+			<testResource>
+				<directory>src/tests/src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</testResource>
 		</testResources>
 		<plugins>
 
