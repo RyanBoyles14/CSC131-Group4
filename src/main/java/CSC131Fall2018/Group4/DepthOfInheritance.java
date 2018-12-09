@@ -53,7 +53,8 @@ public class DepthOfInheritance extends AbstractMetricsCalculator
             String[] parts = f.toString().split("\\.");
             String extension = parts[parts.length - 1];
             try {
-                if (extension.equals("java") || extension.equals("cpp") || extension.equals("hpp")) {
+                if (extension.equals("java") || extension.equals("cpp") || extension.equals("hpp")
+                    || extension.equals("cxx") || extension.equals("hxx") || extension.equals("h")) {
                     CharStream input = CharStreams.fromFileName(f.toString());
                     parse(f, extension, input);
                 }
@@ -78,7 +79,10 @@ public class DepthOfInheritance extends AbstractMetricsCalculator
                 break;
             }
             case "cpp":
-            case "hpp": {
+            case "cxx":
+            case "hpp":
+            case "hxx":
+            case "h": {
                 Lexer lexer = new CPP14Lexer(input);
                 CommonTokenStream tokens = new CommonTokenStream(lexer);
                 extractor = new CPPListener();
