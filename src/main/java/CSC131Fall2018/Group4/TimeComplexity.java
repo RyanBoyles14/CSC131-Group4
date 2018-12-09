@@ -11,8 +11,9 @@ public class TimeComplexity extends AbstractMetricsCalculator {
 
     ArrayList<File> fileArrayList;
     ArrayList<String> loop;
-    public int loonum;
-    public int count;
+    private int loonum;
+    private int count;
+    private int newin;
 
     String[] loops;
 
@@ -38,6 +39,7 @@ public class TimeComplexity extends AbstractMetricsCalculator {
 
     private int getTimeComplexity() throws IOException{
         int index;
+
         for(int i = 0; i < fileArrayList.size(); i++) {
             BufferedReader br = new BufferedReader(new FileReader(fileArrayList.get(i)));
             StreamTokenizer st = new StreamTokenizer(br);
@@ -62,13 +64,12 @@ public class TimeComplexity extends AbstractMetricsCalculator {
                         loonum = 1;
                     } else if (loops[index + 2].equals("{")) {
                         count = 1;
-                        int newin;
+
                         for (int k = index + 2; k < loops.length - (index + 2); j++) {
                             if (!(loops[k].equals("while") || loops[k].equals("for"))) {
                                 count++;
-                            }
-
-                            if(loops[k].equals("}") && count%2==0 ){
+                                newin = k;
+                            } else if(loops[newin + 1].equals("}") && count%2==0 ){
                                 loonum++;
 
                             }
