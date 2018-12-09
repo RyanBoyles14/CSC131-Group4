@@ -28,7 +28,6 @@ public class Repository implements AutoCloseable
 	{
 		this.git = Git.cloneRepository().setURI(url).setDirectory(Files.createTempDirectory(null).toFile()).call();
 		this.buildList();
-		this.calculateMetrics();
 		this.authorStats = new AuthorStats(git);
 	}
 
@@ -89,10 +88,5 @@ public class Repository implements AutoCloseable
 			}
 		}
 		directory.delete();
-	}
-
-	private void calculateMetrics()
-	{
-		this.metrics.fileCount = this.list.size();
 	}
 }
