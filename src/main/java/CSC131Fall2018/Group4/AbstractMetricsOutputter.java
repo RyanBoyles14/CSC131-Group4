@@ -1,6 +1,5 @@
 package CSC131Fall2018.Group4;
 
-import java.io.IOException;
 import java.io.OutputStream;
 
 abstract class AbstractMetricsOutputter
