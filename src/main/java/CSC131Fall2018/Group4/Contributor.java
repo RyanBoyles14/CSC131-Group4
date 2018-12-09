@@ -11,10 +11,16 @@ import java.util.concurrent.TimeUnit;
 
 //class to store each authors name and commit history
 public class Contributor {
-	
+
 	public class Metrics implements IMetrics {
-		
+		public String name;
+		public String email;
+		public int age;
+		public int commitsPerMonth;
+		public int totalCommits;
+		public double commitPercentage;
 	}
+
 	private String name, email;
 	private int numCommits, total, frequency;
 	private double percentage, days;
@@ -22,7 +28,8 @@ public class Contributor {
 	LinkedHashMap<String, String> commitMessages;
 	ArrayList<String> commits;
 	String initDate, endDate, initText, endText;
-
+	public Metrics metrics = new Metrics();
+	
 	public Contributor(String name, String email, int totalCommits) {
 		this.name = name;
 		this.email = email;
@@ -50,54 +57,46 @@ public class Contributor {
 		}
 	}
 
- // returns days between first and last commit
- public String getAge() {
-     int temp = (int) days;
-     if (days < 1)
-         return "0 days";
-     if (days == 1)
-         return "1 day";
-     return temp + " days";
- }
+	// returns days between first and last commit
+	public int getAge() {
+		return (int) this.days;
+	}
 
- // returns date of last commit
- public String getEndDate() {
-     return endDate;
- }
+	// returns date of last commit
+	public String getEndDate() {
+		return endDate;
+	}
 
- // returns date of first commit
- public String getInitialDate() {
-     return initDate;
- }
+	// returns date of first commit
+	public String getInitialDate() {
+		return initDate;
+	}
 
- // returns author name
- public String getName() {
-     return name;
- }
+	// returns author name
+	public String getName() {
+		return name;
+	}
 
- // returns author email
- public String getEmail() {
-     return email;
- }
+	// returns author email
+	public String getEmail() {
+		return email;
+	}
 
- // returns frequency of commits per month
- public String getFrequency() {
-     if (frequency == 1)
-         return frequency + " commit per month";
+	// returns frequency of commits per month
+	public int getFrequency() {
+		return this.frequency;
+	}
 
-     return frequency + " commits per month";
- }
+	// returns number of commits for the author
+	public int getNumCommits() {
+		return numCommits;
+	}
 
- // returns number of commits for the author
- public int getNumCommits() {
-     return numCommits;
- }
-
- // returns percentage of commits in string form
- public String getPercentage() {
-     this.percentage = (double) numCommits / (double) total * 100;
-     return String.format("%.2f%%", percentage);
- }
+	// returns percentage of commits in string form
+	public double getPercentage() {
+		this.percentage = (double) numCommits / (double) total * 100;
+		return this.percentage;
+	}
 
 	// updates commit history, initial and final commit dates for author
 	public void add(String date) {
