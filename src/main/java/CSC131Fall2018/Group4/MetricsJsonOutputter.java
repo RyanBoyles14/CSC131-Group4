@@ -33,7 +33,7 @@ public class MetricsJsonOutputter extends AbstractMetricsOutputter
 				.putPOJO(metrics.getClass().getDeclaringClass().getSimpleName(), metrics);
 	}
 
-	public void out(OutputStream stream) throws IOException, JsonGenerationException, JsonMappingException
+	public void out(OutputStream stream) throws IOException
 	{
 		this.mapper.writerWithDefaultPrettyPrinter().writeValue(stream, this.rootNode);
 	}
