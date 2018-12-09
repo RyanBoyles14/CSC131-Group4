@@ -6,8 +6,6 @@ import java.io.StreamTokenizer;
 import java.util.*;
 import java.io.*;
 
-import javax.tools.FileObject;
-
 public class Coupling extends AbstractMetricsCalculator {
 	ArrayList<File> fileList = new ArrayList<File>();
 	ArrayList<ClassStats> classes = new ArrayList<ClassStats>();
@@ -46,9 +44,24 @@ public class Coupling extends AbstractMetricsCalculator {
 		}
 	}
 	//constructor sets the files to be used for the metric
-	public Coupling(Repository r) {
+	public Coupling(Repository r)
+		throws Exception
+	{
+		super(r);
+	}
+
+	protected void newCalculation(File f)
+			throws Exception
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	protected void newCalculation(Repository r)
+			throws Exception
+	{
 		this.fileList = r.getList();
 	}
+
 	//This method creates the list of ClassStats Objects for the project
 	public void setClassStats() throws IOException{
 		//iterate across all of the files
