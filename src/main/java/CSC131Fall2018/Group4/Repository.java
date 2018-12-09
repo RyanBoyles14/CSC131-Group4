@@ -14,6 +14,7 @@ public class Repository implements AutoCloseable
 	public class Metrics implements IMetrics
 	{
 		public int fileCount;
+		
 	}
 
 	private Git git;
@@ -45,9 +46,9 @@ public class Repository implements AutoCloseable
 		return list;
 	}
 
-	// returns AuthorStats object for the repo
-	public AuthorStats getAuthorStats() {
-		return authorStats;
+	// returns list of contributors
+	public ArrayList<Contributor> getContributors() {
+		return authorStats.contributors;
 	}
 	
 	// builds ArrayList of files in the repository
