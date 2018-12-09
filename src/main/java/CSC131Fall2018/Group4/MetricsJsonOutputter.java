@@ -4,17 +4,29 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.OutputStream;
 
 public class MetricsJsonOutputter extends AbstractMetricsOutputter
 {
-	private final ObjectMapper mapper = new ObjectMapper(new JsonFactory().configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false));
-	private final JsonNode rootNode = this.mapper.createObjectNode();
+	private ObjectMapper mapper;
+	private JsonNode rootNode;
 
 	public MetricsJsonOutputter()
 	{
+		JsonFactory factory = new JsonFactory();
+		factory.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
+
+		this.mapper = new ObjectMapper(factory);
+
+		SimpleModule module = new SimpleModule();
+		module.addSerializer(CSC131Fall2018.Group4.Class.class, new JsonClassSerializer());
+		this.mapper.registerModule(module);
+
+		this.rootNode = this.mapper.createObjectNode();
+
 		ObjectNode infoNode = ((ObjectNode) this.rootNode).putObject(this.rootName);
 		infoNode
 				.put("version", this.version)
@@ -27,9 +39,11 @@ public class MetricsJsonOutputter extends AbstractMetricsOutputter
 	}
 
 	public void addMetric(IMetrics metrics)
+			throws Exception
 	{
 		((ObjectNode) this.rootNode.get(this.rootName).get("metrics"))
-				.putPOJO(metrics.getClass().getDeclaringClass().getSimpleName(), metrics);
+				.putPOJO(metrics.getClass().getDeclaringClass().getSimpleName(),
+						metrics);
 	}
 
 	public void out(OutputStream stream) throws Exception
