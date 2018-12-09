@@ -1,16 +1,3 @@
-/*
-    Group 4 - CSC 131
-    Developer: Ryan Boyles
-
-    The object Class represents any class or interface.
-    When a Class is made, it is given a list of classes and
-    interfaces it inherits.
-
-    After all files are parsed, link all Classes with its parent
-    and find their depth.
-
-*/
-
 package parsetree;
 
 import java.io.File;
@@ -19,11 +6,9 @@ import java.util.ArrayList;
 public class Class{
     private String name;
     private File file;
-    private StringBuilder inheritance = new StringBuilder(); //the beginning of the list represents the lowest point of inheritance
-    private ArrayList<Class> parent = new ArrayList<>();
-    // parentNames allow checking a Class' inheritance with an existing Class object
-    // Used in DepthOfInheritance updateParent()
-    private ArrayList<String> parentNames = new ArrayList<>();
+    private ArrayList<Class> inheritance = new ArrayList<>(); //the beginning of the list represents the lowest point of inheritance
+    private ArrayList<Class> parent = new ArrayList<>(); //holds all parents as Class
+    private ArrayList<String> parentNames = new ArrayList<>(); //holds all parents as Strings, which will update to Class later on
     private int depth = 1;
     private boolean foundDepth = false;
 
@@ -57,9 +42,6 @@ public class Class{
         while(!parent.isEmpty()){
             Class p = parent.remove(0);
 
-            if(p == null)
-                return 1;
-
             // After finding the parent's depth, save it to the parent
             int depth = p.findDepth();
 
@@ -71,12 +53,10 @@ public class Class{
 
         foundDepth = true;
 
-        inheritance.insert(0, name);
-        if(deepestInheritance != null)
-            inheritance.append(" < " + deepestInheritance.inheritance);
-        else
-            inheritance.append(" < Object");
-
+        if(deepestInheritance != null) {
+            inheritance.add(deepestInheritance);
+            inheritance.addAll(deepestInheritance.inheritance);
+        }
         depth = max + 1;
 
         return depth;
@@ -96,5 +76,5 @@ public class Class{
         return depth;
     }
 
-    StringBuilder getInheritance(){ return inheritance;}
+    ArrayList<Class> getInheritance(){ return inheritance;}
 }

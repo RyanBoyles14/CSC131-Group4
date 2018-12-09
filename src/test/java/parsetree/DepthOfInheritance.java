@@ -96,7 +96,12 @@ public class DepthOfInheritance {
             }
             child.findDepth();
 
-            System.out.println("\t" + child.getInheritance().toString());
+            System.out.print("\t" + child.getName());
+            for(Class c: child.getInheritance())
+                System.out.print(" < " + c.getName());
+
+            System.out.println(" < Object");
+            System.out.println("\t Depth: " + child.getDepth());
         }
     }
 

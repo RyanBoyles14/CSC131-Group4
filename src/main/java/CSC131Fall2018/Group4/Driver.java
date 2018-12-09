@@ -1,8 +1,13 @@
 package CSC131Fall2018.Group4;
 
 import java.nio.file.Files;
+import java.io.File;
 import java.util.concurrent.Callable;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.*;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import picocli.CommandLine;
 import picocli.CommandLine.*;
 
@@ -39,13 +44,21 @@ public class Driver implements Callable<Void>
     @Override
     public Void call() throws Exception
     {
-        try (Repository repo = new Repository(this.gitProjectUrl))
+        try (final Repository repo = new Repository(this.gitProjectUrl))
         {
-            System.out.println("Repository contains " + repo.metrics.fileCount + " files.");
+            AbstractMetricsOutputter blah = new MetricsJsonOutputter();
+            blah.addMetric(repo.metrics);
+            blah.out(System.out);
+
+            System.out.println();
+
+            AbstractMetricsOutputter blah2 = new MetricsXmlOutputter();
+            blah2.addMetric(repo.metrics);
+            blah2.out(System.out);
         }
         catch (Exception e)
         {
-            System.err.println("Could not open repository " + this.gitProjectUrl + ": " + e.getMessage());
+            System.err.println("Failed to output metrics for " + this.gitProjectUrl + ": " + e.getMessage());
         }
 
         return null;

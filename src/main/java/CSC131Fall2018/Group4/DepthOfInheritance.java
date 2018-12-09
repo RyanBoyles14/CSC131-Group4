@@ -28,10 +28,8 @@ public class DepthOfInheritance extends AbstractMetricsCalculator
 {
     public class Metrics implements IMetrics
     {
-        ArrayList<Class> classes = new ArrayList<>();
+        public ArrayList<Class> classes = new ArrayList<>();
     }
-
-    public DepthOfInheritance.Metrics metrics = this.new Metrics();
 
     public DepthOfInheritance(Repository r) throws Exception
     {
@@ -47,6 +45,8 @@ public class DepthOfInheritance extends AbstractMetricsCalculator
     @Override
     protected void newCalculation(Repository r) throws Exception
     {
+        this.metrics = new DepthOfInheritance.Metrics();
+
         ArrayList<File> files = r.getList();
 
         for(File f: files){
@@ -95,7 +95,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator
         }
 
         extractor.setFile(f);
-        this.metrics.classes.addAll(extractor.getClasses());
+        ((DepthOfInheritance.Metrics) this.metrics).classes.addAll(extractor.getClasses());
     }
 
     // Run through all the classes, finding their depths and displaying them
@@ -103,7 +103,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator
         updateParent();
 
         String file = "";
-        for (Class child : this.metrics.classes) {
+        for (Class child : ((DepthOfInheritance.Metrics) this.metrics).classes) {
             if(!file.equals(child.getFile().toString())) {
                 file = child.getFile().toString();
                 System.out.println(file);
@@ -117,7 +117,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator
         Connect Class objects with any other Class object it inherits from
      */
     private void updateParent(){
-        for(Class child: this.metrics.classes) {
+        for(Class child: ((DepthOfInheritance.Metrics) this.metrics).classes) {
 
             if(child.getParent().isEmpty())
                 continue;
@@ -125,7 +125,7 @@ public class DepthOfInheritance extends AbstractMetricsCalculator
             ArrayList<String> parent = child.getParent();
             // Check if a child's parent already has a Class
             // Used for linking depth among classes
-            for (Class cl : this.metrics.classes) {
+            for (Class cl : ((DepthOfInheritance.Metrics) this.metrics).classes) {
                 if (parent.contains(cl.getName()) && fileCheck(cl, child)) {
                     child.setParent(cl);
                     parent.remove(cl.getName());
