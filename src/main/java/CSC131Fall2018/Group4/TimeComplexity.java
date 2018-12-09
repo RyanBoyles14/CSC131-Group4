@@ -28,7 +28,7 @@ public class TimeComplexity extends AbstractMetricsCalculator {
     protected void newCalculation(Repository r) throws Exception {
         this.fileArrayList = r.getList();
         this.metrics = new TimeComplexity.Metrics();
-        ((Metrics)this.metrics).worstCase = "O(n^" + String.valueOf(this.getTimeComplexity()) + ")";
+        ((TimeComplexity.Metrics)this.metrics).worstCase = "O(n^" + String.valueOf(this.getTimeComplexity()) + ")";
 
 
     }
