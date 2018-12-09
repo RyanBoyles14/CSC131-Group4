@@ -3,10 +3,15 @@ package CSC131Fall2018.Group4;
 import java.io.*;
 import java.util.ArrayList;
 
-public class TimeComplexity extends AbstractMetricsCalculator {
+public class TimeComplexity extends AbstractMetricsCalculator
+{
+    public class Metrics implements IMetrics
+    {
+        String worstCase;
+    }
+
     ArrayList<File> fileArrayList;
     ArrayList<String> loops;
-    public int nested;
 
     @Override
     protected void newCalculation(File f) throws Exception {
@@ -16,21 +21,24 @@ public class TimeComplexity extends AbstractMetricsCalculator {
 
     @Override
     protected void newCalculation(Repository r) throws Exception {
+        this.metrics = new TimeComplexity.Metrics();
         this.fileArrayList = r.getList();
 
-
+        ((TimeComplexity.Metrics) this.metrics).worstCase = "O(n^" + String.valueOf(this.getTimeComplexity()) + ")";
     }
 
     public TimeComplexity(Repository r) throws Exception {
         super(r);
     }
 
-    public void getTimeComplexity() throws IOException {
+    private int getTimeComplexity() throws IOException {
+        int nested = 0;
+
         for (int i = 0; i < fileArrayList.size(); i++) {
 
             BufferedReader br = new BufferedReader(new FileReader(fileArrayList.get(i).toString()));
             StreamTokenizer st = new StreamTokenizer(br);
-            setStreamTokenizerSyntaxTable(st);
+            this.setStreamTokenizerSyntaxTable(st);
             String pt = null;
             int type;
             boolean loop = false;
@@ -62,15 +70,12 @@ public class TimeComplexity extends AbstractMetricsCalculator {
                 }
 
             }
-
-
-
-
-
         }
+
+        return nested;
     }
 
-        public void setStreamTokenizerSyntaxTable (StreamTokenizer st){
+        private void setStreamTokenizerSyntaxTable (StreamTokenizer st){
             //set the whitespace/delimiters
             st.parseNumbers();
             st.whitespaceChars(32, 96);
@@ -93,17 +98,4 @@ public class TimeComplexity extends AbstractMetricsCalculator {
             //st.wordChars(58,62);
             st.eolIsSignificant(true);
         }
-
-        public int getNested() {
-            return nested;
-        }
-
-        public String toString() {
-            String s = "";
-            s = "The estimate worst case time complexity of this file is O(n" + nested + ")";
-            return s;
-
-        }
-
-
 }

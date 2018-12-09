@@ -6,6 +6,8 @@ import java.io.File;
 // for a single file and for an entire repository
 abstract public class AbstractMetricsCalculator
 {
+    public IMetrics metrics;
+
     public AbstractMetricsCalculator(File f) throws Exception
     {
         this.newCalculation(f);
