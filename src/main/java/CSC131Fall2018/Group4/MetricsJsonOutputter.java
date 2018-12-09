@@ -1,5 +1,7 @@
 package CSC131Fall2018.Group4;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -8,7 +10,7 @@ import java.io.OutputStream;
 
 public class MetricsJsonOutputter extends AbstractMetricsOutputter
 {
-	private final ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper = new ObjectMapper(new JsonFactory().configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false));
 	private final JsonNode rootNode = this.mapper.createObjectNode();
 
 	public MetricsJsonOutputter()
