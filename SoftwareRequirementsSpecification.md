@@ -237,6 +237,13 @@
 #### 3.4. Design Constraints
 ###### This section specifies all the constraints affecting the design, including security, fault tolerance, and standard compliance.
 
+    3.4.1 Software Language
+    The language used to built the software is Java.
+
+    3.4.2 External Libraries
+    The software relies on external libraries and must conform to the standards and designs of other developers
+
+
 <a name="attributes"></a>
 #### 3.5. Attributes
 ###### This section specifies the overall attributes the system should have.
