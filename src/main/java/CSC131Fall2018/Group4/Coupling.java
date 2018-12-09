@@ -29,7 +29,7 @@ public class Coupling extends AbstractMetricsCalculator {
 		String targetClassname;
 		String value;
 		//Constructor to assign values to data type fields
-		public InteractionEntry(String name, String value) {
+		public ComponentEntry(String name, String value) {
 			this.targetClassname = name;
 			this.value = value;
 		}
@@ -125,7 +125,7 @@ public class Coupling extends AbstractMetricsCalculator {
 		int bracketNumber = -1;
 		int otherClassBracketNumber = -1;
 		String previousToken = null;
-		String methodName = null;
+		String variableName = null;
 		int type;
 		//evaluates whether the class has finished parsing
 		//or the end of file has been reached
@@ -139,6 +139,18 @@ public class Coupling extends AbstractMetricsCalculator {
 					}
 					else if(previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
 						inOtherClass = true;
+					}
+					//here we check for component coupling
+					else if(inClass && !inOtherClass) {
+						for(int j = 0; j < classes.size(); j++) {
+							//if the parsed value is equal to the name of one of
+							//our classes, except the one we are currently in,
+							//then we create a ComponentCoupling entry
+							if(st.sval.equals(classes.get(j).classname) && !st.sval.equals(classes.get(i).classname)) {
+								st.nextToken();
+								classes.get(i).componentCoupling.add(new ComponentEntry(classes.get(j).classname, st.sval));
+							}
+						}
 					}
 					//more to add in
 					previousToken = st.sval;
@@ -180,19 +192,6 @@ public class Coupling extends AbstractMetricsCalculator {
 							}
 						}
 					}
-					//case to evaluate whether there is interaction coupling
-					//and creates an interactionEntry if there is
-					else if (type == '.' && inClass && !inOtherClass) {
-						type = st.nextToken();
-						if(type == StreamTokenizer.TT_WORD) {
-							methodName = st.sval;
-							type = st.nextToken();
-							if(type == '(') {
-								classes.get(i).interactionCoupling.add(new InteractionEntry(previousToken, methodName + "()"));
-							}
-						}
-					}
-					
 			}
 		}while(!classParsed && st.ttype != StreamTokenizer.TT_EOF);
 		
