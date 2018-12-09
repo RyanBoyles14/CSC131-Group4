@@ -1,4 +1,4 @@
-package CSC131Fall2018.Group4;
+package main.java.CSC131Fall2018.Group4;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -21,9 +21,9 @@ public class Contributor {
 		public double commitPercentage;
 	}
 
-	private String name, email;
-	private int numCommits, total, frequency;
-	private double percentage, days;
+	public String name, email;
+	public int numCommits, total, frequency;
+	public double percentage, days;
 	Period diff;
 	LinkedHashMap<String, String> commitMessages;
 	ArrayList<String> commits;
@@ -39,22 +39,6 @@ public class Contributor {
 		this.total = totalCommits;
 		this.commitMessages = new LinkedHashMap<>();
 		this.commits = new ArrayList<>();
-	}
-
-	// calculates commit frequency for author
-	@SuppressWarnings("deprecation")
-	private void computeFreq() {
-		Date initial = new Date(initText);
-		Date end = new Date(endText);
-		days = TimeUnit.DAYS.convert(end.getTime() - initial.getTime(), TimeUnit.MILLISECONDS);
-		LocalDate i = initial.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate e = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		diff = Period.between(i, e);
-		if (diff.getMonths() == 0) {
-			frequency = numCommits;
-		} else {
-			frequency = numCommits / (diff.getMonths() + 1);
-		}
 	}
 
 	// returns days between first and last commit
@@ -82,20 +66,9 @@ public class Contributor {
 		return email;
 	}
 
-	// returns frequency of commits per month
-	public int getFrequency() {
-		return this.frequency;
-	}
-
 	// returns number of commits for the author
 	public int getNumCommits() {
 		return numCommits;
-	}
-
-	// returns percentage of commits in string form
-	public double getPercentage() {
-		this.percentage = (double) numCommits / (double) total * 100;
-		return this.percentage;
 	}
 
 	// updates commit history, initial and final commit dates for author
@@ -109,7 +82,6 @@ public class Contributor {
 		endDate = d;
 		endText = date;
 		numCommits++;
-		computeFreq();
 	}
 
 	// converts text date to numerical
