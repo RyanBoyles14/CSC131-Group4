@@ -1,4 +1,4 @@
-package CSC131Fall2018.Group4;
+package main.java.CSC131Fall2018.Group4;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,7 +36,7 @@ public class AuthorStats
     Iterable<RevCommit> log;
     Iterator<RevCommit> itr;
     RevCommit commit;
-    ArrayList<Author> authors = new ArrayList<>();
+    ArrayList<Contributor> contributors = new ArrayList<>();
     ArrayList<String> namesList = new ArrayList<>();
     LinkedHashMap<String, String> idList = new LinkedHashMap<>();
     String s, name, email, message, date;
@@ -58,7 +58,7 @@ public class AuthorStats
 			name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
 			date = s.substring(s.lastIndexOf(",") + 2, s.lastIndexOf("-") - 1);
 
-			for (Author a : authors) {
+			for (Contributor a : contributors) {
 				if (a.getName().equals(name)) {
 					a.add(date);
 				}
@@ -79,7 +79,7 @@ public class AuthorStats
             idList.put(name, email);
         }
         for (Map.Entry<String, String> e : idList.entrySet()) {
-            authors.add(new Author(e.getKey(), e.getValue(), this.metrics.totalCommits));
+            contributors.add(new Contributor(e.getKey(), e.getValue(), this.metrics.totalCommits));
         }
         sc.close();
 
@@ -113,118 +113,7 @@ public class AuthorStats
 	}
 
     // return list of author objects
-    public ArrayList<Author> returnAuthors() {
-        return authors;
+    public ArrayList<Contributor> returnContributors() {
+        return contributors;
     }
-}
-
-// class to store each authors name and commit history
-class Author {
-
-	private String name, email;
-	private int numCommits, total, frequency;
-	private double percentage, days;
-	Period diff;
-	LinkedHashMap<String, String> commitMessages;
-	ArrayList<String> commits;
-	String initDate, endDate, initText, endText;
-
-	public Author(String name, String email, int totalCommits) {
-		this.name = name;
-		this.email = email;
-		this.initDate = "null";
-		this.endDate = "null";
-		this.numCommits = 0;
-		this.total = totalCommits;
-		this.commitMessages = new LinkedHashMap<>();
-		this.commits = new ArrayList<>();
-	}
-
-	// calculates commit frequency for author
-	@SuppressWarnings("deprecation")
-	private void computeFreq() {
-		Date initial = new Date(initText);
-		Date end = new Date(endText);
-		days = TimeUnit.DAYS.convert(end.getTime() - initial.getTime(), TimeUnit.MILLISECONDS);
-		LocalDate i = initial.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate e = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		diff = Period.between(i, e);
-		if (diff.getMonths() == 0) {
-			frequency = numCommits;
-		} else {
-			frequency = numCommits / (diff.getMonths() + 1);
-		}
-	}
-
-    // returns days between first and last commit
-    public String getAge() {
-        int temp = (int) days;
-        if (days < 1)
-            return "0 days";
-        if (days == 1)
-            return "1 day";
-        return temp + " days";
-    }
-
-    // returns date of last commit
-    public String getEndDate() {
-        return endDate;
-    }
-
-    // returns date of first commit
-    public String getInitialDate() {
-        return initDate;
-    }
-
-    // returns author name
-    public String getName() {
-        return name;
-    }
-
-    // returns author email
-    public String getEmail() {
-        return email;
-    }
-
-    // returns frequency of commits per month
-    public String getFrequency() {
-        if (frequency == 1)
-            return frequency + " commit per month";
-
-        return frequency + " commits per month";
-    }
-
-    // returns number of commits for the author
-    public int getNumCommits() {
-        return numCommits;
-    }
-
-    // returns percentage of commits in string form
-    public String getPercentage() {
-        this.percentage = (double) numCommits / (double) total * 100;
-        return String.format("%.2f%%", percentage);
-    }
-
-	// updates commit history, initial and final commit dates for author
-	public void add(String date) {
-		String d = convert(date);
-		if (commits.size() == 0) {
-			initText = date;
-			initDate = d;
-		}
-		commits.add(d);
-		endDate = d;
-		endText = date;
-		numCommits++;
-		computeFreq();
-	}
-
-	// converts text date to numerical
-	@SuppressWarnings("deprecation")
-	private String convert(String date) {
-		Date day = new Date(date);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		return sdf.format(day);
-	}
-
 }

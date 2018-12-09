@@ -2,16 +2,21 @@ package CSC131Fall2018.Group4;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
-public class TimeComplexity extends AbstractMetricsCalculator
-{
-    public class Metrics implements IMetrics
-    {
+public class TimeComplexity extends AbstractMetricsCalculator {
+    public class Metrics implements IMetrics {
         String worstCase;
     }
 
     ArrayList<File> fileArrayList;
-    ArrayList<String> loops;
+    ArrayList<String> loop;
+    private int loonum;
+    private int count;
+    private int newin;
+
+    String[] loops;
+
 
     @Override
     protected void newCalculation(File f) throws Exception {
@@ -21,59 +26,71 @@ public class TimeComplexity extends AbstractMetricsCalculator
 
     @Override
     protected void newCalculation(Repository r) throws Exception {
-        this.metrics = new TimeComplexity.Metrics();
         this.fileArrayList = r.getList();
+        this.metrics = new TimeComplexity.Metrics();
+        ((Metrics)this.metrics).worstCase = "O(n^" + String.valueOf(this.getTimeComplexity()) + ")";
 
-        ((TimeComplexity.Metrics) this.metrics).worstCase = "O(n^" + String.valueOf(this.getTimeComplexity()) + ")";
+
     }
 
     public TimeComplexity(Repository r) throws Exception {
         super(r);
     }
 
-    private int getTimeComplexity() throws IOException {
-        int nested = 0;
+    private int getTimeComplexity() throws IOException{
+        int index;
 
-        for (int i = 0; i < fileArrayList.size(); i++) {
-
-            BufferedReader br = new BufferedReader(new FileReader(fileArrayList.get(i).toString()));
+        for(int i = 0; i < fileArrayList.size(); i++) {
+            BufferedReader br = new BufferedReader(new FileReader(fileArrayList.get(i)));
             StreamTokenizer st = new StreamTokenizer(br);
             this.setStreamTokenizerSyntaxTable(st);
-            String pt = null;
-            int type;
-            boolean loop = false;
-            boolean nest = false;
-            while(st.ttype != st.TT_EOF) {
-                type = st.nextToken();
-                switch (type) {
-                    case StreamTokenizer.TT_WORD:
-                        if(st.sval.equals("while") || st.sval.equals("for")) {
-                            loops.add(st.sval);
-                            loop = true;
-                            if(pt.equals("{")) {
-                                nest = true;
-                            }
-                        }
-                        pt = st.sval;
-                        break;
+            while (st.nextToken() != st.TT_EOF) {
+                if (st.sval != null) {
+                    if (st.sval.equals("while") || st.sval.equals("for") || st.sval.equals("{") || st.sval.equals("}")) {
+                        loop.add(st.sval);
 
+                    }
                 }
-
+            }
+            ListIterator<String> it = loop.listIterator();
+            for (int j = 0; j < loop.size(); j++) {
+                loops[j] = it.next();
             }
 
-            if(!nest) {
-                nested = 1;
-            } else if(nest) {
-                for(String loops: loops) {
-                    nested++;
+            for (int j = 0; j < loops.length; j++) {
+                if (loops[j].equals("while") || loops[j].equals("for")) {
+                    index = j;
+                    if (loops[index + 1].equals("{") && loops[index + 2].equals("}")) {
+                        loonum = 1;
+                    } else if (loops[index + 2].equals("{")) {
+                        count = 1;
+
+                        for (int k = index + 2; k < loops.length - (index + 2); j++) {
+                            if (!(loops[k].equals("while") || loops[k].equals("for"))) {
+                                count++;
+                                newin = k;
+                            } else if(loops[newin + 1].equals("}") && count%2==0 ){
+                                loonum++;
+
+                            }
+                        }
+
+
+                    }
 
                 }
-
             }
         }
 
-        return nested;
+        return loonum;
+
+
+
+
+
     }
+
+
 
         private void setStreamTokenizerSyntaxTable (StreamTokenizer st){
             //set the whitespace/delimiters
@@ -98,4 +115,17 @@ public class TimeComplexity extends AbstractMetricsCalculator
             //st.wordChars(58,62);
             st.eolIsSignificant(true);
         }
+
+        public int getLoonum() {
+            return loonum;
+        }
+
+        public String toString() {
+            String s = "";
+            s = "The estimate worst case time complexity of this file is O(n" + loonum + ")";
+            return s;
+
+        }
+
+
 }
