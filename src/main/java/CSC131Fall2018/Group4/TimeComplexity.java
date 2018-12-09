@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class TimeComplexity extends AbstractMetricsCalculator {
     ArrayList<File> fileArrayList;
     ArrayList<String> loops;
+    public int nested;
 
     @Override
     protected void newCalculation(File f) throws Exception {
@@ -26,7 +27,7 @@ public class TimeComplexity extends AbstractMetricsCalculator {
 
     public void getTimeComplexity() throws IOException {
         for (int i = 0; i < fileArrayList.size(); i++) {
-            int nested = 1;
+
             BufferedReader br = new BufferedReader(new FileReader(fileArrayList.get(i).toString()));
             StreamTokenizer st = new StreamTokenizer(br);
             setStreamTokenizerSyntaxTable(st);
@@ -53,13 +54,13 @@ public class TimeComplexity extends AbstractMetricsCalculator {
             }
 
             if(!nest) {
-                System.out.println("The estimate worst case time complexity of this file is O(n^" + nested + ")"  );
+                nested = 1;
             } else if(nest) {
                 for(String loops: loops) {
                     nested++;
 
                 }
-                System.out.println("The estimate worst case time complexity of this file is O(n^" + nested + ")");
+
             }
 
 
@@ -92,5 +93,17 @@ public class TimeComplexity extends AbstractMetricsCalculator {
             //st.wordChars(58,62);
             st.eolIsSignificant(true);
         }
+
+        public int getNested() {
+            return nested;
+        }
+
+        public String toString() {
+            String s = "";
+            s = "The estimate worst case time complexity of this file is O(n" + nested + ")";
+            return s;
+
+        }
+
 
 }

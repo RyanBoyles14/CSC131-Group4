@@ -215,17 +215,23 @@
 
 | Use Case 2 (UC-6)     | User Interface                            |
 | -----------------     | --------------                            |
-| Primary Actor         |                                           |
-| Actor's Goal          |                                           |
-| Brief Description     |                                           |
-| Scope                 |                                           |
-| Precondition          |                                           |
-| Main Success Condition|                                           |
+| Primary Actor         | Driver                                    |
+| Actor's Goal          | Retrieve a class' time complexity         |
+| Brief Description     | Communicate with Metrix to return the time complexity of classes|
+| Scope                 | Driving, Metrix                                          |
+| Precondition          | An ArrayList of Git repository files is compiled|
+| Main Success Condition| Metrix computes the time complexity between classes and returns the results|
 | Trigger               |                                           |
 
 <a name="perfReq"></a>
 #### 3.3. Performance Requirements
 ###### This section specifies the performance requirements of the system. These requirements can be either static or dynamic. Any factor that constrains or limits the system design is listed.
+
+    3.3.1 Packaging Files
+    The software should be built so the user can easily use Maven to package it into a .jar file and run it successfully.
+
+    3.3.2 Options and URLs
+    This software should properly deal with given options and URLs. If any user argument is not valid, it should give some kind of help message
 
 <a name="designConstr"></a>
 #### 3.4. Design Constraints
