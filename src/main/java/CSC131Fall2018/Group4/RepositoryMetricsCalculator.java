@@ -19,6 +19,7 @@ public class RepositoryMetricsCalculator extends AbstractMetricsCalculator {
 	protected void newCalculation(Repository r) throws Exception {
 		// TODO Auto-generated method stub
 		r.metrics.fileCount = r.getList().size();
+		r.metrics.totalCommits = r.authorStats.totalCommits;
 		
 	}
 
