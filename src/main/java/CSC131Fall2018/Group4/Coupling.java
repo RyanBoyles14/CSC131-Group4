@@ -9,19 +9,32 @@ import java.io.*;
 import javax.tools.FileObject;
 
 public class Coupling extends AbstractMetricsCalculator {
-	ArrayList<File> fileList;
-	ArrayList<ClassStats> classes;
+	ArrayList<File> fileList = new ArrayList<File>();
+	ArrayList<ClassStats> classes = new ArrayList<ClassStats>();
 	//data structure to hold all of the coupling
 	//information for a class
 	class ClassStats{
 		String classname;
 		int index;
 		ArrayList<InteractionEntry> interactionCoupling;
+		ArrayList<ComponentEntry> componentCoupling;
 		public ClassStats(String classname, int index) {
 			this.classname = classname;
 			this.index = index;
 		}
 	}
+	
+	//data type to represent a Component Coupling entry
+	class ComponentEntry{
+		String targetClassname;
+		String value;
+		//Constructor to assign values to data type fields
+		public InteractionEntry(String name, String value) {
+			this.targetClassname = name;
+			this.value = value;
+		}
+	}
+	
 	//data type to represent an Interaction Coupling entry
 	class InteractionEntry{
 		String targetClassname;
@@ -53,11 +66,12 @@ public class Coupling extends AbstractMetricsCalculator {
 					case StreamTokenizer.TT_WORD:
 						//gets the classname. class will be in previousToken
 						//and st.sval will contain the class name
-						if(previousToken.equals("class")) {
+						if(previousToken != null && previousToken.equals("class")) {
 							//creates a ClassStats entry with the name
 							//of the class and index of the ArrayList<File>
 							//where the class is found
 							classes.add(new ClassStats(st.sval, i));
+							previousToken = null;
 						}
 						previousToken = st.sval;
 						break;
@@ -66,11 +80,12 @@ public class Coupling extends AbstractMetricsCalculator {
 			}while(st.ttype != StreamTokenizer.TT_EOF);
 		}
 	}
+	
 	//sets the options for the stream tokenizer
 	public void setTokenizerSyntaxTable(StreamTokenizer tokenizer) {
 		//set the whitespace/delimiters
 		tokenizer.whitespaceChars(33, 33);
-		tokenizer.whitespaceChars(35, 47);
+		tokenizer.whitespaceChars(35, 46);
 		tokenizer.whitespaceChars(58, 59);
 		tokenizer.whitespaceChars(61, 61);
 		tokenizer.whitespaceChars(63, 64);
@@ -86,14 +101,105 @@ public class Coupling extends AbstractMetricsCalculator {
 		tokenizer.wordChars(91, 91);// sets [
 		tokenizer.wordChars(93, 93);// sets ]
 		
-		//set comment values
+		//set comment values to ignore comments
 		tokenizer.slashStarComments(true);
 		tokenizer.slashSlashComments(true);
 		
 		//set quote delimiter
 		tokenizer.quoteChar(34);
 	}
-	//get the interaction coupling for a class
+	
+	//get the component coupling for the classes
+	public void getComponentCoupling() throws IOException{
+		int type;
+		for(int i = 0; i < classes.size(); i++) {
+		BufferedReader buffRead;
+		buffRead = new BufferedReader(new FileReader(fileList.get(classes.get(i).index)));
+		StreamTokenizer st = new StreamTokenizer(buffRead);
+		setTokenizerSyntaxTable(st);
+		boolean classParsed = false;
+		boolean inClass = false;
+		boolean inOtherClass = false;
+		//-1 denotes that we have not yet increased the bracket
+		//number
+		int bracketNumber = -1;
+		int otherClassBracketNumber = -1;
+		String previousToken = null;
+		String methodName = null;
+		int type;
+		//evaluates whether the class has finished parsing
+		//or the end of file has been reached
+		do {
+			type = st.nextToken();
+			switch(type) {
+			
+				case StreamTokenizer.TT_WORD:
+					if(previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
+						inClass = true;
+					}
+					else if(previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
+						inOtherClass = true;
+					}
+					//more to add in
+					previousToken = st.sval;
+					break;
+				//handles whitespace character case
+				//we also use '.' and '(' as whitespaces to evaluate
+				default:
+					//case handling opening brackets as a way to determine
+					//beginning of scope of class
+					if(type == '{') {
+						if(!inOtherClass && inClass) {
+							if(bracketNumber == -1) bracketNumber = 1;
+							else bracketNumber++;
+						}
+						else if(inOtherClass && inClass) {
+							if(bracketNumber == -1) otherClassBracketNumber = 1;
+							else otherClassBracketNumber++;
+						}
+					}
+					//case handling closing brackets as a way to determine
+					//end of scope of a class
+					else if(type == '}') {
+						if(!inOtherClass && inClass) {
+							bracketNumber--;
+							if(bracketNumber == 0) {
+								classParsed = true;
+								bracketNumber = -1;
+								inClass = false;
+								//once the end of class is reached there's no
+								//more need for parsing
+								return;
+							}
+						}
+						if(inOtherClass && inClass) {
+							otherClassBracketNumber--;
+							if(otherClassBracketNumber == 0) {
+								otherClassBracketNumber = -1;
+								inOtherClass = false;
+							}
+						}
+					}
+					//case to evaluate whether there is interaction coupling
+					//and creates an interactionEntry if there is
+					else if (type == '.' && inClass && !inOtherClass) {
+						type = st.nextToken();
+						if(type == StreamTokenizer.TT_WORD) {
+							methodName = st.sval;
+							type = st.nextToken();
+							if(type == '(') {
+								classes.get(i).interactionCoupling.add(new InteractionEntry(previousToken, methodName + "()"));
+							}
+						}
+					}
+					
+			}
+		}while(!classParsed && st.ttype != StreamTokenizer.TT_EOF);
+		
+	}
+	}
+	
+	//get the interaction coupling for all classes
 	public void getInteractionCoupling() throws IOException{
 		int type;
 		for(int i = 0; i < classes.size(); i++) {
