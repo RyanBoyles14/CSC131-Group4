@@ -1,6 +1,6 @@
 # Software Requirements Specification
 ### Metrics Application for Github Repositories
-### Version 0.3
+### Version 0.9
 
 ### Group 4 Authors
 [Johnny Au](https://github.com/johnny-au)
@@ -243,11 +243,22 @@
     3.4.2 External Libraries
     The software relies on external libraries and must conform to the standards and designs of other developers
 
+    3.4.3 Languages Supporter
+    The software only parses and runs metrics on Java, C, and C++ files.
+
 
 <a name="attributes"></a>
 #### 3.5. Attributes
 ###### This section specifies the overall attributes the system should have.
 
+    3.5.1 Accuracy
+    The software should provide accurate results for a given Git repository's files
+
+    3.5.2 Assessible Data
+    The software should provide the user the data in an accessible format via text files.
+
+
 <a name="otherReq"></a>
 #### 3.6. Other Requirements
 ###### This sections specifies all requirements not listed in the previous sections.
+    No other requirements exist as of this release.
