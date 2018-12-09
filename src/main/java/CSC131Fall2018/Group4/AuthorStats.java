@@ -25,13 +25,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 // list of authors and their commit history, constructed during URL cloning
 public class AuthorStats
 {
-    public class Metrics implements IMetrics
-    {
-        public int totalCommits = 0;
-    }
-
-    public AuthorStats.Metrics metrics = this.new Metrics();
-
+    int totalCommits = 0;
     Git git;
     Iterable<RevCommit> log;
     Iterator<RevCommit> itr;
@@ -71,7 +65,7 @@ public class AuthorStats
     private void parseID() throws FileNotFoundException {
         Scanner sc = new Scanner(new File("idLog.txt"));
         while (sc.hasNextLine()) {
-            this.metrics.totalCommits++;
+            totalCommits++;
             s = sc.nextLine();
             name = s.substring(s.indexOf("[") + 1, s.indexOf(","));
             namesList.add(name);
@@ -79,7 +73,7 @@ public class AuthorStats
             idList.put(name, email);
         }
         for (Map.Entry<String, String> e : idList.entrySet()) {
-            contributors.add(new Contributor(e.getKey(), e.getValue(), this.metrics.totalCommits));
+            contributors.add(new Contributor(e.getKey(), e.getValue(), totalCommits));
         }
         sc.close();
 

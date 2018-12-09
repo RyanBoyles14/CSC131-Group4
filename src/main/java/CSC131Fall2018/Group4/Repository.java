@@ -14,13 +14,13 @@ public class Repository implements AutoCloseable
 	public class Metrics implements IMetrics
 	{
 		public int fileCount;
-		
+		public int totalCommits;
 	}
 
 	private Git git;
 	private ArrayList<File> list = new ArrayList<>();
 	private ArrayList<Class> classes = new ArrayList<>();
-	private AuthorStats authorStats;
+	public AuthorStats authorStats;
 	public Repository.Metrics metrics = this.new Metrics();
 	
 	// constructor clones repository from GitHub URL to a temporary directory
