@@ -1,12 +1,9 @@
 package CSC131Fall2018.Group4;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import java.io.IOException;
 import java.io.OutputStream;
 
 public class MetricsJsonOutputter extends AbstractMetricsOutputter
