@@ -117,6 +117,8 @@ public class Coupling extends AbstractMetricsCalculator {
 		buffRead = new BufferedReader(new FileReader(fileList.get(classes.get(i).index)));
 		StreamTokenizer st = new StreamTokenizer(buffRead);
 		setTokenizerSyntaxTable(st);
+		st.ordinaryChar(123);
+		st.ordinaryChar(125);
 		boolean classParsed = false;
 		boolean inClass = false;
 		boolean inOtherClass = false;
@@ -125,8 +127,6 @@ public class Coupling extends AbstractMetricsCalculator {
 		int bracketNumber = -1;
 		int otherClassBracketNumber = -1;
 		String previousToken = null;
-		String variableName = null;
-		int type;
 		//evaluates whether the class has finished parsing
 		//or the end of file has been reached
 		do {
@@ -134,10 +134,10 @@ public class Coupling extends AbstractMetricsCalculator {
 			switch(type) {
 			
 				case StreamTokenizer.TT_WORD:
-					if(previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
+					if(previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
 						inClass = true;
 					}
-					else if(previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
+					else if(previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
 						inOtherClass = true;
 					}
 					//here we check for component coupling
@@ -160,7 +160,7 @@ public class Coupling extends AbstractMetricsCalculator {
 				default:
 					//case handling opening brackets as a way to determine
 					//beginning of scope of class
-					if(type == '{') {
+					if((char)type == '{') {
 						if(!inOtherClass && inClass) {
 							if(bracketNumber == -1) bracketNumber = 1;
 							else bracketNumber++;
@@ -172,7 +172,7 @@ public class Coupling extends AbstractMetricsCalculator {
 					}
 					//case handling closing brackets as a way to determine
 					//end of scope of a class
-					else if(type == '}') {
+					else if((char)type == '}') {
 						if(!inOtherClass && inClass) {
 							bracketNumber--;
 							if(bracketNumber == 0) {
@@ -215,7 +215,6 @@ public class Coupling extends AbstractMetricsCalculator {
 		int otherClassBracketNumber = -1;
 		String previousToken = null;
 		String methodName = null;
-		int type;
 		//evaluates whether the class has finished parsing
 		//or the end of file has been reached
 		do {
@@ -223,10 +222,10 @@ public class Coupling extends AbstractMetricsCalculator {
 			switch(type) {
 			
 				case StreamTokenizer.TT_WORD:
-					if(previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
+					if(previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
 						inClass = true;
 					}
-					else if(previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
+					else if(previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
 						inOtherClass = true;
 					}
 					//more to add in
