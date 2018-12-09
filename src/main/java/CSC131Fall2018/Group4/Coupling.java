@@ -119,6 +119,11 @@ public class Coupling extends AbstractMetricsCalculator {
 		setTokenizerSyntaxTable(st);
 		st.ordinaryChar(123);
 		st.ordinaryChar(125);
+		st.ordinaryChar(59);
+		st.whitespaceChars(60, 60);
+		st.whitespaceChars(62, 62);
+		st.whitespaceChars(91, 91);
+		st.whitespaceChars(93, 93);
 		boolean classParsed = false;
 		boolean inClass = false;
 		boolean inOtherClass = false;
@@ -146,9 +151,13 @@ public class Coupling extends AbstractMetricsCalculator {
 							//if the parsed value is equal to the name of one of
 							//our classes, except the one we are currently in,
 							//then we create a ComponentCoupling entry
-							if(st.sval.equals(classes.get(j).classname) && !st.sval.equals(classes.get(i).classname)) {
+							if(st.sval != null && st.sval.equals(classes.get(j).classname) && !st.sval.equals(classes.get(i).classname)) {
 								st.nextToken();
 								classes.get(i).componentCoupling.add(new ComponentEntry(classes.get(j).classname, st.sval));
+								//need to skip to the semicolon
+								do {
+									type = st.nextToken();
+								}while((char)st.ttype != ';' && st.ttype != StreamTokenizer.TT_EOF);
 							}
 						}
 					}
@@ -179,9 +188,6 @@ public class Coupling extends AbstractMetricsCalculator {
 								classParsed = true;
 								bracketNumber = -1;
 								inClass = false;
-								//once the end of class is reached there's no
-								//more need for parsing
-								return;
 							}
 						}
 						if(inOtherClass && inClass) {
