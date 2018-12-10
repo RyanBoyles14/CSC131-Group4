@@ -1,6 +1,6 @@
 # Software Requirements Specification
 ### Metrics Application for Github Repositories
-### Version 0.9
+### Version 1.0
 
 ### Group 4 Authors
 [Johnny Au](https://github.com/johnny-au)
