@@ -16,9 +16,10 @@ public class TimeComplexityMetricsCalculator extends AbstractMetricsCalculator
 
     @Override
     protected void newCalculation(File f)
-			throws Exception
+
 	{
-        this.fileArrayList.add(f);
+        throw new UnsupportedOperationException();
+        //this.fileArrayList.add(f);
     }
 
     @Override
@@ -27,7 +28,8 @@ public class TimeComplexityMetricsCalculator extends AbstractMetricsCalculator
 	{
         this.fileArrayList = r.getList();
         this.metrics = r.getTimeComplexityMetrics();
-		((TimeComplexity.Metrics)this.metrics).worstCase = "O(n^" + (this.getTimeComplexity()) + ")";
+		((TimeComplexity.Metrics)this.metrics).worstCase = "O(n^" + this.getTimeComplexity() + ")";
+
     }
 
     public TimeComplexityMetricsCalculator(Repository r)
@@ -67,9 +69,10 @@ public class TimeComplexityMetricsCalculator extends AbstractMetricsCalculator
                     } else if (loops[index+1].equals("{") && loops[index + 2].equals("{")) {
                         newin = index + 3;
                         for (int h = newin; h < loops.length; h++) {
-                            if(loops[h].equals("{")) {
+                            if(loops[h].equals("{") || loops[h].equals("while") || loops[h].equals("for") ) {
                                 loonum++;
                             }
+
                         }
                         //count = 1;
 

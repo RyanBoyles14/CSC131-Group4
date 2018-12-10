@@ -1,37 +1,34 @@
 package CSC131Fall2018.Group4;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.concurrent.TimeUnit;
 
 //class to store each authors name and commit history
 public class Contributor {
 
 	public class Metrics implements IMetrics {
-		public String name;
-		public String email;
-		public int age;
-		public int commitsPerMonth;
+		public String firstCommit;
+		public String lastCommit;
 		public int totalCommits;
-		public double commitPercentage;
+		public String percentage;
+		public String frequency;
+		public String activityPeriod;
+
 	}
 
-	public String name, email;
-	public int numCommits, total, frequency;
-	public double percentage, days;
+	private String name, email;
+	int numCommits, total, frequency;
+	double percentage, days;
 	Period diff;
 	LinkedHashMap<String, String> commitMessages;
 	ArrayList<String> commits;
 	String initDate, endDate, initText, endText;
-	public IMetrics metrics;
-	
-	public Contributor(String name, String email, int totalCommits)
-	{
+	IMetrics metrics;
+
+	public Contributor(String name, String email, int totalCommits) {
 		this.metrics = new Contributor.Metrics();
 		this.name = name;
 		this.email = email;
@@ -43,24 +40,8 @@ public class Contributor {
 		this.commits = new ArrayList<>();
 	}
 
-	public IMetrics getMetrics()
-	{
+	public IMetrics getMetrics() {
 		return this.metrics;
-	}
-
-	// returns days between first and last commit
-	public int getAge() {
-		return (int) this.days;
-	}
-
-	// returns date of last commit
-	public String getEndDate() {
-		return endDate;
-	}
-
-	// returns date of first commit
-	public String getInitialDate() {
-		return initDate;
 	}
 
 	// returns author name
@@ -71,11 +52,6 @@ public class Contributor {
 	// returns author email
 	public String getEmail() {
 		return email;
-	}
-
-	// returns number of commits for the author
-	public int getNumCommits() {
-		return numCommits;
 	}
 
 	// updates commit history, initial and final commit dates for author

@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Group4</groupId>
-	<artifactId>Group4</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>g4m</artifactId>
+	<version>1.0</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipTests>true</skipTests>
@@ -139,6 +139,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
+					<excludes>
+						<exclude>**/CSC131Fall2018/Group4/HalsteadMetricsCalculator.java</exclude>
+					</excludes>
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
