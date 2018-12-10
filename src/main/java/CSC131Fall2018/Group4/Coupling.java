@@ -14,8 +14,9 @@ public class Coupling extends AbstractMetricsCalculator {
 	class ClassStats{
 		String classname;
 		int index;
-		ArrayList<InteractionEntry> interactionCoupling;
-		ArrayList<ComponentEntry> componentCoupling;
+		ArrayList<InteractionEntry> interactionCoupling = new ArrayList<InteractionEntry>();
+		ArrayList<ComponentEntry> componentCoupling = new ArrayLIst<ComponentEntry>();
+		ArrayList<InheritanceEntry> inheritanceCoupling = new ArrayList<InheritanceEntry>();
 		public ClassStats(String classname, int index) {
 			this.classname = classname;
 			this.index = index;
@@ -43,6 +44,16 @@ public class Coupling extends AbstractMetricsCalculator {
 			this.value = value;
 		}
 	}
+	
+	//data type to represent an Inheritance Coupling entry
+	class InheritanceEntry{
+		String inheritedClassname;
+		//Constructor to assign value to the data type
+		public InheritanceEntry(String name) {
+			this.inheritedClassname = name;
+		}
+	}
+	
 	//constructor sets the files to be used for the metric
 	public Coupling(Repository r)
 		throws Exception
@@ -326,6 +337,97 @@ public class Coupling extends AbstractMetricsCalculator {
 								}
 							}
 							
+						}
+						
+				}
+			}while(!classParsed && st.ttype != StreamTokenizer.TT_EOF);
+			
+		}
+		}
+		
+		//gets the iinheritance coupling for the list of classes
+		public void getInheritanceCoupling() throws IOException{
+			int type;
+			for(int i = 0; i < classes.size(); i++) {
+			BufferedReader buffRead;
+			buffRead = new BufferedReader(new FileReader(fileList.get(classes.get(i).index)));
+			StreamTokenizer st = new StreamTokenizer(buffRead);
+			setTokenizerSyntaxTable(st);
+			st.ordinaryChar(123);
+			st.ordinaryChar(125);
+			st.whitespaceChars(60, 60);
+			st.whitespaceChars(62, 62);
+			st.ordinaryChar(91);
+			st.ordinaryChar(93);
+			st.ordinaryChar(46);
+			boolean classParsed = false;
+			boolean inClass = false;
+			boolean inOtherClass = false;
+			//-1 denotes that we have not yet increased the bracket
+			//number
+			int bracketNumber = -1;
+			int otherClassBracketNumber = -1;
+			String previousToken = null;
+			//evaluates whether the class has finished parsing
+			//or the end of file has been reached
+			do {
+				type = st.nextToken();
+				
+				//debug test code
+				if(st.sval != null) System.out.println(st.sval);
+				else System.out.println((char)type);
+				
+				switch(type) {
+				
+					case StreamTokenizer.TT_WORD:
+						if(previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
+							inClass = true;
+						}
+						else if(previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
+							inOtherClass = true;
+						}
+						if(inClass && previousToken != null && st.sval != null && previousToken.equals("extends")) {
+							classes.get(i).inheritanceCoupling.add(new InheritanceEntry(st.sval));
+						}
+						//more to add in
+						previousToken = st.sval;
+						break;
+					//handles whitespace character case
+					//we also use '.' and '(' as whitespaces to evaluate
+					default:
+						//case handling opening brackets as a way to determine
+						//beginning of scope of class
+						if((char)type == '{') {
+							if(!inOtherClass && inClass) {
+								if(bracketNumber == -1) {
+									bracketNumber = 1;
+									classParsed = true;
+								}
+								else bracketNumber++;
+							}
+							else if(inOtherClass && inClass) {
+								if(otherClassBracketNumber == -1) otherClassBracketNumber = 1;
+								else otherClassBracketNumber++;
+							}
+						}
+						//case handling closing brackets as a way to determine
+						//end of scope of a class
+						else if((char)type == '}') {
+							if(!inOtherClass && inClass) {
+								bracketNumber--;
+								if(bracketNumber == 0) {
+									classParsed = true;
+									bracketNumber = -1;
+									inClass = false;
+								}
+							}
+							if(inOtherClass && inClass) {
+								otherClassBracketNumber--;
+								if(otherClassBracketNumber == 0) {
+									otherClassBracketNumber = -1;
+									inOtherClass = false;
+								}
+							}
 						}
 						
 				}
