@@ -1,5 +1,7 @@
 package CSC131Fall2018.Group4;
 
+import java.util.ArrayList;
+
 public class Halstead
 {
 	public class Metrics implements IMetrics
