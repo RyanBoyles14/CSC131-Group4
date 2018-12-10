@@ -27,7 +27,7 @@ public class TimeComplexityMetricsCalculator extends AbstractMetricsCalculator
 	{
         this.fileArrayList = r.getList();
         this.metrics = r.getTimeComplexityMetrics();
-		((TimeComplexity.Metrics) this.metrics).worstCase = "O(n^" + String.valueOf(this.getTimeComplexity()) + ")";
+		((TimeComplexity.Metrics)this.metrics).worstCase = "O(n^" + (this.getTimeComplexity()) + ")";
     }
 
     public TimeComplexityMetricsCalculator(Repository r)
@@ -40,6 +40,7 @@ public class TimeComplexityMetricsCalculator extends AbstractMetricsCalculator
 			throws IOException
 	{
         int index;
+
 
         for(int i = 0; i < fileArrayList.size(); i++) {
             BufferedReader br = new BufferedReader(new FileReader(fileArrayList.get(i)));
@@ -63,17 +64,23 @@ public class TimeComplexityMetricsCalculator extends AbstractMetricsCalculator
                     index = j;
                     if (loops[index + 1].equals("{") && loops[index + 2].equals("}")) {
                         loonum = 1;
-                    } else if (loops[index + 2].equals("{")) {
-                        count = 1;
-
-                        for (int k = index + 2; k < loops.length - (index + 2); j++) {
-                            if (!(loops[k].equals("while") || loops[k].equals("for"))) {
-                                count++;
-                                newin = k;
-                            } else if(loops[newin + 1].equals("}") && count%2==0 ){
+                    } else if (loops[index+1].equals("{") && loops[index + 2].equals("{")) {
+                        newin = index + 3;
+                        for (int h = newin; h < loops.length; h++) {
+                            if(loops[h].equals("{")) {
                                 loonum++;
-
                             }
+                        }
+                        //count = 1;
+
+                        //for (int k = index + 2; k < loops.length - (index + 2); j++) {
+                        //    if (!(loops[k].equals("while") || loops[k].equals("for"))) {
+                        //        count++;
+                        //        newin = k;
+                        //    } else if(loops[newin + 1].equals("}") && count%2==0 ){
+                        //        loonum++;
+
+                        //    }
                         }
 
 
@@ -81,7 +88,7 @@ public class TimeComplexityMetricsCalculator extends AbstractMetricsCalculator
 
                 }
             }
-        }
+
 
         return loonum;
     }
