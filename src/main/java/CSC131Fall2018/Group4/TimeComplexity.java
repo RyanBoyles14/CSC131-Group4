@@ -6,7 +6,7 @@ public class TimeComplexity
 {
 	public class Metrics implements IMetrics
 	{
-		String worstCase;
+		public String worstCase;
 	}
 
 	private IMetrics metrics;
