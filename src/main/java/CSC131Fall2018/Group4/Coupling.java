@@ -15,7 +15,7 @@ public class Coupling extends AbstractMetricsCalculator {
 		String classname;
 		int index;
 		ArrayList<InteractionEntry> interactionCoupling = new ArrayList<InteractionEntry>();
-		ArrayList<ComponentEntry> componentCoupling = new ArrayLIst<ComponentEntry>();
+		ArrayList<ComponentEntry> componentCoupling = new ArrayList<ComponentEntry>();
 		ArrayList<InheritanceEntry> inheritanceCoupling = new ArrayList<InheritanceEntry>();
 		public ClassStats(String classname, int index) {
 			this.classname = classname;
