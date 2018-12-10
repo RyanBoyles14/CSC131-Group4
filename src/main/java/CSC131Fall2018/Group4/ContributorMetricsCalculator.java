@@ -24,12 +24,12 @@ public class ContributorMetricsCalculator extends AbstractMetricsCalculator {
 		// TODO Auto-generated method stub
 		for (Contributor c : r.getContributors()) {
 			((Contributor.Metrics) c.getMetrics()).totalCommits = c.numCommits;
-			((Contributor.Metrics) c.getMetrics()).commitPercentage = computePercentage(c);
-			((Contributor.Metrics) c.getMetrics()).commitsPerMonth = computeFreq(c);
-			((Contributor.Metrics) c.getMetrics()).daysActive = (int) c.days;
+			double p = computePercentage(c);
+			((Contributor.Metrics) c.getMetrics()).percentage = String.format("%.2f%%", p);
+			((Contributor.Metrics) c.getMetrics()).frequency = computeFreq(c) + " commits per month";
+			((Contributor.Metrics) c.getMetrics()).activityPeriod = (int) c.days + " days";
 			((Contributor.Metrics) c.getMetrics()).firstCommit = c.initDate;
 			((Contributor.Metrics) c.getMetrics()).lastCommit = c.endDate;
-			
 		}		
 	}
 	
