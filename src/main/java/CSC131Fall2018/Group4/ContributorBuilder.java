@@ -23,7 +23,7 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 // list of authors and their commit history, constructed during URL cloning
-public class AuthorStats
+public class ContributorBuilder
 {
     int totalCommits = 0;
     Git git;
@@ -36,7 +36,7 @@ public class AuthorStats
     String s, name, email, message, date;
 
 	// builds a list of Author objects from the Git repository
-	public AuthorStats(Git gitObject) throws NoHeadException, GitAPIException, IOException {
+	public ContributorBuilder(Git gitObject) throws NoHeadException, GitAPIException, IOException {
 		git = gitObject;
 		log = git.log().call();
 		buildLogs();
