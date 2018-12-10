@@ -14,7 +14,7 @@ mvn clean install
 
 ## Usage
 ```
-java -jar Group4-0.0.1-SNAPSHOT.jar [-cChHIrt] [--output-to-stdout] [--print-all-metrics]
+java -jar target/g4m-v1.0.jar [-cChHIrt] [--output-to-stdout] [--print-all-metrics]
                                     [--output-format=<outputFormat>]
                                     [--output-to-file=<outputFilename>] <Git url>
 ```
