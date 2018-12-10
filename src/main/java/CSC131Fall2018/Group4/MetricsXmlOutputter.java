@@ -6,6 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.io.*;
+import java.util.List;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -20,7 +21,8 @@ public class MetricsXmlOutputter extends AbstractMetricsOutputter
 	private final StringWriter intermediateString = new StringWriter();
 	private XMLStreamWriter2 intermediateStringStream;
 
-	public MetricsXmlOutputter() throws XMLStreamException
+	public MetricsXmlOutputter()
+			throws XMLStreamException
 	{
 		XmlFactory factory = new XmlFactory();
 		factory.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
@@ -34,12 +36,14 @@ public class MetricsXmlOutputter extends AbstractMetricsOutputter
 		this.intermediateStringStream = xmlOutputFactory.createXMLStreamWriter(this.intermediateString, "UTF-8");
 	}
 
-	public static MetricsXmlOutputter createOutputter() throws XMLStreamException
+	public static MetricsXmlOutputter createOutputter()
+			throws XMLStreamException
 	{
 		return new MetricsXmlOutputter();
 	}
 
-	public void addMetric(IMetrics metrics) throws IOException
+	public void addMetric(IMetrics metrics)
+			throws IOException
 	{
 		this.mapper.writeValue(this.intermediateStringStream, metrics);
 		/*
@@ -76,14 +80,25 @@ public class MetricsXmlOutputter extends AbstractMetricsOutputter
 		*/
 	}
 
-	public void out(OutputStream stream) throws Exception
+	public void addMetrics(List<IMetrics> metrics)
+			throws Exception
+	{
+		for (IMetrics metric : metrics)
+		{
+			this.mapper.writeValue(this.intermediateStringStream, metric);
+		}
+	}
+
+	public void out(OutputStream stream)
+			throws Exception
 	{
 		Writer osw = new OutputStreamWriter(stream);
 		osw.write(this.finalizeIntermediateString());
 		osw.flush();
 	}
 
-	private String finalizeIntermediateString() throws IOException, XMLStreamException
+	private String finalizeIntermediateString()
+			throws IOException, XMLStreamException
 	{
 		final StringWriter finalString = new StringWriter();
 		final XMLStreamWriter2 finalStream = xmlOutputFactory.createXMLStreamWriter(finalString, "UTF-8");

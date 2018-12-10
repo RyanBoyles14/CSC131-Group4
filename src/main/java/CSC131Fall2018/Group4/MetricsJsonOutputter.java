@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.OutputStream;
+import java.util.List;
 
 public class MetricsJsonOutputter extends AbstractMetricsOutputter
 {
@@ -46,7 +47,19 @@ public class MetricsJsonOutputter extends AbstractMetricsOutputter
 						metrics);
 	}
 
-	public void out(OutputStream stream) throws Exception
+	public void addMetrics(List<IMetrics> metrics)
+			throws Exception
+	{
+		for (IMetrics metric : metrics)
+		{
+			((ObjectNode) this.rootNode.get(this.rootName).get("metrics"))
+					.putPOJO(metric.getClass().getDeclaringClass().getSimpleName(),
+							metric);
+		}
+	}
+
+	public void out(OutputStream stream)
+			throws Exception
 	{
 		this.mapper.writerWithDefaultPrettyPrinter().writeValue(stream, this.rootNode);
 	}
