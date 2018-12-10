@@ -23,7 +23,7 @@ public class Repository implements AutoCloseable
 	private Git git;
 	private ArrayList<File> fileList = new ArrayList<>();
 	private ArrayList<Class> classes = new ArrayList<>();
-	public ContributorBuilder ContributorBuilder;
+	public ContributorBuilder contributorBuilder;
 	public DepthOfInheritance depthOfInheritance = new DepthOfInheritance();
 	public Halstead halstead = new Halstead();
 	public TimeComplexity timeComplexity = new TimeComplexity();
@@ -35,7 +35,7 @@ public class Repository implements AutoCloseable
 	{
 		this.git = Git.cloneRepository().setURI(url).setDirectory(Files.createTempDirectory(null).toFile()).call();
 		this.buildList();
-		this.ContributorBuilder = new ContributorBuilder(git);
+		this.contributorBuilder = new ContributorBuilder(git);
 		this.calculateAllMetrics();
 	}
 
@@ -55,13 +55,13 @@ public class Repository implements AutoCloseable
 
 	public ArrayList<Contributor> getContributors()
 	{
-		return this.ContributorBuilder.contributors;
+		return this.contributorBuilder.contributors;
 	}
 
 	public List<IMetrics> getContributorsMetrics()
 	{
 		List<IMetrics> metrics = new ArrayList<>();
-		this.ContributorBuilder.contributors.forEach(contributor -> metrics.add(contributor.metrics));
+		this.contributorBuilder.contributors.forEach(contributor -> metrics.add(contributor.metrics));
 		return metrics;
 	}
 
