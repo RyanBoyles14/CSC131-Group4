@@ -41,7 +41,10 @@ public class HalsteadMetricsCalculator extends AbstractMetricsCalculator
 			throws Exception
 	{
 		ArrayList<File> files = r.getList();
+
 		for(File f: files) {
+			HalsteadBuilder hb = new HalsteadBuilder();
+			((Halstead.Metrics) this.metrics).halstead.add(hb);
 			this.f = f;
 			StringTokenizer tk;
 			String token;
@@ -55,14 +58,14 @@ public class HalsteadMetricsCalculator extends AbstractMetricsCalculator
 					token = tk.nextToken();
 					if (operators.contains(token)) {
 						distinctOperators.add(token);
-						((Halstead.Metrics) this.metrics).totalOperators++;
+						hb.totalOperators++;
 						count++;
 					}
 					tokenList.add(token);
 				}
 				if (count > 0) {
 					count++;
-					((Halstead.Metrics) this.metrics).totalOperands += count;
+					hb.totalOperands += count;
 				}
 			}
 			boolean firstOperand = true;
@@ -78,15 +81,15 @@ public class HalsteadMetricsCalculator extends AbstractMetricsCalculator
 				}
 			}
 
-			((Halstead.Metrics) this.metrics).vocab = this.distinctOperators.size() + this.distinctOperands.size();
-			((Halstead.Metrics) this.metrics).length = ((Halstead.Metrics) this.metrics).totalOperators + ((Halstead.Metrics) this.metrics).totalOperands;
-			((Halstead.Metrics) this.metrics).difficulty = (this.distinctOperators.size() / 2) * (((Halstead.Metrics) this.metrics).totalOperands / distinctOperands.size());
-			((Halstead.Metrics) this.metrics).volume = (int) (((Halstead.Metrics) this.metrics).length * (Math.log(((Halstead.Metrics) this.metrics).vocab) / Math.log(2.0)));
-			((Halstead.Metrics) this.metrics).effort = (int) (((Halstead.Metrics) this.metrics).difficulty * ((Halstead.Metrics) this.metrics).volume);
-			((Halstead.Metrics) this.metrics).calcLength = (this.distinctOperators.size() * (Math.log((this.distinctOperators.size()) / Math.log(2.0))
+			hb.vocab = this.distinctOperators.size() + this.distinctOperands.size();
+			hb.length = hb.totalOperators + hb.totalOperands;
+			hb.difficulty = (this.distinctOperators.size() / 2) * (hb.totalOperands / distinctOperands.size());
+			hb.volume = (int) (hb.length * (Math.log(hb.vocab) / Math.log(2.0)));
+			hb.effort = (int) (hb.difficulty * (hb.volume);
+			hb.calcLength = (this.distinctOperators.size() * (Math.log((this.distinctOperators.size()) / Math.log(2.0))
 					+ this.distinctOperands.size() * (Math.log(this.distinctOperators.size()) / Math.log(2.0))));
-			((Halstead.Metrics) this.metrics).time = ((Halstead.Metrics) this.metrics).effort / 18;
-			((Halstead.Metrics) this.metrics).bugs = (int) (((Halstead.Metrics) this.metrics).volume / 3000);
+			(hb.time = (hb.effort / 18;
+			hb.bugs = (int) (hb.volume / 3000);
 		}
 	}
 }

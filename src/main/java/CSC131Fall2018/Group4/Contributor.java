@@ -28,7 +28,7 @@ public class Contributor {
 	LinkedHashMap<String, String> commitMessages;
 	ArrayList<String> commits;
 	String initDate, endDate, initText, endText;
-	private IMetrics metrics;
+	public IMetrics metrics;
 	
 	public Contributor(String name, String email, int totalCommits)
 	{
