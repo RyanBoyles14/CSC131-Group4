@@ -18,7 +18,7 @@ public class Repository implements AutoCloseable
 	}
 
 	private Git git;
-	private ArrayList<File> list = new ArrayList<>();
+	private ArrayList<File> fileList = new ArrayList<>();
 	private ArrayList<Class> classes = new ArrayList<>();
 	public AuthorStats authorStats;
 	public Repository.Metrics metrics = this.new Metrics();
@@ -43,7 +43,7 @@ public class Repository implements AutoCloseable
 
 	// return list of files
 	public ArrayList<File> getList() {
-		return list;
+		return fileList;
 	}
 
 	// returns list of contributors
@@ -59,7 +59,7 @@ public class Repository implements AutoCloseable
 				if (!f.getName().equals(".git"))
 				buildList(f);
 			} else {
-				list.add(f);
+				fileList.add(f);
 			}
 		}
 	}
@@ -72,7 +72,7 @@ public class Repository implements AutoCloseable
 				if (!f.getName().equals(".git"))
 					buildList(f);
 			} else {
-				list.add(f);
+				fileList.add(f);
 			}
 		}
 	}
