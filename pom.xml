@@ -140,7 +140,7 @@
 				<version>3.8.0</version>
 				<configuration>
 					<excludes>
-						<exclude>**/CSC131Fall2018/Group4/Coupling.java</exclude>
+                        <exclude>**/CSC131Fall2018/Group4/HalsteadMetricsCalculator.java</exclude>
 					</excludes>
 					<source>1.8</source>
 					<target>1.8</target>
