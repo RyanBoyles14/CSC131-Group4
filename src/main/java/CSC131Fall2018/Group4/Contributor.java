@@ -28,9 +28,11 @@ public class Contributor {
 	LinkedHashMap<String, String> commitMessages;
 	ArrayList<String> commits;
 	String initDate, endDate, initText, endText;
-	public Metrics metrics = new Metrics();
+	public IMetrics metrics;
 	
-	public Contributor(String name, String email, int totalCommits) {
+	public Contributor(String name, String email, int totalCommits)
+	{
+		this.metrics = new Contributor.Metrics();
 		this.name = name;
 		this.email = email;
 		this.initDate = "null";
@@ -39,6 +41,11 @@ public class Contributor {
 		this.total = totalCommits;
 		this.commitMessages = new LinkedHashMap<>();
 		this.commits = new ArrayList<>();
+	}
+
+	public IMetrics getMetrics()
+	{
+		return this.metrics;
 	}
 
 	// returns days between first and last commit
