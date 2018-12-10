@@ -13,22 +13,25 @@ import java.util.concurrent.TimeUnit;
 public class Contributor {
 
 	public class Metrics implements IMetrics {
-		public String name;
-		public String email;
-		public int age;
-		public int commitsPerMonth;
+		public String firstCommit; 
+		public String lastCommit;
 		public int totalCommits;
 		public double commitPercentage;
+		public int commitsPerMonth;
+		public int daysActive;
+		
+		
+		
 	}
 
-	public String name, email;
-	public int numCommits, total, frequency;
-	public double percentage, days;
+	private String name, email;
+	int numCommits, total, frequency;
+	double percentage, days;
 	Period diff;
 	LinkedHashMap<String, String> commitMessages;
 	ArrayList<String> commits;
 	String initDate, endDate, initText, endText;
-	public IMetrics metrics;
+	IMetrics metrics;
 	
 	public Contributor(String name, String email, int totalCommits)
 	{
@@ -49,19 +52,13 @@ public class Contributor {
 	}
 
 	// returns days between first and last commit
-	public int getAge() {
-		return (int) this.days;
-	}
+
 
 	// returns date of last commit
-	public String getEndDate() {
-		return endDate;
-	}
+
 
 	// returns date of first commit
-	public String getInitialDate() {
-		return initDate;
-	}
+
 
 	// returns author name
 	public String getName() {
@@ -74,9 +71,6 @@ public class Contributor {
 	}
 
 	// returns number of commits for the author
-	public int getNumCommits() {
-		return numCommits;
-	}
 
 	// updates commit history, initial and final commit dates for author
 	public void add(String date) {

@@ -23,12 +23,13 @@ public class ContributorMetricsCalculator extends AbstractMetricsCalculator {
 	protected void newCalculation(Repository r) throws Exception {
 		// TODO Auto-generated method stub
 		for (Contributor c : r.getContributors()) {
-			((Contributor.Metrics) c.getMetrics()).name = c.getName();
-			((Contributor.Metrics) c.getMetrics()).email = c.getEmail();
-			((Contributor.Metrics) c.getMetrics()).totalCommits = c.getNumCommits();
+			((Contributor.Metrics) c.getMetrics()).totalCommits = c.numCommits;
 			((Contributor.Metrics) c.getMetrics()).commitPercentage = computePercentage(c);
 			((Contributor.Metrics) c.getMetrics()).commitsPerMonth = computeFreq(c);
-			((Contributor.Metrics) c.getMetrics()).age = c.getAge();
+			((Contributor.Metrics) c.getMetrics()).daysActive = (int) c.days;
+			((Contributor.Metrics) c.getMetrics()).firstCommit = c.initDate;
+			((Contributor.Metrics) c.getMetrics()).lastCommit = c.endDate;
+			
 		}		
 	}
 	
