@@ -84,7 +84,7 @@ public class Driver implements Callable<Void>
         }
         catch (Exception e)
         {
-            System.err.println("Failed to output metrics for " + this.gitProjectUrl + ": " + e.getMessage());
+            System.err.println("\nFailed to output metrics for " + this.gitProjectUrl + ": " + e.getMessage());
         }
 
         return null;
