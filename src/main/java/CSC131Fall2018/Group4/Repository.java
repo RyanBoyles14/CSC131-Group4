@@ -14,12 +14,13 @@ public class Repository implements AutoCloseable
 	public class Metrics implements IMetrics
 	{
 		public int fileCount;
+		public int totalCommits;
 	}
 
 	private Git git;
 	private ArrayList<File> list = new ArrayList<>();
 	private ArrayList<Class> classes = new ArrayList<>();
-	private AuthorStats authorStats;
+	public AuthorStats authorStats;
 	public Repository.Metrics metrics = this.new Metrics();
 	
 	// constructor clones repository from GitHub URL to a temporary directory
@@ -28,7 +29,6 @@ public class Repository implements AutoCloseable
 	{
 		this.git = Git.cloneRepository().setURI(url).setDirectory(Files.createTempDirectory(null).toFile()).call();
 		this.buildList();
-		this.calculateMetrics();
 		this.authorStats = new AuthorStats(git);
 	}
 
@@ -46,9 +46,9 @@ public class Repository implements AutoCloseable
 		return list;
 	}
 
-	// returns AuthorStats object for the repo
-	public AuthorStats getAuthorStats() {
-		return authorStats;
+	// returns list of contributors
+	public ArrayList<Contributor> getContributors() {
+		return authorStats.contributors;
 	}
 	
 	// builds ArrayList of files in the repository
@@ -89,10 +89,5 @@ public class Repository implements AutoCloseable
 			}
 		}
 		directory.delete();
-	}
-
-	private void calculateMetrics()
-	{
-		this.metrics.fileCount = this.list.size();
 	}
 }
