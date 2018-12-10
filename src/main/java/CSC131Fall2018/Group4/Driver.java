@@ -110,22 +110,22 @@ public class Driver implements Callable<Void>
     private void addAllRequestMetrics(AbstractMetricsOutputter outputter, Repository repository)
             throws Exception
     {
+		if (this.printAll || this.printContributor)
+			outputter.addMetrics(repository.getContributorsMetrics());
+
         //if (this.printCoupling)
         //    outputter.addMetric(repository.getCouplingMetric());
 
+		if (this.printAll || this.printDepthOfInheritance)
+			outputter.addMetric(repository.getDepthOfInheritanceMetrics());
+
         if (this.printAll || this.printHalstead)
             outputter.addMetric(repository.getHalsteadMetrics());
-
-        if (this.printAll || this.printDepthOfInheritance)
-            outputter.addMetric(repository.getDepthOfInheritanceMetrics());
 
         if (this.printAll || this.printTimeComplexity)
             outputter.addMetric(repository.getTimeComplexityMetrics());
 
         if (this.printAll || this.printOverallRepository)
             outputter.addMetric(repository.getRepositoryMetrics());
-
-        if (this.printAll || this.printContributor)
-            outputter.addMetrics(repository.getContributorsMetrics());
     }
 }
