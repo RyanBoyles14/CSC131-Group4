@@ -1,4 +1,4 @@
-package main.java.CSC131Fall2018.Group4;
+package CSC131Fall2018.Group4;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class ContributorMetricsCalculator extends AbstractMetricsCalculator {
-
 	public ContributorMetricsCalculator(Repository r) throws Exception {
 		super(r);
 		// TODO Auto-generated constructor stub
