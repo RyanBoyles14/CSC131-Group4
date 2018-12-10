@@ -1,27 +1,22 @@
 package CSC131Fall2018.Group4;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.concurrent.TimeUnit;
 
 //class to store each authors name and commit history
 public class Contributor {
 
 	public class Metrics implements IMetrics {
-		public String firstCommit; 
+		public String firstCommit;
 		public String lastCommit;
 		public int totalCommits;
 		public String percentage;
 		public String frequency;
 		public String activityPeriod;
-		
-		
-		
+
 	}
 
 	private String name, email;
@@ -32,9 +27,8 @@ public class Contributor {
 	ArrayList<String> commits;
 	String initDate, endDate, initText, endText;
 	IMetrics metrics;
-	
-	public Contributor(String name, String email, int totalCommits)
-	{
+
+	public Contributor(String name, String email, int totalCommits) {
 		this.metrics = new Contributor.Metrics();
 		this.name = name;
 		this.email = email;
@@ -46,19 +40,9 @@ public class Contributor {
 		this.commits = new ArrayList<>();
 	}
 
-	public IMetrics getMetrics()
-	{
+	public IMetrics getMetrics() {
 		return this.metrics;
 	}
-
-	// returns days between first and last commit
-
-
-	// returns date of last commit
-
-
-	// returns date of first commit
-
 
 	// returns author name
 	public String getName() {
@@ -69,8 +53,6 @@ public class Contributor {
 	public String getEmail() {
 		return email;
 	}
-
-	// returns number of commits for the author
 
 	// updates commit history, initial and final commit dates for author
 	public void add(String date) {

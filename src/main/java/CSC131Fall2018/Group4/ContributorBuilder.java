@@ -35,7 +35,7 @@ public class ContributorBuilder
     LinkedHashMap<String, String> idList = new LinkedHashMap<>();
     String s, name, email, message, date;
 
-	// builds a list of Author objects from the Git repository
+	// builds a list of contributor objects from the Git repository
 	public ContributorBuilder(Git gitObject) throws NoHeadException, GitAPIException, IOException {
 		git = gitObject;
 		log = git.log().call();
@@ -44,7 +44,7 @@ public class ContributorBuilder
 		update();
 	}
 
-	// parse "idLog.txt" to update commit history for each author
+	// parse "idLog.txt" to update commit history for each contributor
 	private void update() throws FileNotFoundException {
 		Scanner sc = new Scanner(new File("idLog.txt"));
 		while (sc.hasNextLine()) {
@@ -61,7 +61,7 @@ public class ContributorBuilder
 		sc.close();
 	}
 
-    // parse "idLog.txt" to create Author objects, calculates total commits
+    // parse "idLog.txt" to create contributor objects, calculates total commits
     private void parseID() throws FileNotFoundException {
         Scanner sc = new Scanner(new File("idLog.txt"));
         while (sc.hasNextLine()) {
@@ -106,7 +106,7 @@ public class ContributorBuilder
 
 	}
 
-    // return list of author objects
+    // return list of contrubitor objects
     public ArrayList<Contributor> returnContributors() {
         return contributors;
     }
