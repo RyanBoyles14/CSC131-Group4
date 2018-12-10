@@ -257,8 +257,8 @@ public class Coupling extends AbstractMetricsCalculator {
 				type = st.nextToken();
 				
 				//debug test code
-				if(st.sval != null) System.out.println(st.sval);
-				else System.out.println((char)type);
+				//if(st.sval != null) System.out.println(st.sval);
+				//else System.out.println((char)type);
 				
 				switch(type) {
 				
