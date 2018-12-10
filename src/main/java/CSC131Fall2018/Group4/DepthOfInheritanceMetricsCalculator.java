@@ -92,7 +92,6 @@ public class DepthOfInheritanceMetricsCalculator extends AbstractMetricsCalculat
 		for (Class child : ((DepthOfInheritance.Metrics) this.metrics).classes) {
 			if(!file.equals(child.getFile().toString())) {
 				file = child.getFile().toString();
-				System.out.println(file);
 			}
 			child.findDepth();
 		}
