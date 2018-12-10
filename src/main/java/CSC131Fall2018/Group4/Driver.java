@@ -111,7 +111,7 @@ public class Driver implements Callable<Void>
             throws Exception
     {
 		if (this.printAll || this.printContributor)
-			outputter.addMetrics(repository.getContributorsMetrics());
+			outputter.addMetric(repository.getContributorsMetrics());
 
         //if (this.printCoupling)
         //    outputter.addMetric(repository.getCouplingMetric());

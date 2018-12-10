@@ -24,6 +24,7 @@ public class Repository implements AutoCloseable
 	private ArrayList<File> fileList = new ArrayList<>();
 	private ArrayList<Class> classes = new ArrayList<>();
 	public ContributorBuilder contributorBuilder;
+	public Contributors contributors = new Contributors();
 	public DepthOfInheritance depthOfInheritance = new DepthOfInheritance();
 	public Halstead halstead = new Halstead();
 	public TimeComplexity timeComplexity = new TimeComplexity();
@@ -36,6 +37,7 @@ public class Repository implements AutoCloseable
 		this.git = Git.cloneRepository().setURI(url).setDirectory(Files.createTempDirectory(null).toFile()).call();
 		this.buildList();
 		this.contributorBuilder = new ContributorBuilder(git);
+		((Contributors.Metrics) this.contributors.getMetrics()).contributors = this.contributorBuilder.returnContributors();
 		this.calculateAllMetrics();
 	}
 
@@ -58,11 +60,11 @@ public class Repository implements AutoCloseable
 		return this.contributorBuilder.contributors;
 	}
 
-	public List<IMetrics> getContributorsMetrics()
+	public IMetrics getContributorsMetrics()
 	{
-		List<IMetrics> metrics = new ArrayList<>();
-		this.contributorBuilder.contributors.forEach(contributor -> metrics.add(contributor.metrics));
-		return metrics;
+		//List<IMetrics> listMetrics = new ArrayList<>();
+		//this.contributorBuilder.contributors.forEach(contributor -> listMetrics.add(contributor.getMetrics()));
+		return this.contributors.getMetrics();
 	}
 
 	public IMetrics getDepthOfInheritanceMetrics()
