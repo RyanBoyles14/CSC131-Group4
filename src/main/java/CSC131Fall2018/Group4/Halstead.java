@@ -9,7 +9,7 @@ public class Halstead
 		ArrayList<HalsteadBuilder> halstead = new ArrayList<>();
 	}
 
-	public IMetrics metrics;
+	private IMetrics metrics;
 
 	Halstead()
 	{

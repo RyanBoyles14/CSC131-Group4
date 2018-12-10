@@ -13,6 +13,8 @@ import java.util.StringTokenizer;
 //halstead metrics class
 public class HalsteadMetricsCalculator extends AbstractMetricsCalculator
 {
+	private IMetrics metrics;
+
 	Set<String> distinctOperators = new HashSet<String>();
 	Set<String> distinctOperands = new HashSet<String>();
 	// defined as operators
@@ -85,10 +87,10 @@ public class HalsteadMetricsCalculator extends AbstractMetricsCalculator
 			hb.length = hb.totalOperators + hb.totalOperands;
 			hb.difficulty = (this.distinctOperators.size() / 2) * (hb.totalOperands / distinctOperands.size());
 			hb.volume = (int) (hb.length * (Math.log(hb.vocab) / Math.log(2.0)));
-			hb.effort = (int) (hb.difficulty * (hb.volume);
+			hb.effort = (int) (hb.difficulty * (hb.volume));
 			hb.calcLength = (this.distinctOperators.size() * (Math.log((this.distinctOperators.size()) / Math.log(2.0))
 					+ this.distinctOperands.size() * (Math.log(this.distinctOperators.size()) / Math.log(2.0))));
-			(hb.time = (hb.effort / 18;
+			hb.time = (hb.effort / 18);
 			hb.bugs = (int) (hb.volume / 3000);
 		}
 	}
