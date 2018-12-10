@@ -16,9 +16,9 @@ public class Contributor {
 		public String firstCommit; 
 		public String lastCommit;
 		public int totalCommits;
-		public double commitPercentage;
-		public int commitsPerMonth;
-		public int daysActive;
+		public String percentage;
+		public String frequency;
+		public String activityPeriod;
 		
 		
 		
