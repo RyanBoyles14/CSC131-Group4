@@ -14,17 +14,24 @@ mvn clean install
 
 ## Usage
 ```
-java -jar Group4-0.0.1-SNAPSHOT.jar [options] <Git url>
+java -jar Group4-0.0.1-SNAPSHOT.jar [-cChHIrt] [--output-to-stdout] [--print-all-metrics]
+                                    [--output-format=<outputFormat>]
+                                    [--output-to-file=<outputFilename>] <Git url>
 ```
 
 ### Options
 
-    -c, --coupling          Finds coupling between classes
-    -C, --commits           Gathers Git contributions and authors
-    -h, --help              Displays instructions on running the software
-    -H, --halstead          Computes Halstead metrics
-    -I, --inheritanceDepth  Finds the depth of inheritance of classes
-    -t, --timeComplexity    Finds the time complexity of methods
+    --output-format=<outputFormat>      Format output in JSON or XML. JSON enabled by default.
+    --output-to-file=<outputFilename>   Send output to specified file.
+    --output-to-stdout                  Send output to stdout. Enabled by default.
+    --print-all-metrics                 print all metrics
+    -c, --contributor                   print contributor metrics
+    -C, --coupling                      print coupling metric
+    -h, --help                          print help information
+    -H, --halstead                      print halstead metric
+    -I, --inheritanceDepth              print depth of inheritance metric
+    -r, --overall-repository            print overall repository metrics
+    -t, --timeComplexity                print time complexity metric
 
 
 ## Authors
