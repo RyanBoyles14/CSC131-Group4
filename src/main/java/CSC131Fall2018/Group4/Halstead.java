@@ -20,4 +20,8 @@ public class Halstead
 	{
 		return this.metrics;
 	}
+
+	public ArrayList<HalsteadBuilder> getHalstead(){
+		return ((Halstead.Metrics) this.metrics).halstead;
+	}
 }

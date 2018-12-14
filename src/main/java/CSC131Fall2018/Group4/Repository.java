@@ -60,6 +60,8 @@ public class Repository implements AutoCloseable
 		return this.contributorBuilder.contributors;
 	}
 
+	public ArrayList<HalsteadBuilder> getHalstead() {return this.halstead.getHalstead();}
+
 	public IMetrics getContributorsMetrics()
 	{
 		//List<IMetrics> listMetrics = new ArrayList<>();
@@ -72,10 +74,7 @@ public class Repository implements AutoCloseable
 		return this.depthOfInheritance.getMetrics();
 	}
 
-	public IMetrics getHalsteadMetrics()
-	{
-		return this.halstead.getMetrics();
-	}
+	public IMetrics getHalsteadMetrics() { return this.halstead.getMetrics(); }
 
 	public IMetrics getTimeComplexityMetrics()
 	{

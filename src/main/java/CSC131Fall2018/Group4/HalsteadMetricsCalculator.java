@@ -42,10 +42,17 @@ public class HalsteadMetricsCalculator extends AbstractMetricsCalculator
 	protected void newCalculation(Repository r)
 			throws Exception
 	{
+		this.metrics = r.getHalsteadMetrics();
 		ArrayList<File> files = r.getList();
 
 		for(File f: files) {
+			String[] parts = f.toString().split("\\.");
+			int index = parts.length-1;
+			if(!parts[index].equals("java") && !parts[index].equals("c") && !parts[index].equals("h")
+					&& !parts[index].equals("cpp") && !parts[index].equals("hpp") && !parts[index].equals("cxx"))
+				continue;
 			HalsteadBuilder hb = new HalsteadBuilder();
+			hb.f = f;
 			((Halstead.Metrics) this.metrics).halstead.add(hb);
 			this.f = f;
 			StringTokenizer tk;
