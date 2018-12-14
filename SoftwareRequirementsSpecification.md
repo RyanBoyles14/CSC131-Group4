@@ -72,12 +72,11 @@
 ###### Maven: <https://maven.apache.org>:       Used to create the .jar file to run the software in CLI. It compiles the require external libraries and packages them with our developed classes.
 ###### JGit: <https://www.eclipse.org/jgit>:    Used to clone a repository from Git. This allows us to clone all files using a Git url and calculate metrics on the files in the repository.
 ###### ANTLR: <https://antlr.org>:              Used to generate Java files based on Java and C++ grammar. Used to build a parse tree for interpreting Java and C++ files.
-###### Reflections:
-###### Jackson FasterXML: <https://github.com/FasterXML/jackson>    For parsing outputs into JSON
-###### Woodstox FasterXML: <https://github.com/FasterXML/woodstox>  For parsing outputs into XML
-###### SLF4J: <https://www.slf4j.org/>                              For logging messages at deployment time
+###### Reflections: <https://github.com/ronmamo/reflections>            For runtime metadata analysis
+###### Jackson FasterXML: <https://github.com/FasterXML/jackson>        For parsing outputs into JSON
+###### Woodstox FasterXML: <https://github.com/FasterXML/woodstox>      For parsing outputs into XML
+###### SLF4J: <https://www.slf4j.org/>                                  For logging messages at deployment time
 ###### GitHub Class graph: <https://github.com/classgraph/classgraph>
-###### Reflections: <https://github.com/ronmamo/reflections>
 
 <a name="overview"></a>
 #### 1.5. Overview
@@ -114,6 +113,7 @@
 <a name="userChar"></a>
 #### 2.3. User Characteristics
 ###### The users expected to use the software are those knowledgeable of GitHub. As such, they are required to provide a valid GitHub URL for the software to run.
+###### The users are also expected to be fairly experience with software development or management. With this software, the user can use the output for further parsing to derive more from the results.
 
 <a name="genConstr"></a>
 #### 2.4. General Constraints
@@ -146,12 +146,19 @@
 
 <a name="hardwareInt"></a>
 #### 3.1.2 Hardware Interface
-###### The software will save metrics results to .txt files within the Group4 repository for the user to view. The software also temporarily clones and stores Git repository files locally to run metrics on.
+###### The software will save metrics results to stdout or to an XML or JSON file within the Group4 repository for the user to view. The software also temporarily clones and stores Git repository files locally to run metrics on.
 
 <a name="softwareInt"></a>
 #### 3.1.3 Software Interface
-###### The software works with Picocli, JGit, Maven, and ANTLR
-(add version numbers)
+###### The software works with:
+    JGit v5.1.3.201810200350-r
+    SLF4J v1.7.25
+    ANTLR v4.7
+    GitHub Classgraph v4.6.6
+    Reflections v0.9.11
+    Picocli v3.8.1
+    Jackson FasterXML v2.9.7
+    Woodstox FasterXML v5.2.0
 
 <a name="commInt"></a>
 #### 3.1.4 Communication Interface
@@ -291,7 +298,7 @@
     The software should provide accurate results for a given Git repository's files
 
     3.5.2 Assessible Data
-    The software should provide the user the data in an accessible format via text files.
+    The software should provide the user the data in an accessible format via stdout or an XML or JSON file.
 
 
 <a name="otherReq"></a>
