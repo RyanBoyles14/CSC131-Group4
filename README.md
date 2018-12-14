@@ -14,9 +14,7 @@ mvn clean install
 
 ## Usage
 ```
-java -jar target/g4m-1.0.jar [-cChHIrt] [--output-to-stdout] [--print-all-metrics]
-                                    [--output-format=<outputFormat>]
-                                    [--output-to-file=<outputFilename>] <Git url>
+java -jar g4m-1.0.jar [options] <Git url>
 ```
 
 ### Options
