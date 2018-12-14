@@ -7,7 +7,7 @@ import java.util.*;
 import java.io.*;
 
 public class Coupling extends AbstractMetricsCalculator {
-	ArrayList<File> fileList = new ArrayList<File>();
+	private ArrayList<File> fileList = new ArrayList<File>();
 	ArrayList<ClassStats> classes = new ArrayList<ClassStats>();
 
 	//data structure to hold all of the coupling
