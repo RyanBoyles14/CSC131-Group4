@@ -25,6 +25,7 @@ public class Repository implements AutoCloseable
 	private ArrayList<Class> classes = new ArrayList<>();
 	public ContributorBuilder contributorBuilder;
 	public Contributors contributors = new Contributors();
+	public Coupling coupling = new Coupling();
 	public DepthOfInheritance depthOfInheritance = new DepthOfInheritance();
 	public Halstead halstead = new Halstead();
 	public TimeComplexity timeComplexity = new TimeComplexity();
@@ -67,6 +68,11 @@ public class Repository implements AutoCloseable
 		//List<IMetrics> listMetrics = new ArrayList<>();
 		//this.contributorBuilder.contributors.forEach(contributor -> listMetrics.add(contributor.getMetrics()));
 		return this.contributors.getMetrics();
+	}
+
+	public IMetrics getCouplingMetrics()
+	{
+		return this.coupling.getMetrics();
 	}
 
 	public IMetrics getDepthOfInheritanceMetrics()

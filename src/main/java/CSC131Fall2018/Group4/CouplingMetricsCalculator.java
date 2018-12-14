@@ -8,7 +8,7 @@ import java.io.*;
 
 public class CouplingMetricsCalculator extends AbstractMetricsCalculator {
 	private ArrayList<File> fileList = new ArrayList<File>();
-	ArrayList<ClassStats> classes = new ArrayList<ClassStats>();
+	private Coupling.Metrics metrics;
 
 	//data structure to hold all of the coupling
 	//information for a class
@@ -73,6 +73,7 @@ public class CouplingMetricsCalculator extends AbstractMetricsCalculator {
 	protected void newCalculation(Repository r)
 			throws Exception {
 		this.fileList = r.getList();
+		this.metrics = (Coupling.Metrics) r.getCouplingMetrics();
 
 		this.setClassStats();
 
@@ -102,7 +103,7 @@ public class CouplingMetricsCalculator extends AbstractMetricsCalculator {
 							//creates a ClassStats entry with the name
 							//of the class and index of the ArrayList<File>
 							//where the class is found
-							classes.add(new ClassStats(st.sval, i));
+							this.metrics.classes.add(new ClassStats(st.sval, i));
 							previousToken = null;
 						}
 						previousToken = st.sval;
@@ -144,9 +145,9 @@ public class CouplingMetricsCalculator extends AbstractMetricsCalculator {
 	//get the component coupling for the classes
 	private void getComponentCoupling() throws IOException {
 		int type;
-		for (int i = 0; i < classes.size(); i++) {
+		for (int i = 0; i < this.metrics.classes.size(); i++) {
 			BufferedReader buffRead;
-			buffRead = new BufferedReader(new FileReader(fileList.get(classes.get(i).index)));
+			buffRead = new BufferedReader(new FileReader(fileList.get(this.metrics.classes.get(i).index)));
 			StreamTokenizer st = new StreamTokenizer(buffRead);
 			setTokenizerSyntaxTable(st);
 			st.ordinaryChar(123);
@@ -176,27 +177,27 @@ public class CouplingMetricsCalculator extends AbstractMetricsCalculator {
 				switch (type) {
 
 					case StreamTokenizer.TT_WORD:
-						if (previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
+						if (previousToken != null && previousToken.equals("class") && st.sval.equals(this.metrics.classes.get(i).classname)) {
 							inClass = true;
-						} else if (previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
+						} else if (previousToken != null && previousToken.equals("class") && !st.sval.equals(this.metrics.classes.get(i).classname) && inClass) {
 							inOtherClass = true;
 						}
 						//here we check for component coupling
 						else if (inClass && !inOtherClass) {
-							for (int j = 0; j < classes.size(); j++) {
+							for (int j = 0; j < this.metrics.classes.size(); j++) {
 								//if the parsed value is equal to the name of one of
 								//our classes, except the one we are currently in,
 								//then we create a ComponentCoupling entry
-								if (st.sval != null && st.sval.equals(classes.get(j).classname) && !st.sval.equals(classes.get(i).classname)) {
+								if (st.sval != null && st.sval.equals(this.metrics.classes.get(j).classname) && !st.sval.equals(this.metrics.classes.get(i).classname)) {
 									type = st.nextToken();
 									if (type == StreamTokenizer.TT_WORD) {
 										boolean entryExists = false;
-										for (int k = 0; k < classes.get(i).componentCoupling.size(); k++) {
-											if (classes.get(i).componentCoupling.get(k).targetClassname.equals(classes.get(j).classname) && classes.get(i).componentCoupling.get(k).value.equals(st.sval))
+										for (int k = 0; k < this.metrics.classes.get(i).componentCoupling.size(); k++) {
+											if (this.metrics.classes.get(i).componentCoupling.get(k).targetClassname.equals(this.metrics.classes.get(j).classname) && this.metrics.classes.get(i).componentCoupling.get(k).value.equals(st.sval))
 												entryExists = true;
 										}
 										if (!entryExists)
-											classes.get(i).componentCoupling.add(new ComponentEntry(classes.get(j).classname, st.sval));
+											this.metrics.classes.get(i).componentCoupling.add(new ComponentEntry(this.metrics.classes.get(j).classname, st.sval));
 										//need to skip to the semicolon
 										do {
 											type = st.nextToken();
@@ -250,9 +251,9 @@ public class CouplingMetricsCalculator extends AbstractMetricsCalculator {
 	//get the interaction coupling for all classes
 	private void getInteractionCoupling() throws IOException {
 		int type;
-		for (int i = 0; i < classes.size(); i++) {
+		for (int i = 0; i < this.metrics.classes.size(); i++) {
 			BufferedReader buffRead;
-			buffRead = new BufferedReader(new FileReader(fileList.get(classes.get(i).index)));
+			buffRead = new BufferedReader(new FileReader(fileList.get(this.metrics.classes.get(i).index)));
 			StreamTokenizer st = new StreamTokenizer(buffRead);
 			setTokenizerSyntaxTable(st);
 			st.ordinaryChar(123);
@@ -282,9 +283,9 @@ public class CouplingMetricsCalculator extends AbstractMetricsCalculator {
 				switch (type) {
 
 					case StreamTokenizer.TT_WORD:
-						if (previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
+						if (previousToken != null && previousToken.equals("class") && st.sval.equals(this.metrics.classes.get(i).classname)) {
 							inClass = true;
-						} else if (previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
+						} else if (previousToken != null && previousToken.equals("class") && !st.sval.equals(this.metrics.classes.get(i).classname) && inClass) {
 							inOtherClass = true;
 						}
 						//more to add in
@@ -329,18 +330,18 @@ public class CouplingMetricsCalculator extends AbstractMetricsCalculator {
 							//iterates across all of the component coupling entries to check if
 							//the previously read token contains the variable name from a component
 							//coupling entry
-							for (int j = 0; j < classes.get(i).componentCoupling.size(); j++) {
-								if (previousToken != null && previousToken.contains(classes.get(i).componentCoupling.get(j).value)) {
+							for (int j = 0; j < this.metrics.classes.get(i).componentCoupling.size(); j++) {
+								if (previousToken != null && previousToken.contains(this.metrics.classes.get(i).componentCoupling.get(j).value)) {
 									type = st.nextToken();
 									if (type == StreamTokenizer.TT_WORD) {
 										boolean entryExists = false;
 										//handles duplicate cases
-										for (int k = 0; k < classes.get(i).interactionCoupling.size(); k++) {
-											if (classes.get(i).interactionCoupling.get(k).targetClassname.equals(classes.get(i).componentCoupling.get(j).targetClassname) && classes.get(i).interactionCoupling.get(k).value.equals(st.sval))
+										for (int k = 0; k < this.metrics.classes.get(i).interactionCoupling.size(); k++) {
+											if (this.metrics.classes.get(i).interactionCoupling.get(k).targetClassname.equals(this.metrics.classes.get(i).componentCoupling.get(j).targetClassname) && this.metrics.classes.get(i).interactionCoupling.get(k).value.equals(st.sval))
 												entryExists = true;
 										}
 										if (!entryExists)
-											classes.get(i).interactionCoupling.add(new InteractionEntry(classes.get(i).componentCoupling.get(j).targetClassname, st.sval));
+											this.metrics.classes.get(i).interactionCoupling.add(new InteractionEntry(this.metrics.classes.get(i).componentCoupling.get(j).targetClassname, st.sval));
 									}
 								}
 							}
@@ -356,9 +357,9 @@ public class CouplingMetricsCalculator extends AbstractMetricsCalculator {
 	//gets the iinheritance coupling for the list of classes
 	private void getInheritanceCoupling() throws IOException {
 		int type;
-		for (int i = 0; i < classes.size(); i++) {
+		for (int i = 0; i < this.metrics.classes.size(); i++) {
 			BufferedReader buffRead;
-			buffRead = new BufferedReader(new FileReader(fileList.get(classes.get(i).index)));
+			buffRead = new BufferedReader(new FileReader(fileList.get(this.metrics.classes.get(i).index)));
 			StreamTokenizer st = new StreamTokenizer(buffRead);
 			setTokenizerSyntaxTable(st);
 			st.ordinaryChar(123);
@@ -388,13 +389,13 @@ public class CouplingMetricsCalculator extends AbstractMetricsCalculator {
 				switch (type) {
 
 					case StreamTokenizer.TT_WORD:
-						if (previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
+						if (previousToken != null && previousToken.equals("class") && st.sval.equals(this.metrics.classes.get(i).classname)) {
 							inClass = true;
-						} else if (previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
+						} else if (previousToken != null && previousToken.equals("class") && !st.sval.equals(this.metrics.classes.get(i).classname) && inClass) {
 							inOtherClass = true;
 						}
 						if (inClass && previousToken != null && st.sval != null && previousToken.equals("extends")) {
-							classes.get(i).inheritanceCoupling.add(new InheritanceEntry(st.sval));
+							this.metrics.classes.get(i).inheritanceCoupling.add(new InheritanceEntry(st.sval));
 						}
 						//more to add in
 						previousToken = st.sval;

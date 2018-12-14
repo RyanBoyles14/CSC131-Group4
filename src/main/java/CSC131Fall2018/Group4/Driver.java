@@ -113,8 +113,8 @@ public class Driver implements Callable<Void>
 		if (this.printAll || this.printContributor)
 			outputter.addMetric(repository.getContributorsMetrics());
 
-        //if (this.printCoupling)
-        //    outputter.addMetric(repository.getCouplingMetric());
+        if (this.printAll || this.printCoupling)
+            outputter.addMetric(repository.getCouplingMetrics());
 
 		if (this.printAll || this.printDepthOfInheritance)
 			outputter.addMetric(repository.getDepthOfInheritanceMetrics());
