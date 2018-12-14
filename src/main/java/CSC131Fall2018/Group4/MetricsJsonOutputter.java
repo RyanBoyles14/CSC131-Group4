@@ -48,17 +48,6 @@ public class MetricsJsonOutputter extends AbstractMetricsOutputter
 						metrics);
 	}
 
-	public void addMetrics(List<IMetrics> metrics)
-			throws Exception
-	{
-		for (IMetrics metric : metrics)
-		{
-			((ObjectNode) this.rootNode.get(this.rootName).get("metrics"))
-					.putPOJO(metric.getClass().getDeclaringClass().getSimpleName(),
-							metric);
-		}
-	}
-
 	public void out(OutputStream stream)
 			throws Exception
 	{

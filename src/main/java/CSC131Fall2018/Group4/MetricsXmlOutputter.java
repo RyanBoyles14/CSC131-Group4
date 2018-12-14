@@ -80,15 +80,6 @@ public class MetricsXmlOutputter extends AbstractMetricsOutputter
 		*/
 	}
 
-	public void addMetrics(List<IMetrics> metrics)
-			throws Exception
-	{
-		for (IMetrics metric : metrics)
-		{
-			this.mapper.writeValue(this.intermediateStringStream, metric);
-		}
-	}
-
 	public void out(OutputStream stream)
 			throws Exception
 	{
