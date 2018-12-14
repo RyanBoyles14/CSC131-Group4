@@ -9,74 +9,76 @@ import java.io.*;
 public class Coupling extends AbstractMetricsCalculator {
 	ArrayList<File> fileList = new ArrayList<File>();
 	ArrayList<ClassStats> classes = new ArrayList<ClassStats>();
+
 	//data structure to hold all of the coupling
 	//information for a class
-	class ClassStats{
+	class ClassStats {
 		String classname;
 		int index;
 		ArrayList<InteractionEntry> interactionCoupling = new ArrayList<InteractionEntry>();
 		ArrayList<ComponentEntry> componentCoupling = new ArrayList<ComponentEntry>();
 		ArrayList<InheritanceEntry> inheritanceCoupling = new ArrayList<InheritanceEntry>();
+
 		public ClassStats(String classname, int index) {
 			this.classname = classname;
 			this.index = index;
 		}
 	}
-	
+
 	//data type to represent a Component Coupling entry
-	class ComponentEntry{
+	class ComponentEntry {
 		String targetClassname;
 		String value;
+
 		//Constructor to assign values to data type fields
 		public ComponentEntry(String name, String value) {
 			this.targetClassname = name;
 			this.value = value;
 		}
 	}
-	
+
 	//data type to represent an Interaction Coupling entry
-	class InteractionEntry{
+	class InteractionEntry {
 		String targetClassname;
 		String value;
+
 		//Constructor to assign values to data type fields
 		public InteractionEntry(String name, String value) {
 			this.targetClassname = name;
 			this.value = value;
 		}
 	}
-	
+
 	//data type to represent an Inheritance Coupling entry
-	class InheritanceEntry{
+	class InheritanceEntry {
 		String inheritedClassname;
+
 		//Constructor to assign value to the data type
 		public InheritanceEntry(String name) {
 			this.inheritedClassname = name;
 		}
 	}
-	
+
 	//constructor sets the files to be used for the metric
 	public Coupling(Repository r)
-		throws Exception
-	{
+			throws Exception {
 		super(r);
 	}
 
 	protected void newCalculation(File f)
-			throws Exception
-	{
+			throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	protected void newCalculation(Repository r)
-			throws Exception
-	{
+			throws Exception {
 		this.fileList = r.getList();
 	}
 
 	//This method creates the list of ClassStats Objects for the project
-	public void setClassStats() throws IOException{
+	public void setClassStats() throws IOException {
 		//iterate across all of the files
-		for(int i = 0; i < this.fileList.size(); i++) {
+		for (int i = 0; i < this.fileList.size(); i++) {
 			int type;
 			BufferedReader buffRead;
 			buffRead = new BufferedReader(new FileReader(fileList.get(i)));
@@ -85,12 +87,12 @@ public class Coupling extends AbstractMetricsCalculator {
 			String previousToken = null;
 			do {
 				type = st.nextToken();
-				switch(type) {
-				
+				switch (type) {
+
 					case StreamTokenizer.TT_WORD:
 						//gets the classname. class will be in previousToken
 						//and st.sval will contain the class name
-						if(previousToken != null && previousToken.equals("class")) {
+						if (previousToken != null && previousToken.equals("class")) {
 							//creates a ClassStats entry with the name
 							//of the class and index of the ArrayList<File>
 							//where the class is found
@@ -99,12 +101,12 @@ public class Coupling extends AbstractMetricsCalculator {
 						}
 						previousToken = st.sval;
 						break;
-					default:	
+					default:
 				}
-			}while(st.ttype != StreamTokenizer.TT_EOF);
+			} while (st.ttype != StreamTokenizer.TT_EOF);
 		}
 	}
-	
+
 	//sets the options for the stream tokenizer
 	public void setTokenizerSyntaxTable(StreamTokenizer tokenizer) {
 		//set the whitespace/delimiters
@@ -116,7 +118,7 @@ public class Coupling extends AbstractMetricsCalculator {
 		tokenizer.whitespaceChars(92, 92);
 		tokenizer.whitespaceChars(94, 94);
 		tokenizer.whitespaceChars(123, 126);
-		
+
 		//set word values
 		tokenizer.wordChars(48, 57);//sets 0-9 ascii as word characters
 		tokenizer.wordChars(95, 95);//sets '_' ascii as word character
@@ -124,19 +126,19 @@ public class Coupling extends AbstractMetricsCalculator {
 		tokenizer.wordChars(62, 62);// sets >
 		tokenizer.wordChars(91, 91);// sets [
 		tokenizer.wordChars(93, 93);// sets ]
-		
+
 		//set comment values to ignore comments
 		tokenizer.slashStarComments(true);
 		tokenizer.slashSlashComments(true);
-		
+
 		//set quote delimiter
 		tokenizer.quoteChar(34);
 	}
-	
+
 	//get the component coupling for the classes
-		public void getComponentCoupling() throws IOException{
-			int type;
-			for(int i = 0; i < classes.size(); i++) {
+	public void getComponentCoupling() throws IOException {
+		int type;
+		for (int i = 0; i < classes.size(); i++) {
 			BufferedReader buffRead;
 			buffRead = new BufferedReader(new FileReader(fileList.get(classes.get(i).index)));
 			StreamTokenizer st = new StreamTokenizer(buffRead);
@@ -159,39 +161,40 @@ public class Coupling extends AbstractMetricsCalculator {
 			int bracketNumber = -1;
 			int otherClassBracketNumber = -1;
 			String previousToken = null;
-			
+
 			//evaluates whether the class has finished parsing
 			//or the end of file has been reached
 			do {
 				type = st.nextToken();
 				//System.out.println(st.sval);
-				switch(type) {
-				
+				switch (type) {
+
 					case StreamTokenizer.TT_WORD:
-						if(previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
+						if (previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
 							inClass = true;
-						}
-						else if(previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
+						} else if (previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
 							inOtherClass = true;
 						}
 						//here we check for component coupling
-						else if(inClass && !inOtherClass) {
-							for(int j = 0; j < classes.size(); j++) {
+						else if (inClass && !inOtherClass) {
+							for (int j = 0; j < classes.size(); j++) {
 								//if the parsed value is equal to the name of one of
 								//our classes, except the one we are currently in,
 								//then we create a ComponentCoupling entry
-								if(st.sval != null && st.sval.equals(classes.get(j).classname) && !st.sval.equals(classes.get(i).classname)) {
+								if (st.sval != null && st.sval.equals(classes.get(j).classname) && !st.sval.equals(classes.get(i).classname)) {
 									type = st.nextToken();
-									if(type == StreamTokenizer.TT_WORD) {
+									if (type == StreamTokenizer.TT_WORD) {
 										boolean entryExists = false;
-										for(int k= 0; k < classes.get(i).componentCoupling.size(); k++) {
-											if(classes.get(i).componentCoupling.get(k).targetClassname.equals(classes.get(j).classname) && classes.get(i).componentCoupling.get(k).value.equals(st.sval)) entryExists = true;
+										for (int k = 0; k < classes.get(i).componentCoupling.size(); k++) {
+											if (classes.get(i).componentCoupling.get(k).targetClassname.equals(classes.get(j).classname) && classes.get(i).componentCoupling.get(k).value.equals(st.sval))
+												entryExists = true;
 										}
-										if(!entryExists) classes.get(i).componentCoupling.add(new ComponentEntry(classes.get(j).classname, st.sval));
+										if (!entryExists)
+											classes.get(i).componentCoupling.add(new ComponentEntry(classes.get(j).classname, st.sval));
 										//need to skip to the semicolon
 										do {
 											type = st.nextToken();
-										}while((char)st.ttype != ';' && st.ttype != StreamTokenizer.TT_EOF);
+										} while ((char) st.ttype != ';' && st.ttype != StreamTokenizer.TT_EOF);
 									}
 								}
 							}
@@ -204,45 +207,44 @@ public class Coupling extends AbstractMetricsCalculator {
 					default:
 						//case handling opening brackets as a way to determine
 						//beginning of scope of class
-						if((char)type == '{') {
-							if(!inOtherClass && inClass) {
-								if(bracketNumber == -1) bracketNumber = 1;
+						if ((char) type == '{') {
+							if (!inOtherClass && inClass) {
+								if (bracketNumber == -1) bracketNumber = 1;
 								else bracketNumber++;
-							}
-							else if(inOtherClass && inClass) {
-								if(otherClassBracketNumber == -1) otherClassBracketNumber = 1;
+							} else if (inOtherClass && inClass) {
+								if (otherClassBracketNumber == -1) otherClassBracketNumber = 1;
 								else otherClassBracketNumber++;
 							}
 						}
 						//case handling closing brackets as a way to determine
 						//end of scope of a class
-						else if((char)type == '}') {
-							if(!inOtherClass && inClass) {
+						else if ((char) type == '}') {
+							if (!inOtherClass && inClass) {
 								bracketNumber--;
-								if(bracketNumber == 0) {
+								if (bracketNumber == 0) {
 									classParsed = true;
 									bracketNumber = -1;
 									inClass = false;
 								}
 							}
-							if(inOtherClass && inClass) {
+							if (inOtherClass && inClass) {
 								otherClassBracketNumber--;
-								if(otherClassBracketNumber == 0) {
+								if (otherClassBracketNumber == 0) {
 									otherClassBracketNumber = -1;
 									inOtherClass = false;
 								}
 							}
 						}
 				}
-			}while(!classParsed && st.ttype != StreamTokenizer.TT_EOF);
-			
+			} while (!classParsed && st.ttype != StreamTokenizer.TT_EOF);
+
 		}
-		}
-	
+	}
+
 	//get the interaction coupling for all classes
-		public void getInteractionCoupling() throws IOException{
-			int type;
-			for(int i = 0; i < classes.size(); i++) {
+	public void getInteractionCoupling() throws IOException {
+		int type;
+		for (int i = 0; i < classes.size(); i++) {
 			BufferedReader buffRead;
 			buffRead = new BufferedReader(new FileReader(fileList.get(classes.get(i).index)));
 			StreamTokenizer st = new StreamTokenizer(buffRead);
@@ -266,18 +268,17 @@ public class Coupling extends AbstractMetricsCalculator {
 			//or the end of file has been reached
 			do {
 				type = st.nextToken();
-				
+
 				//debug test code
 				//if(st.sval != null) System.out.println(st.sval);
 				//else System.out.println((char)type);
-				
-				switch(type) {
-				
+
+				switch (type) {
+
 					case StreamTokenizer.TT_WORD:
-						if(previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
+						if (previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
 							inClass = true;
-						}
-						else if(previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
+						} else if (previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
 							inOtherClass = true;
 						}
 						//more to add in
@@ -288,30 +289,29 @@ public class Coupling extends AbstractMetricsCalculator {
 					default:
 						//case handling opening brackets as a way to determine
 						//beginning of scope of class
-						if((char)type == '{') {
-							if(!inOtherClass && inClass) {
-								if(bracketNumber == -1) bracketNumber = 1;
+						if ((char) type == '{') {
+							if (!inOtherClass && inClass) {
+								if (bracketNumber == -1) bracketNumber = 1;
 								else bracketNumber++;
-							}
-							else if(inOtherClass && inClass) {
-								if(otherClassBracketNumber == -1) otherClassBracketNumber = 1;
+							} else if (inOtherClass && inClass) {
+								if (otherClassBracketNumber == -1) otherClassBracketNumber = 1;
 								else otherClassBracketNumber++;
 							}
 						}
 						//case handling closing brackets as a way to determine
 						//end of scope of a class
-						else if((char)type == '}') {
-							if(!inOtherClass && inClass) {
+						else if ((char) type == '}') {
+							if (!inOtherClass && inClass) {
 								bracketNumber--;
-								if(bracketNumber == 0) {
+								if (bracketNumber == 0) {
 									classParsed = true;
 									bracketNumber = -1;
 									inClass = false;
 								}
 							}
-							if(inOtherClass && inClass) {
+							if (inOtherClass && inClass) {
 								otherClassBracketNumber--;
-								if(otherClassBracketNumber == 0) {
+								if (otherClassBracketNumber == 0) {
 									otherClassBracketNumber = -1;
 									inOtherClass = false;
 								}
@@ -319,36 +319,38 @@ public class Coupling extends AbstractMetricsCalculator {
 						}
 						//case to evaluate whether there is interaction coupling
 						//and creates an interactionEntry if there is
-						else if ((char)type == '.' && inClass && !inOtherClass) {
+						else if ((char) type == '.' && inClass && !inOtherClass) {
 							//iterates across all of the component coupling entries to check if
 							//the previously read token contains the variable name from a component
 							//coupling entry
-							for(int j = 0; j < classes.get(i).componentCoupling.size(); j++) {
-								if(previousToken != null && previousToken.contains(classes.get(i).componentCoupling.get(j).value)) {
+							for (int j = 0; j < classes.get(i).componentCoupling.size(); j++) {
+								if (previousToken != null && previousToken.contains(classes.get(i).componentCoupling.get(j).value)) {
 									type = st.nextToken();
-									if(type == StreamTokenizer.TT_WORD) {
+									if (type == StreamTokenizer.TT_WORD) {
 										boolean entryExists = false;
 										//handles duplicate cases
-										for(int k= 0; k < classes.get(i).interactionCoupling.size(); k++) {
-											if(classes.get(i).interactionCoupling.get(k).targetClassname.equals(classes.get(i).componentCoupling.get(j).targetClassname) && classes.get(i).interactionCoupling.get(k).value.equals(st.sval)) entryExists = true;
+										for (int k = 0; k < classes.get(i).interactionCoupling.size(); k++) {
+											if (classes.get(i).interactionCoupling.get(k).targetClassname.equals(classes.get(i).componentCoupling.get(j).targetClassname) && classes.get(i).interactionCoupling.get(k).value.equals(st.sval))
+												entryExists = true;
 										}
-										if(!entryExists) classes.get(i).interactionCoupling.add(new InteractionEntry(classes.get(i).componentCoupling.get(j).targetClassname,st.sval));
+										if (!entryExists)
+											classes.get(i).interactionCoupling.add(new InteractionEntry(classes.get(i).componentCoupling.get(j).targetClassname, st.sval));
 									}
 								}
 							}
-							
+
 						}
-						
+
 				}
-			}while(!classParsed && st.ttype != StreamTokenizer.TT_EOF);
-			
+			} while (!classParsed && st.ttype != StreamTokenizer.TT_EOF);
+
 		}
-		}
-		
-		//gets the iinheritance coupling for the list of classes
-		public void getInheritanceCoupling() throws IOException{
-			int type;
-			for(int i = 0; i < classes.size(); i++) {
+	}
+
+	//gets the iinheritance coupling for the list of classes
+	public void getInheritanceCoupling() throws IOException {
+		int type;
+		for (int i = 0; i < classes.size(); i++) {
 			BufferedReader buffRead;
 			buffRead = new BufferedReader(new FileReader(fileList.get(classes.get(i).index)));
 			StreamTokenizer st = new StreamTokenizer(buffRead);
@@ -372,21 +374,20 @@ public class Coupling extends AbstractMetricsCalculator {
 			//or the end of file has been reached
 			do {
 				type = st.nextToken();
-				
+
 				//debug test code
-				if(st.sval != null) System.out.println(st.sval);
-				else System.out.println((char)type);
-				
-				switch(type) {
-				
+				if (st.sval != null) System.out.println(st.sval);
+				else System.out.println((char) type);
+
+				switch (type) {
+
 					case StreamTokenizer.TT_WORD:
-						if(previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
+						if (previousToken != null && previousToken.equals("class") && st.sval.equals(classes.get(i).classname)) {
 							inClass = true;
-						}
-						else if(previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
+						} else if (previousToken != null && previousToken.equals("class") && !st.sval.equals(classes.get(i).classname) && inClass) {
 							inOtherClass = true;
 						}
-						if(inClass && previousToken != null && st.sval != null && previousToken.equals("extends")) {
+						if (inClass && previousToken != null && st.sval != null && previousToken.equals("extends")) {
 							classes.get(i).inheritanceCoupling.add(new InheritanceEntry(st.sval));
 						}
 						//more to add in
@@ -397,42 +398,40 @@ public class Coupling extends AbstractMetricsCalculator {
 					default:
 						//case handling opening brackets as a way to determine
 						//beginning of scope of class
-						if((char)type == '{') {
-							if(!inOtherClass && inClass) {
-								if(bracketNumber == -1) {
+						if ((char) type == '{') {
+							if (!inOtherClass && inClass) {
+								if (bracketNumber == -1) {
 									bracketNumber = 1;
 									classParsed = true;
-								}
-								else bracketNumber++;
-							}
-							else if(inOtherClass && inClass) {
-								if(otherClassBracketNumber == -1) otherClassBracketNumber = 1;
+								} else bracketNumber++;
+							} else if (inOtherClass && inClass) {
+								if (otherClassBracketNumber == -1) otherClassBracketNumber = 1;
 								else otherClassBracketNumber++;
 							}
 						}
 						//case handling closing brackets as a way to determine
 						//end of scope of a class
-						else if((char)type == '}') {
-							if(!inOtherClass && inClass) {
+						else if ((char) type == '}') {
+							if (!inOtherClass && inClass) {
 								bracketNumber--;
-								if(bracketNumber == 0) {
+								if (bracketNumber == 0) {
 									classParsed = true;
 									bracketNumber = -1;
 									inClass = false;
 								}
 							}
-							if(inOtherClass && inClass) {
+							if (inOtherClass && inClass) {
 								otherClassBracketNumber--;
-								if(otherClassBracketNumber == 0) {
+								if (otherClassBracketNumber == 0) {
 									otherClassBracketNumber = -1;
 									inOtherClass = false;
 								}
 							}
 						}
-						
+
 				}
-			}while(!classParsed && st.ttype != StreamTokenizer.TT_EOF);
-			
+			} while (!classParsed && st.ttype != StreamTokenizer.TT_EOF);
+
 		}
-		}
+	}
 }
