@@ -75,6 +75,10 @@ public class Coupling extends AbstractMetricsCalculator {
 		this.fileList = r.getList();
 
 		this.setClassStats();
+
+		this.getComponentCoupling();
+		this.getInteractionCoupling();
+		this.getInheritanceCoupling();
 	}
 
 	//This method creates the list of ClassStats Objects for the project
@@ -138,7 +142,7 @@ public class Coupling extends AbstractMetricsCalculator {
 	}
 
 	//get the component coupling for the classes
-	public void getComponentCoupling() throws IOException {
+	private void getComponentCoupling() throws IOException {
 		int type;
 		for (int i = 0; i < classes.size(); i++) {
 			BufferedReader buffRead;
@@ -244,7 +248,7 @@ public class Coupling extends AbstractMetricsCalculator {
 	}
 
 	//get the interaction coupling for all classes
-	public void getInteractionCoupling() throws IOException {
+	private void getInteractionCoupling() throws IOException {
 		int type;
 		for (int i = 0; i < classes.size(); i++) {
 			BufferedReader buffRead;
@@ -350,7 +354,7 @@ public class Coupling extends AbstractMetricsCalculator {
 	}
 
 	//gets the iinheritance coupling for the list of classes
-	public void getInheritanceCoupling() throws IOException {
+	private void getInheritanceCoupling() throws IOException {
 		int type;
 		for (int i = 0; i < classes.size(); i++) {
 			BufferedReader buffRead;
