@@ -108,7 +108,7 @@ public class Coupling extends AbstractMetricsCalculator {
 	}
 
 	//sets the options for the stream tokenizer
-	public void setTokenizerSyntaxTable(StreamTokenizer tokenizer) {
+	private void setTokenizerSyntaxTable(StreamTokenizer tokenizer) {
 		//set the whitespace/delimiters
 		tokenizer.whitespaceChars(33, 33);
 		tokenizer.whitespaceChars(35, 46);
