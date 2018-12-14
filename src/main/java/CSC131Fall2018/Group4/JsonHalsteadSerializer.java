@@ -15,7 +15,7 @@ public class JsonHalsteadSerializer extends JsonSerializer<HalsteadBuilder>
 
 		jgen.writeStartObject();
 
-		jgen.writeObjectField(hb.getName(), hb.toString());
+		//jgen.writeObjectField(hb.getName(), hb.toString());
 
 		jgen.writeEndObject();
 	}
