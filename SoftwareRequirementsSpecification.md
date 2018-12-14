@@ -72,6 +72,12 @@
 ###### Maven: <https://maven.apache.org>:       Used to create the .jar file to run the software in CLI. It compiles the require external libraries and packages them with our developed classes.
 ###### JGit: <https://www.eclipse.org/jgit>:    Used to clone a repository from Git. This allows us to clone all files using a Git url and calculate metrics on the files in the repository.
 ###### ANTLR: <https://antlr.org>:              Used to generate Java files based on Java and C++ grammar. Used to build a parse tree for interpreting Java and C++ files.
+###### Reflections:
+###### Jackson FasterXML: <https://github.com/FasterXML/jackson>    For parsing outputs into JSON
+###### Woodstox FasterXML: <https://github.com/FasterXML/woodstox>  For parsing outputs into XML
+###### SLF4J: <https://www.slf4j.org/>                              For logging messages at deployment time
+###### GitHub Class graph: <https://github.com/classgraph/classgraph>
+###### Reflections: <https://github.com/ronmamo/reflections>
 
 <a name="overview"></a>
 #### 1.5. Overview
@@ -92,13 +98,18 @@
 #### 2.2. Product Functions
 ###### When running the application, the user must include a link to a Git repository. The user has the option to choose specific metrics to find.
 ###### The options include:
-    -c, --coupling          Finds coupling between classes
-    -C, --commits           Gathers Git contributions and authors
-    -h, --help              Displays instructions on running the software
-    -H, --halstead          Computes Halstead metrics
-    -I, --inheritanceDepth  Finds the depth of inheritance of classes
-    -t, --timeComplexity    Finds the time complexity of methods
-###### The metrics will be saved to txt files in the Group4 directory
+    --output-format=<outputFormat>      Format output in JSON or XML. JSON enabled by default.
+    --output-to-file=<outputFilename>   Send output to specified file.
+    --output-to-stdout                  Send output to stdout. Enabled by default.
+    --print-all-metrics                 print all metrics
+    -c, --contributor                   print contributor metrics
+    -C, --coupling                      print coupling metric
+    -h, --help                          print help information
+    -H, --halstead                      print halstead metric
+    -I, --inheritanceDepth              print depth of inheritance metric
+    -r, --overall-repository            print overall repository metrics
+    -t, --timeComplexity                print time complexity metric
+###### The metrics will be output to stdout or a XML or JSON file
 
 <a name="userChar"></a>
 #### 2.3. User Characteristics
