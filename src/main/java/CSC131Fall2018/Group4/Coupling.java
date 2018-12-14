@@ -76,7 +76,7 @@ public class Coupling extends AbstractMetricsCalculator {
 	}
 
 	//This method creates the list of ClassStats Objects for the project
-	public void setClassStats() throws IOException {
+	private void setClassStats() throws IOException {
 		//iterate across all of the files
 		for (int i = 0; i < this.fileList.size(); i++) {
 			int type;
