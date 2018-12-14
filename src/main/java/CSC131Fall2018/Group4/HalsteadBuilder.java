@@ -5,6 +5,7 @@ import java.io.File;
 public class HalsteadBuilder {
 
     public class Metrics implements IMetrics{
+        public File f;
         public int totalOperators;
         public int totalOperands;
         public int vocab;
@@ -17,8 +18,9 @@ public class HalsteadBuilder {
         public double volume;
     }
 
-    Metrics metrics;
+    IMetrics metrics;
 
+    public File f;
     public int totalOperators;
     public int totalOperands;
     public int vocab;
@@ -30,21 +32,33 @@ public class HalsteadBuilder {
     public double calcLength;
     public double volume;
 
-    public HalsteadBuilder(){
-        metrics = new HalsteadBuilder.Metrics();
-        this.metrics.totalOperators = totalOperators;
-        this.metrics.totalOperands = totalOperands;
-        this.metrics.vocab = vocab;
-        this.metrics.length = length;
-        this.metrics.time = time;
-        this.metrics.bugs = bugs;
-        this.metrics.effort = effort;
-        this.metrics.difficulty = difficulty;
-        this.metrics.calcLength = calcLength;
-        this.metrics.volume = volume;
-    }
-
     public IMetrics getMetrics() {
         return this.metrics;
     }
+
+    public String getName(){
+        return f.toString();
+    }
+
+    public int getOprt(){
+        return totalOperators;
+    }
+
+    public int getOpnd(){ return totalOperands; }
+
+    public int getVocab(){ return vocab;}
+
+    public int getLength(){ return length;}
+
+    public int getTime(){ return time;}
+
+    public int getBugs(){ return bugs;}
+
+    public int getEffort(){return effort;}
+
+    public int getDiff(){ return difficulty;}
+
+    public double getCalcLength(){ return calcLength;}
+
+    public double getVolume(){ return volume;}
 }

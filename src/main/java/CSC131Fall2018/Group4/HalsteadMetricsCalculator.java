@@ -52,6 +52,9 @@ public class HalsteadMetricsCalculator extends AbstractMetricsCalculator
 					&& !parts[index].equals("cpp") && !parts[index].equals("hpp") && !parts[index].equals("cxx"))
 				continue;
 			HalsteadBuilder hb = new HalsteadBuilder();
+			hb.f = f;
+			((Halstead.Metrics) this.metrics).halstead.add(hb);
+			this.f = f;
 			StringTokenizer tk;
 			String token;
 			List<String> tokenList = new ArrayList<String>();
@@ -96,7 +99,6 @@ public class HalsteadMetricsCalculator extends AbstractMetricsCalculator
 					+ this.distinctOperands.size() * (Math.log(this.distinctOperators.size()) / Math.log(2.0))));
 			hb.time = (hb.effort / 18);
 			hb.bugs = (int) (hb.volume / 3000);
-			((Halstead.Metrics) this.metrics).halstead.add(hb);
 		}
 	}
 }

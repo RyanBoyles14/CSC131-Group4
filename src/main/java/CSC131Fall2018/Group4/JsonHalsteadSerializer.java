@@ -15,7 +15,17 @@ public class JsonHalsteadSerializer extends JsonSerializer<HalsteadBuilder>
 
 		jgen.writeStartObject();
 
-		//jgen.writeObjectField(hb.getName(), hb.toString());
+		jgen.writeRaw(hb.getName());
+		jgen.writeObjectField("Total Operators", hb.getOprt());
+		jgen.writeObjectField("Total Operands", hb.getOpnd());
+		jgen.writeObjectField("Total Vocab", hb.getVocab());
+		jgen.writeObjectField("Total Length", hb.getLength());
+		jgen.writeObjectField("Total Time", hb.getTime());
+		jgen.writeObjectField("Total Bugs", hb.getBugs());
+		jgen.writeObjectField("Total Effort", hb.getEffort());
+		jgen.writeObjectField("Total Difficulty", hb.getDiff());
+		jgen.writeObjectField("Total Calculated Length", hb.getCalcLength());
+		jgen.writeObjectField("Total Volume", hb.getVolume());
 
 		jgen.writeEndObject();
 	}

@@ -153,75 +153,100 @@
 
 `User requests metrics and options to the software`
 
-| Use Case 1 (UC-1)     | User Interface                            |
-| -----------------     | --------------                            |
-| Primary Actor         | User                                      |
-| Actor's Goal          | Receive metrics on a Git repository       |
-| Brief Description     | Return metrics based on the User's input  |
-| Scope                 | Driver                                    |
-| Precondition          | User installed the software files         |
-| Main Success Condition| Receives txt files of metrics             |
-| Trigger               | User runs the software on cli             |
+| Use Case 1 (UC-1)      | User Interface
+| -----------------      |--------------
+| Primary Actor          |User
+| Actor's Goal           |Receive metrics on a Git repository
+| Brief Description      |Return metrics based on the User's input
+| Scope                  |Driver, picocli
+| Precondition           |User specified valid options and inputs
+| Main Success Condition |Receives txt files of metrics
+| Trigger                |User runs the software on cli
 
 `Driver pulls files using a GitHub URL`
 
-| Use Case 2 (UC-2)     | User Interface                            |
-| -----------------     | --------------                            |
-| Primary Actor         | Driver                                    |
-| Actor's Goal          | Clone files from Git repository           |
-| Brief Description     | Use a User's GitHub Url to clone a Git repository |
-| Scope                 | Driver, JGit                              |
-| Precondition          | User passed in URL                        |
-| Main Success Condition| Driver finds a repository on GitHub and successfully clones it |
-| Trigger               |                                           |
+| Use Case 2 (UC-2)     | User Interface
+| -----------------     | --------------
+| Primary Actor         | Driver
+| Actor's Goal          | Clone files from Git repository
+| Brief Description     | Use a User's GitHub Url to clone a Git repository
+| Scope                 | Driver, JGit
+| Precondition          | User passed in URL
+| Main Success Condition| Driver finds a repository on GitHub and successfully clones it
+| Trigger               | User specified a valid GitHub URL
 
-`Driver requests author stats for a repository`
+`Repository requests author stats for a repository`
 
-| Use Case 3 (UC-3)     | User Interface                            |
-| -----------------     | --------------                            |
-| Primary Actor         | Driver                                    |
-| Actor's Goal          | Retrieve that stats of repository contributors from AuthorStats |
-| Brief Description     | Communicate with AuthorStats to get information commits|
-| Scope                 | Driver, AuthorStats, Author, IMetrics     |
-| Precondition          | JGit cloned a GitHub repository           |
-| Main Success Condition| AuthorStats computes and returns statistics on each contributor of the given repository|
-| Trigger               |                                           |
+| Use Case 3 (UC-3)      |User Interface
+| -----------------      |--------------
+| Primary Actor          |Repository
+| Actor's Goal           |Retrieve that stats of repository contributors from AuthorStats
+| Brief Description      |Communicate with Contributor to computer information commits
+| Scope                  |Repository, JGit, Contributor, ContributorMetricsCalculator
+| Precondition           |JGit cloned a GitHub repository
+| Main Success Condition |ContributorMetricsCalculator computes and returns statistics on each contributor of the given repository
+| Trigger                |User specified the author stats in cli
 
-`Driver requests the inheritance depth of a list of files`
+`Repository requests the inheritance depth of a list of files`
 
-| Use Case 4 (UC-4)     | User Interface                            |
-| -----------------     | --------------                            |
-| Primary Actor         | Driver                                    |
-| Actor's Goal          | Retrieve the inheritance depth of classes from DepthOfInheritance|
-| Brief Description     | Communicate with DepthOfInheritance to return the inheritance depth of Java/C++ files|
-| Scope                 | Driver, DepthOfInheritance, ANTLR, Class  |
-| Precondition          | An ArrayList of Git repository files is compiled|
-| Main Success Condition| DepthOfInheritance computes each class' inheritance and returns a list of Class objects|
-| Trigger               |                                           |
+| Use Case 4 (UC-4)      |User Interface
+| -----------------      |--------------
+| Primary Actor          |Repository
+| Actor's Goal           |Retrieve the inheritance depth of classes from DepthOfInheritance
+| Brief Description      |Communicate with DepthOfInheritance to compute the inheritance depth of JavaC++ files
+| Scope                  |Repository, DepthOfInheritance, DepthOfInheritanceMetricsCalculator, ANTLR
+| Precondition           |An ArrayList of Git repository files is compiled
+| Main Success Condition |DepthOfInheritanceMetricsCalculator computes each class' inheritance and returns a list of Class objects
+| Trigger                |User specified the inheritance depth metric in cli
 
-`Driver requests the class coupling of a list of files`
+`Repository requests the class coupling of a list of files`
 
-| Use Case 5 (UC-5)     | User Interface                            |
-| -----------------     | --------------                            |
-| Primary Actor         | Driver                                    |
-| Actor's Goal          | Retrieve the coupling of classes from Coupling|
-| Brief Description     | Communicate with Coupling to return the coupling of classes|
-| Scope                 | Driver, Coupling                          |
-| Precondition          | An ArrayList of Git repository files is compiled|
-| Main Success Condition| Coupling computes the coupling between classes and returns a list of ClassStats|
-| Trigger               |                                           |
+| Use Case 5 (UC-5)      |User Interface
+| -----------------      |--------------
+| Primary Actor          |Repository
+| Actor's Goal           |Retrieve the coupling of classes from Coupling
+| Brief Description      |Communicate with Coupling to compute the coupling of classes
+| Scope                  |Repository, Coupling
+| Precondition           |An ArrayList of Git repository files is compiled
+| Main Success Condition |Coupling computes the coupling between classes and returns a list of ClassStats
+| Trigger                |User specified the coupling metric in cli
 
-`Driver requests the time complexity of a list of files`
+`Repository requests the time complexity of a list of files`
 
-| Use Case 2 (UC-6)     | User Interface                            |
-| -----------------     | --------------                            |
-| Primary Actor         | Driver                                    |
-| Actor's Goal          | Retrieve a class' time complexity         |
-| Brief Description     | Communicate with Metrix to return the time complexity of classes|
-| Scope                 | Driving, Metrix                                          |
-| Precondition          | An ArrayList of Git repository files is compiled|
-| Main Success Condition| Metrix computes the time complexity between classes and returns the results|
-| Trigger               |                                           |
+| Use Case 6 (UC-6)      |User Interface
+| -----------------      |--------------
+| Primary Actor          |Repository
+| Actor's Goal           |Retrieve a class' time complexity
+| Brief Description      |Communicate with TimeComplexity to compute the time complexity of classes
+| Scope                  |Repository, TimeComplexity
+| Precondition           |An ArrayList of Git repository files is compiled
+| Main Success Condition |TimeComplexity computes the time complexity between classes and returns the results
+| Trigger                |User specified the time complexity metric in cli
+
+`Repository requests the Halstead metrics of a list of files`
+
+| Use Case 7 (UC-7)      |User Interface
+| -----------------      |--------------
+| Primary Actor          |Repository
+| Actor's Goal           |Retrieve a class' time complexity
+| Brief Description      |Communicate with Halstead to software metrics on Java, C, and C++ files
+| Scope                  |Repository, Halstead, HalsteadMetricsCalculator
+| Precondition           |An ArrayList of Git repository files is compiled
+| Main Success Condition |HalsteadMetricsCalculator computes the software metrics and returns the results in a list of HalsteadBuilder objects
+| Trigger                |User specified the time complexity metric in cli
+
+`Output Metrics`
+
+| Use Case 8 (UC-8)      |User Interface
+| -----------------      |--------------
+| Primary Actor          |Driver
+| Actor's Goal           |Send output to stdout
+| Brief Description      |Print the User's chosen metrics with stdout or to a JSON or XML file
+| Scope			          |Communicate with XMLSerializer or JSONSerializer to convert the metric results into an output stream to then either print in stdout or save to a specified file
+| Precondition           |User specified the output in cli, either through default options or specifying a valid file type or file name
+| Main Success Condition |Print out all metric results using stdout
+| Trigger                |All metric results are computed and returned
+
 
 <a name="perfReq"></a>
 #### 3.3. Performance Requirements
