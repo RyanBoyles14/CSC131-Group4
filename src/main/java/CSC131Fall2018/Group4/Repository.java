@@ -72,10 +72,7 @@ public class Repository implements AutoCloseable
 		return this.depthOfInheritance.getMetrics();
 	}
 
-	public IMetrics getHalsteadMetrics()
-	{
-		return this.halstead.getMetrics();
-	}
+	public IMetrics getHalsteadMetrics() { return this.halstead.getMetrics(); }
 
 	public IMetrics getTimeComplexityMetrics()
 	{

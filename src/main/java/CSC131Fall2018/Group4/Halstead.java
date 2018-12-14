@@ -6,7 +6,7 @@ public class Halstead
 {
 	public class Metrics implements IMetrics
 	{
-		ArrayList<HalsteadBuilder> halstead = new ArrayList<>();
+		public ArrayList<HalsteadBuilder> halstead = new ArrayList<>();
 	}
 
 	private IMetrics metrics;

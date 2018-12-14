@@ -8,14 +8,14 @@ import java.io.IOException;
 
 public class JsonHalsteadSerializer extends JsonSerializer<HalsteadBuilder>
 {
-	public void serialize(HalsteadBuilder halsteadBuilder, JsonGenerator jgen, SerializerProvider provider)
+	public void serialize(CSC131Fall2018.Group4.HalsteadBuilder hb, JsonGenerator jgen, SerializerProvider provider)
 			throws IOException
 	{
 		// value.getClass().getDeclaringClass().getSimpleName();
 
 		jgen.writeStartObject();
 
-		jgen.writeObjectField(halsteadBuilder.getName(), halsteadBuilder.toString());
+		jgen.writeObjectField(hb.getName(), hb.toString());
 
 		jgen.writeEndObject();
 	}

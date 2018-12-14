@@ -23,8 +23,8 @@ public class MetricsJsonOutputter extends AbstractMetricsOutputter
 		this.mapper = new ObjectMapper(factory);
 
 		SimpleModule module = new SimpleModule();
-		module.addSerializer(CSC131Fall2018.Group4.Class.class, new JsonClassSerializer());
-		//module.addSerializer(CSC131Fall2018.Group4.HalsteadBuilder.class, new JsonHalsteadSerializer());
+		//module.addSerializer(CSC131Fall2018.Group4.Class.class, new JsonClassSerializer());
+		module.addSerializer(CSC131Fall2018.Group4.HalsteadBuilder.class, new JsonHalsteadSerializer());
 		this.mapper.registerModule(module);
 
 		this.rootNode = this.mapper.createObjectNode();
