@@ -73,6 +73,8 @@ public class Coupling extends AbstractMetricsCalculator {
 	protected void newCalculation(Repository r)
 			throws Exception {
 		this.fileList = r.getList();
+
+		this.setClassStats();
 	}
 
 	//This method creates the list of ClassStats Objects for the project
