@@ -123,11 +123,15 @@
 
 <a name="assumptions"></a>
 #### 2.5. Assumptions and Dependencies
+###### - The machine has a Java runtime binary installed that supports Java SE 8.
+
+###### - The machine has unrestricted internet access.
+
+###### - The machine has enough storage space in its file system to hold the given git repository.
+
 ###### - This software requires the user to have Maven installed and implemented to package our software with external libraries.
 
 ###### - The depth of inheritance metrics requires parsed files to work with Java 8 or C++14 to generate an accurate result.
-
-###### - We are assuming the user has enough memory to temporarily hold the cloned files from the Git repository.
 
 ###### - We are assuming the Java, C, and C++ files in given Git repositories function and can be properly parsed.
 
